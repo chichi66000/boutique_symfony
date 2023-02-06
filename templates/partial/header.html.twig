@@ -1,0 +1,22 @@
+<!-- templates/header.php -->
+
+<h1>
+    <a href="/<?= $dirSite ?>/index.php" title="Accueil M.BOND">
+        <img class="headerImgLogo" src="/<?= $dirSite ?>/public/img/logo.png" alt="logo">
+    </a>
+</h1>
+<form action="/<?= $dirSite ?>/src/controllers/shop.php" method="POST">
+    <input type="search" name="searchShop" id="searchShop" placeholder="Rechercher">
+    <button type="submit" id="submitSearchShop" name="submitSearchShop">
+        <img class="headerSvgSearch" src="/<?= $dirSite ?>/public/img/search48.svg" alt="Rechercher">
+    </button>
+</form>
+<div class="headerIconsWrapper">
+    <a href="/<?= $dirSite ?>/src/controllers/connexion.php?cart=yes" title="Mon panier" id="headerLinkCart">
+        <img class="headerSvgCart" src="/<?= $dirSite ?>/public/img/cart48.svg" alt="Mon panier">
+        <p id="headerNbProductOfCart"><?= $nbProductInCart ?></p>
+    </a>
+    <a href="/<?= $dirSite ?>/src/controllers/connexion.php?account=yes" title="Mon compte">
+        <img class="headerSvgAccount" src="/<?= $dirSite ?>/public/img/account48.svg" alt="Mon compte">
+    </a>
+</div>
