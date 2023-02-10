@@ -3,6 +3,8 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+{# {% include "partial/header.html.twig" %} #}
+{% include "navbar/index.html.twig" %}
 
     <div class="indexImgWelcomeWrapper">
         <img src="{{ asset('img/accueil.jpg')}}" alt="image accueil">
@@ -19,15 +21,17 @@
             {% for newsproduct in newsProducts %}
             
             <li>
-                <a href="/<?= $dirSite ?>/src/controllers/product.php?product=<?= $newProduct['id'] ?>" title="Fiche produit">
+                <a href="#" title="Fiche produit">
                     <img src="{{ asset('photo/{{newsproduct.category.name}}/{{newproduct.photo1}})')}}" alt="Photo produit">
                 </a>
                 <div class="indexNewsGalleryOverlay">
                     <p><span class="textUpper">Couleurs possibles</span></p>
                     <p>
-                        <?php foreach ($newProductsColors[$newProduct['id']] as  $currentColor) { ?>
-                        <span class="textUpper" style="color: <?= $currentColor->getHexa() ?>"><?= $currentColor->getName() ?></span>
-                        <?php } ?>
+                        {% for newProductsColor in newProductsColors %}
+                            
+                            <span class="textUpper" style="color: <?= $currentColor->getHexa() ?>">{{ newProductsColor[newsproduct.id]}}</span>
+                            
+                        {% endfor %}
                     </p>
                     <p><span class="textUpper">Tailles possibles</span></p>
                     <p>
@@ -56,7 +60,5 @@
         </ul>
     </div>
 
-    {# {% for item in categories %}
-        <p>{{ item.name }}
-    {% endfor %} #}
+    
 {% endblock %}

@@ -52,7 +52,7 @@ class Product
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Color $color = null;
+    private ?Color $color ;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]

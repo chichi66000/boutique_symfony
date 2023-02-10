@@ -49,14 +49,36 @@ class ProductRepository extends ServiceEntityRepository
        ;
    }
 
-   public function pathToPhoto (Product $product) : string 
+//    public function pathToPhoto (Product $product) : string 
+//    {
+//         $pathToPhoto = 'photo/';
+//         $category_name = ($product->getCategory()->getName());
+//         // dd($category_name);
+//         $path = $pathToPhoto . $category_name . "/" . $product->getPhoto1();
+//         // dd($path);
+//         return $path;
+//    }
+
+   public function findDistinctColorsByReference($reference) :array 
    {
-        $pathToPhoto = 'photo/';
-        $category_name = ($product->getCategory()->getName());
-        // dd($category_name);
-        $path = $pathToPhoto . $category_name . "/" . $product->getPhoto1();
-        // dd($path);
-        return $path;
+    return $this->createQueryBuilder('p')
+                ->join('p.color', 'c')
+                ->select('DISTINCT c.name')
+                ->andWhere('p.reference = :reference')
+                ->setParameter('reference', $reference)
+                ->getQuery()
+                ->getResult();
+   }
+
+   public function findDistinctSizesByReference($reference) :array 
+   {
+    return $this->createQueryBuilder('p')
+                ->join('p.size', 's')
+                ->select('DISTINCT s.name')
+                ->andWhere('p.reference = :reference')
+                ->setParameter('reference', $reference)
+                ->getQuery()
+                ->getResult();
    }
 
 //    /**
