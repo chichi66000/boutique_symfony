@@ -39,6 +39,26 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findNews(): array
+   {
+       return $this->createQueryBuilder('p')
+           ->orderBy('p.creation_date', 'ASC')
+           ->setMaxResults(6)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+   public function pathToPhoto (Product $product) : string 
+   {
+        $pathToPhoto = 'photo/';
+        $category_name = ($product->getCategory()->getName());
+        // dd($category_name);
+        $path = $pathToPhoto . $category_name . "/" . $product->getPhoto1();
+        // dd($path);
+        return $path;
+   }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

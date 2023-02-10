@@ -1,0 +1,95 @@
+.connexionHeader {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-one);
+}
+
+.connexionHeader img {
+    width: 100%;
+    height: auto;
+    min-height: 48px;
+    max-height: 8vh;
+    vertical-align: top;
+}
+
+#connexionForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: center;
+    width: 40%;
+    background-color: var(--color-three);
+    gap: 5px;
+    margin: 10px 0 0 0;
+    padding: 20px;
+}
+
+#connexionForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+#connexionForm a {
+    outline: none;
+    text-decoration: none;
+    color: var(--color-two);
+}
+
+#connexionForm a:visited {
+    color: var(--color-two);
+}
+
+.connexionLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0 0 0;
+}
+
+#connexionButton {
+width: 40%!important;
+align-self: center;
+background-color: var(--color-one);
+color: var(--color-two);
+margin: 10px;
+padding: 10px;
+border: none;
+text-align: center;
+display: inline-block;
+cursor: pointer;
+border-radius: 5px;
+text-transform: uppercase;
+transition: all 0.2s 0.1s ease-in-out;
+}
+
+#connexionButton:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+
+.error {
+    color: var(--color-four);
+    font-size: 0.7em;
+    margin: 0 0 3px 0;
+}
+
+@media screen and (max-width: 900px) {
+    #connexionForm {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #connexionForm {
+        width: 90%;
+    }
+}
+
+
+

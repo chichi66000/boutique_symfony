@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+    <div class="indexImgWelcomeWrapper">
+        <img src="{{ asset('img/accueil.jpg')}}" alt="image accueil">
+        <div id="indexImgWelcomeOverlay">
+            <h3>Le propre de l'homme est de vivre habillé en M. BOND (I. FLEMING)</h3>
+        </div>
+    </div>
+
+    <h2>nouveautés</h2>
+
+    <div class="indexNewsWrapper">
+        <ul class="indexNewsGallery">
+        
+            {% for newsproduct in newsProducts %}
+            
+            <li>
+                <a href="/<?= $dirSite ?>/src/controllers/product.php?product=<?= $newProduct['id'] ?>" title="Fiche produit">
+                    <img src="{{ asset('photo/{{newsproduct.category.name}}/{{newproduct.photo1}})')}}" alt="Photo produit">
+                </a>
+                <div class="indexNewsGalleryOverlay">
+                    <p><span class="textUpper">Couleurs possibles</span></p>
+                    <p>
+                        <?php foreach ($newProductsColors[$newProduct['id']] as  $currentColor) { ?>
+                        <span class="textUpper" style="color: <?= $currentColor->getHexa() ?>"><?= $currentColor->getName() ?></span>
+                        <?php } ?>
+                    </p>
+                    <p><span class="textUpper">Tailles possibles</span></p>
+                    <p>
+                        <?php foreach ($newProductsSizes[$newProduct['id']] as  $currentSize) { ?>
+                        <span class="textUpper"><?= $currentSize->getName() ?></span>
+                        <?php } ?>
+                    </p>
+                </div>
+                <div class="indexNewsGalleryInfo">
+                    <p class="indexNewsGalleryInfoTitre"><strong><?= $newProduct['title'] ?></strong></p>
+                    <?php if ($newProduct['color_name'] != 'blanc') { ?>
+                        <p>couleur : <span style="color: <?= $newProduct['color_hexa'] ?>"><?= $newProduct['color_name']?><span></p>
+                    <?php } else { ?> 
+                        <p>couleur : <span style="color: <?= $newProduct['color_hexa'] ?>;" class="bckColorBlack"><?= $newProduct['color_name']?><span></p>
+                    <?php } ?> 
+                    <p>Taille : <span class="textUpper"><?= $newProduct['size_name'] ?></span></p>
+                    <div class="indexNewsGalleryPriceCart">
+                        <p><?= $newProduct['price'] ?> €</p>
+                        <a href="" title="Ajouter au panier" class="indexNewsLinkGalleryCart" data-product="<?= $newProduct['id'] ?>">
+                            <img class="indexNewsGalleryCart" src="/<?= $dirSite ?>/public/img/cart48.svg" alt="Ajouter au panier">
+                        </a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# {% for item in categories %}
+        <p>{{ item.name }}
+    {% endfor %} #}
+{% endblock %}

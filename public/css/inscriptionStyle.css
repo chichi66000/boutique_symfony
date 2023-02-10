@@ -1,0 +1,172 @@
+/* html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+   
+} */
+.pass {
+    display: flex;
+    flex-direction: row;
+    
+}
+.pass input {
+    width: 90%;
+     
+}
+.hidden {
+    display: none!important;
+}
+.eye {
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 0em;
+    align-self: center;
+    background: #fafafa;
+    padding: 0.5em;
+    cursor: pointer;
+}
+.eye path {
+    filter: red;
+}
+/* h2 {
+    text-align: center;
+    padding:0 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 1px black;
+    border-radius: 7px;
+    width: max-content;
+    background: black;
+    color: white;
+} */
+.titre-profil {
+    background: black;
+    color: white;
+    text-align: center;
+    width: 85%;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+.form-inscription {
+    width: 85%;
+    padding: 1em;
+    border: solid 1px black;
+    margin-top: 3rem;
+    margin-bottom: 3em;
+    background: rgb(169,218,239);
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.champs {
+    margin-bottom: 0.2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap
+}
+.saisir {
+    display: flex;
+    flex-direction: column;
+}
+#civile {
+    width: 5em;
+}
+
+.form-inscription input {
+    padding: 0.7em;
+    /*! border-radius: 3px; */
+    border: solid 1px;
+}
+.form-inscription label {
+    padding: 0.5em 0;
+}
+#inscription {
+    border-radius: 7px;
+    color: white;
+    background: black;
+    width: 100%; 
+    padding: 0.7em 0.5em; 
+    border: solid 1px;
+    
+}
+#inscription:hover {
+    background: #4b4468;
+}
+.erreur {
+    color: red;
+}
+.msg {
+    text-align:center
+}
+.divCivile {
+    display: flex;
+    
+}
+
+/* Form pour password */
+.form-pass {
+    width: 85%;
+    padding: 1em;
+    border: solid 1px black;
+    margin-top: 3rem;
+    background: rgb(169,218,239);
+    border-radius: 5px;
+    margin: 1em auto;
+}
+.form-pass h2 {
+    background: #4b4b68;
+    color: white;
+    padding: 0.5em;
+    width: max-content;
+}
+.form-pass input {
+    padding: 0.7em;
+    /*! border-radius: 3px; */
+    border: solid 1px;
+}
+.form-pass label {
+    padding: 0.5em 0;
+}
+#modiPass {
+    background: #dd0000;
+    border-radius: 7px;
+    color: white;
+    width: max-content; 
+    padding: 0.7em 0.5em; 
+    border: solid 1px;
+    
+    text-align: center;
+    /*! margin: 0 auto; */
+}
+#modiPass:hover {
+    background: black;
+}
+.btn-pass {
+    text-align: center;
+}
+.message {
+    color: red;
+    padding: 0.5em;
+    margin: 1em auto;
+    text-align: center;
+}
+@media screen and (min-width: 577px) {
+    
+    .champs {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .saisir {
+        display: flex;
+        flex-direction: column;
+        width: 40%
+    }
+}
+@media screen and (min-width: 958px) {
+    .form-inscription, .form-pass {
+        width: 50%;
+    }
+    
+}

@@ -1,0 +1,132 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    max-height: 8vh;
+    min-height: 48px;
+    min-width: 100%;
+    background-color: var(--color-one);
+}
+
+header h1 {
+    margin: 0;
+}
+
+header a {
+    outline: none;
+}
+
+.headerImgLogo {
+    width: 100%;
+    height: auto;
+    min-height: 48px;
+    max-height: 8vh;
+    max-width: 48px;
+    vertical-align: top;
+}
+
+.headerIconsWrapper {
+    margin-right: 15px;
+}
+
+#headerLinkCart {
+    position: relative;
+}
+
+#headerNbProductOfCart {
+    font-size: 0.6em;
+    color: var(--color-two);
+    padding: 2px 5px 2px 5px;
+    background-color: var(--color-four);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.headerSvgCart, 
+.headerSvgAccount, 
+.headerSvgSearch {
+    width: 48px;
+    height: 48px;
+    filter: invert(83%) sepia(5%) saturate(1590%) hue-rotate(184deg) brightness(85%) contrast(88%);
+}
+
+.headerSvgCart:hover,
+.headerSvgAccount:hover,
+.headerSvgSearch:hover {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+header form {
+    display: flex;
+    min-height: 48px;
+    max-height: 7vh;
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+  }
+
+header input[type="search"] {
+    background: var(--color-two);
+    margin: 0;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    min-width: 40vw;
+}
+
+header input[type="search"]::placeholder {
+    color: var(--color-three);
+}
+
+header button[type="submit"] {
+    max-height: 7vh;
+    padding: 0;
+    margin: 0;
+    border: 1px solid transparent;
+    background: var(--color-one);
+    cursor: pointer;
+}
+
+header input[type="search"]:focus {
+  box-shadow: 0 0 10px 0 var(--color-three);
+  border-color: var(--color-three);
+  outline: none;
+}
+
+@media screen and (max-width: 500px) {
+    header {
+      flex-direction: column;
+      max-height: none;
+    }
+
+    .headerIconsWrapper {
+        margin: 0;
+    }
+
+    .headerImgLogo {
+        min-height: 36px;
+        max-height: 6vh;
+    }
+
+    .headerSvgCart, 
+    .headerSvgAccount, 
+    .headerSvgSearch {
+        width: 36px;
+        height: 36px;
+    }
+
+    header input[type="search"] {
+        padding: 5px;
+        min-width: 60vw;
+        height: 36px;
+    }
+
+    header button[type="submit"] {
+        height: 36px;
+    }
+  }

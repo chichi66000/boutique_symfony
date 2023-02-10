@@ -1,0 +1,79 @@
+:root {
+    --color-one: #000;
+    --color-two: #fff;
+    --color-three: #9fb0ce;
+    --color-four: #dd0000;
+    --color-five: #7a7a7a;
+  }
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../font/Montserrat-VariableFont_wght.ttf") format('truetype');
+}
+
+body {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+h2 {
+  background-color: var(--color-one);
+  color: var(--color-two);
+  text-align: center;
+  text-transform: uppercase;
+  margin: 10px 0 0 0;
+  padding: 10px;
+}
+
+h3, h4, h5, h6 {
+  padding: 0;
+  margin: 0;
+}
+
+.globalContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.globalWrapper {
+  width: 70vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.textUpper {
+  text-transform: uppercase;
+}
+
+.bckColorBlack {
+  background-color: black;
+}
+
+@media screen and (max-width: 900px) {
+  .globalWrapper {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .globalWrapper {
+    width: 90vw;
+  }
+}

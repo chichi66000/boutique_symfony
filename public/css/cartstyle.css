@@ -1,0 +1,93 @@
+.cartInfos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--color-three);
+    margin-top: 10px;
+    align-self: center;
+    max-width: 90%;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.cartInfos h5 {
+    margin: 0 2px 0 2px;
+}
+
+.cartInfos a {
+    background-color: var(--color-one);
+    color: var(--color-two);
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.cartInfos a:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+
+.cartProductsGallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-evenly;
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+.cartProductsGallery li {
+    flex-basis: 300px;
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.cartProductsGallery li:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.cartProductsGallery li img {
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+.cartProductsGalleryInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cartProductsGalleryInfoTitre {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+.cartProductsGalleryPriceTotal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0 2px 0;
+}
+
+.cartProductsLinkDelete {
+    display: inline-block;
+    align-self: flex-end;
+}
+
+.cartProductsSvgDelete {
+    width: 24px;
+    height: 24px;
+    filter: invert(83%) sepia(5%) saturate(1590%) hue-rotate(184deg) brightness(85%) contrast(88%);
+}

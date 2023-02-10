@@ -1,0 +1,41 @@
+.accountContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+    height: 70vh;
+}
+
+.accountMenu {
+    background-color: var(--color-three);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.accountMenu a {
+    background-color: var(--color-one);
+    color: var(--color-two);
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.2s 0.1s ease-in-out;
+    width: 100%;
+}
+
+.accountMenu a:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+

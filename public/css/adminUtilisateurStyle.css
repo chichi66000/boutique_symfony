@@ -1,0 +1,123 @@
+
+.titre-t-user {
+  text-align: center;
+  background: black;
+  color: white;
+  padding: 0.5em;
+}
+.table-user {
+  margin: 1em auto;
+} 
+.container-admin-user {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 3em;
+}
+.erreur {
+  color: red;
+  padding: 0.5em;
+  text-decoration: underline;
+}
+.btn-add-user {
+  margin-bottom: 1em;
+  background: #dd0000;
+  border-style: none;
+  padding: 0.5em;
+  border-radius: 5px;
+  color: white;
+  height: 3em;
+  width: 15em;
+} 
+.btn-add-user a {
+  color: white;
+}
+.searchUser {
+  padding: 0.5em;
+  height: 3em;
+  
+  
+  width: 15em;
+}
+.input-search-user {
+  display: flex;
+  align-items: center;
+  
+  width: 15em;
+}
+.btn-search-user {
+  text-align: center;
+  background: green;
+  border-style: hidden;
+  align-items: center;
+  padding: 0.5em;
+  height: 3em;
+  border-radius: 0 5px 5px 0;
+  
+}
+.btn-search-user img{
+  width: 2em;
+  height: 2em;
+  cursor:pointer;
+  
+}
+
+.btn-add-user:hover {
+  background: black;
+  color: white;
+  box-shadow: 10px 5px 5px teal;
+} 
+.table-user, th, td {
+  border: solid 1px;
+  border-collapse: collapse;
+  overflow-x: auto;
+  padding: 0.5em;
+  
+} 
+
+ .btn-user-delete {
+  margin-top: 0.5em;
+  width: 6em;
+  text-align: center;
+  background: #dd0000;
+  padding: 0.5em;
+  border-style: none;
+  border-radius: 5px;
+  color: white;
+  align-self: center;
+} 
+ .btn-user-modify {
+  
+  width: 6em;
+  text-align: center;
+  background: #059862;
+  padding: 0.5em;
+  border-style: none;
+  border-radius: 5px;
+  color: white;
+  align-self: center;
+} 
+ .btn-user-modify:hover  {
+  box-shadow: 3px 3px 3px #066b44;
+  transition: all 0.3s;
+} 
+.btn-user-delete:hover {
+  box-shadow: 3px 3px 3px #ba0303;
+} 
+
+.btn-table {
+  /* display: flex;
+  flex-direction: column; */
+  padding: 0.5em;
+
+}
+
+.row-action {
+  height: 5em;
+}
+.notfound {
+  background-color: #f5f5f5;
+  padding: 0.5em;
+  text-align: center;
+}

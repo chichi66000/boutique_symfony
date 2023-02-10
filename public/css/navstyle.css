@@ -1,0 +1,132 @@
+.navDesktop {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+    background-color: var(--color-three);
+}
+
+.navDesktop a {
+    background-color: var(--color-one);
+    color: var(--color-two);
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.navDesktop a:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+
+.navMobile {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+    background-color: var(--color-three);
+}
+
+.navMobile button {
+    background-color: var(--color-one);
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.navMobile button:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+
+.navMobile button img {
+    width: 36px;
+    height: 36px;
+    vertical-align: top;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(307deg) brightness(103%) contrast(102%);
+}
+
+.navMobile button img:hover {
+    filter: invert(10%) sepia(72%) saturate(7498%) hue-rotate(2deg) brightness(93%) contrast(113%);
+}
+
+.navMobileSide {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-three);
+    position: fixed;
+    z-index: 1;
+    top: 40%;
+    right: 0;
+    overflow-x: hidden;
+    transform: scale(0);
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.navMobileClose {
+    align-self: flex-start;
+    margin: 5px;
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+}
+
+.navMobileClose img {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+}
+.navMobileClose img:hover {
+    filter: invert(13%) sepia(67%) saturate(5477%) hue-rotate(358deg) brightness(101%) contrast(111%);
+}
+
+.navMobileSide a {
+    background-color: var(--color-one);
+    color: var(--color-two);
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.2s 0.1s ease-in-out;
+}
+
+.navMobileSide a:hover {
+    color: var(--color-four);
+    background-color: var(--color-two);
+    box-shadow: 0 0 10px 0 var(--color-four);
+}
+
+@media screen and (max-width: 500px) {
+    .navDesktop {
+        display: none;
+    }
+
+    .navMobile {
+        display: flex;
+    }
+
+}

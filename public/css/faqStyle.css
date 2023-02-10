@@ -1,0 +1,54 @@
+.faq {
+    width: 95%;
+    margin: 3em auto;
+}
+.faq h2 {
+    text-align: center;
+}
+.ques {
+    background-color: #e8ebfa;
+    color: black;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0.5em;
+    margin: 0.2em;
+    width: 95%;
+    border-style:none;
+    text-align: left;
+}
+.active, .ques:hover {
+    background-color: #9fb0ce;
+}
+.rep {
+    display: none;
+    padding: 0 0.5em;
+    width: 95%;
+    overflow: hidden;
+}
+.contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: vh100;
+    margin: 3em auto;
+    width: 90%
+
+    /* text-align: center; */
+}
+.contact h2 {
+    text-align: center;
+    background: black; 
+    color: white;
+    padding: 0.2em ;
+    margin-bottom: 1em;
+}
+.contact div {
+    background: rgb(169,218,239);
+    padding: 0.5em;
+}
+@media screen and (min-width: 576px) {
+    .contact {
+        width: 40%;
+    }
+}

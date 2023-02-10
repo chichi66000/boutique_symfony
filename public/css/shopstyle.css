@@ -1,0 +1,115 @@
+.shopProductsSortAndFilter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.shopProductsSortAndFilter h5 {
+    margin: 0 5px 0 0;
+}
+
+.shopProductsSortAndFilter label {
+    margin: 0 5px 0 5px;
+}
+
+#shopProductsSortAsc,
+#shopProductsSortDesc,
+#shopProductsfilterSize {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+}
+
+#shopProductsSortAsc img,
+#shopProductsSortDesc img,
+#shopProductsfilterSize img {
+    width: 24px;
+    height: 24px;
+    filter: invert(83%) sepia(5%) saturate(1590%) hue-rotate(184deg) brightness(85%) contrast(88%);
+    vertical-align: top;
+}
+
+.shopProductsGallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-evenly;
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+.shopProductsGallery li {
+    flex-basis: 300px;
+    transition: all 0.2s 0.1s ease-in-out;
+    position: relative;
+}
+
+.shopProductsGallery li:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.shopProductsGallery li:hover .shopProductsGalleryOverlay{
+    transform: scale(1);
+}
+
+.shopProductsGalleryOverlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: absolute;
+    width: 100%;
+    background: rgba(57, 57, 57, 0.502);
+    top: 0;
+    left: 0;
+    transform: scale(0);
+    transition: all 0.2s 0.1s ease-in-out;
+    color: var(--color-two);
+    white-space: nowrap;
+}
+
+.shopProductsGallery li img {
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+.shopProductsGalleryInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shopProductsGalleryInfoTitre {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+.shopProductsGalleryPriceCart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-end;
+    color: var(--color-four);
+}
+
+.shopProductsGalleryCart {
+    width: 36px;
+    height: 36px;
+    filter: invert(83%) sepia(5%) saturate(1590%) hue-rotate(184deg) brightness(85%) contrast(88%);
+}
+
+@media screen and (max-width: 500px) {
+    .shopProductsGalleryOverlay {
+        position: unset;
+        transform: scale(1);
+    }
+}

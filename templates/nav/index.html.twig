@@ -1,0 +1,24 @@
+{# {% extends 'base.html.twig' %} #}
+
+    <nav class="navDesktop">
+        {% for categorie in categories %}
+
+            <a href="#" title="{{ categorie.name }}"> {{ categorie.name }} </a>
+        {% endfor %}
+    </nav>
+
+    <nav class="navMobile">
+        <button class="navMenuBurger" id="navMenuBurger" title="Afficher le menu">
+            <img src="{{ asset('img/burger48.svg') }}" alt="menu burger">
+        </button>
+    </nav>
+
+    <nav class="navMobileSide" id="navMobileSide">
+        <button class="navMobileClose" id ="navMobileClose" title="Fermer le menu">
+            <img src="{{ asset('img/cancel48.svg') }}" alt="Fermer le menu">
+        </button>
+        {% for categorie in categories %}
+            <a href="#" title="{{ categorie.name }}" > {{ categorie.name }}</a>
+        {% endfor %}
+    </nav>
+

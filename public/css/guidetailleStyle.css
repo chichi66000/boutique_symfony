@@ -1,0 +1,28 @@
+.guide-taille {
+    width: 95%;
+    margin: 0 auto;
+}
+.guide-taille h2 {
+    text-align: center;
+}
+.guide-taille h3 {
+    background: black;
+    color: white;
+    padding: 0.5em;
+    max-width: fit-content;
+    margin: 1em auto;
+}
+.guide {
+    text-align: center;
+}
+.img-taille1, .img-taille2 {
+    width: 95%
+}
+@media screen and (min-width: 576px) {
+    .img-taille1  {
+        width: 60%
+    }
+    .img-taille2 {
+        width: 80%
+    }
+}
