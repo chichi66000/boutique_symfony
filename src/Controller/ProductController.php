@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomeController extends AbstractController
+class ProductController extends AbstractController
 {
-    // #[Route('/home', name: 'app.index')]
+    #[Route('/home', name: 'app.index')]
     public function index(CategoryRepository $categoryRepository, 
     ProductRepository $productRepository,
     SessionInterface $session
@@ -68,7 +68,7 @@ class HomeController extends AbstractController
         }
         
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('product/index.html.twig', [
             'newsProducts' => $newsProducts,
             'newProductsSizes' => $newProductsSizes,
             'newProductsColors' => $newProductsColors,
