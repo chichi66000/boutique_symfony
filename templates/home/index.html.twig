@@ -3,10 +3,12 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-{# {% include "partial/header.html.twig" %} #}
-{% include "navbar/index.html.twig" %}
+    {{ include('partial/header.html.twig')}}
+    {{ include("navbar/index.html.twig")}}
 
-    <div class="indexImgWelcomeWrapper">
+{# {% include "partial/header.html.twig" %} #}
+    {# {{ include ("navbar/index.html.twig") }} #}
+    {# <div class="indexImgWelcomeWrapper">
         <img src="{{ asset('img/accueil.jpg')}}" alt="image accueil">
         <div id="indexImgWelcomeOverlay">
             <h3>Le propre de l'homme est de vivre habillé en M. BOND (I. FLEMING)</h3>
@@ -58,7 +60,7 @@
             </li>
             {% endfor %}
         </ul>
-    </div>
+    </div> #}
 
     
 {% endblock %}

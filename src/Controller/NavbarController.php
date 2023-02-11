@@ -9,12 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NavbarController extends AbstractController
 {
-    // #[Route('/navbar', name: 'app_navbar')]
+    
     public function index(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
-
+        // dd($categories);
         return $this->render('navbar/index.html.twig', [
+            
             'categories' => $categories
         ]);
     }

@@ -14,11 +14,10 @@
     <div class="headerIconsWrapper">
         <a href="/<?= $dirSite ?>/src/controllers/connexion.php?cart=yes" title="Mon panier" id="headerLinkCart">
             <img class="headerSvgCart" src="{{ asset('img/cart48.svg') }}" alt="Mon panier">
-            <p id="headerNbProductOfCart">{{nbProductInCart}}</p>
+            <p id="nbProductInCart"> {{nbProductInCart}} </p>
         </a>
         <a href="/<?= $dirSite ?>/src/controllers/connexion.php?account=yes" title="Mon compte">
             <img class="headerSvgAccount" src="{{asset('img/account48.svg') }}" alt="Mon compte">
         </a>
     </div>
 </header>
-

@@ -6,16 +6,20 @@ use App\Entity\Size;
 use App\Entity\Color;
 use App\Entity\Product;
 use App\Entity\Category;
-use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app.index')]
-    public function index(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    #[Route('/home', name: 'app.index')]
+    public function index(CategoryRepository $categoryRepository, 
+    ProductRepository $productRepository,
+    SessionInterface $session
+    ): Response
     {
         // $categoryRepo = new Category();
         // $productRepo = new Product();
@@ -23,7 +27,14 @@ class HomeController extends AbstractController
         // $sizeRepo = new Size();
 
         $nbProductInCart = 0;
-        // $categories = $categoryRepository->findAll();
+        $cart = $session->get('cart');
+
+        if ($cart) {
+            foreach ($cart as $item) {
+                $nbProductInCart += $item['qty_prod'];
+            }
+        }
+        $categories = $categoryRepository->findAll();
         // dd($categories[0]->getName());
 
         // the recent products in trend
@@ -57,8 +68,9 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'newsProducts' => $newsProducts,
             'newProductsSizes' => $newProductsSizes,
-            'newProductsColors' => $newProductsColors
-            // 'categories' => $categories
+            'newProductsColors' => $newProductsColors,
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories
         ]);
     }
 }
