@@ -30,26 +30,22 @@
                     <p>
                         {% for color in newProductsColors[newsproduct.id] %}
                             <span class="textUpper" style="">
-                                {# {{dump(color.name)}} #}
                                 {{color.name}}
                             </span>
                         {% endfor %}    
-                        {# {{ dump(newProductsColors[newsproduct.id])}} #}
-                        
-                            {# {% for color in newProductsColor %} #}
-                                {# <span class="textUpper" style="">
-                                {{ color[newProductsColor][newsproduct.id] }}
-                                </span> #}
-                            {# {% endfor %} #}
-                            
-                            
-                        
+
                     </p>
                     <p><span class="textUpper">Tailles possibles</span></p>
                     <p>
-                        <?php foreach ($newProductsSizes[$newProduct['id']] as  $currentSize) { ?>
+                        {% for size in newProductsSizes[newsproduct.id] %}
+                            <span class="textUpper" style="">
+                                <span class="textUpper">{{size.name}}</span>
+                            </span>
+                        {% endfor %} 
+
+                        {# <?php foreach ($newProductsSizes[$newProduct['id']] as  $currentSize) { ?>
                         <span class="textUpper"><?= $currentSize->getName() ?></span>
-                        <?php } ?>
+                        <?php } ?> #}
                     </p>
                 </div>
                 <div class="indexNewsGalleryInfo">
