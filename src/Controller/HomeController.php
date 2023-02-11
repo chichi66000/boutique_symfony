@@ -44,15 +44,16 @@ class HomeController extends AbstractController
         $newProductsPathToPhoto = [];
         $newProductsColors = [];
         $newProductsSizes = [];
+        $srcPhoto = [];
         // dd($newsProducts[1]->getCategory()->getName());
         // $reference = $newsProducts[1]->getReference();
         
         // $colors = $productRepository->findDistinctColorsByReference($reference);
-        
+       
         // for each newsProduct, we will take the array of the colors, the sizes available
         foreach($newsProducts as $key => $newProduct) {
             // get all color of one newProduct with his reference
-            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct -> getReference());
+            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
             // then add $colorTab into $newProductsColors with id of this product
             $newProductsColors [$newProduct->getId()] = $colorsTab;
 
@@ -60,17 +61,20 @@ class HomeController extends AbstractController
             $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
             $newProductsSizes [$newProduct->getId()] = $sizeTab;
             // path to product photo1
-            // $newProductsPathToPhoto= $pathToPhoto . $newProduct->getCategory()->getName(). "/" . $newProduct->getPhoto1();
-            // $path = $productRepository->pathToPhoto($newProduct);
+            $category = $newProduct->getCategory()->getName();
+            $photo1 = $newProduct->getPhoto1();
+            $path =  $pathToPhoto . $category . '/' . $photo1;
+            $srcPhoto[$newProduct->getId()] = $path;
         }
-        // dd($newProductsSizes);
+        
 
         return $this->render('home/index.html.twig', [
             'newsProducts' => $newsProducts,
             'newProductsSizes' => $newProductsSizes,
             'newProductsColors' => $newProductsColors,
             'nbProductInCart' => $nbProductInCart,
-            'categories' => $categories
+            'categories' => $categories,
+            'srcPhoto' => $srcPhoto
         ]);
     }
 }

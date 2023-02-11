@@ -22,8 +22,10 @@
             {% for newsproduct in newsProducts %}
             
             <li>
+                    {# {{dump(newsproduct.photo1)}} #}
+
                 <a href="#" title="Fiche produit">
-                    <img src="{{ asset('photo/{{newsproduct.category.name}}/{{newproduct.photo1}})')}}" alt="Photo produit">
+                    <img src="{{ asset(srcPhoto[newsproduct.id]) }}" alt="Photo produit">
                 </a>
                 <div class="indexNewsGalleryOverlay">
                     <p><span class="textUpper">Couleurs possibles</span></p>
@@ -42,24 +44,18 @@
                                 <span class="textUpper">{{size.name}}</span>
                             </span>
                         {% endfor %} 
-
-                        {# <?php foreach ($newProductsSizes[$newProduct['id']] as  $currentSize) { ?>
-                        <span class="textUpper"><?= $currentSize->getName() ?></span>
-                        <?php } ?> #}
                     </p>
                 </div>
                 <div class="indexNewsGalleryInfo">
-                    <p class="indexNewsGalleryInfoTitre"><strong><?= $newProduct['title'] ?></strong></p>
-                    <?php if ($newProduct['color_name'] != 'blanc') { ?>
-                        <p>couleur : <span style="color: <?= $newProduct['color_hexa'] ?>"><?= $newProduct['color_name']?><span></p>
-                    <?php } else { ?> 
-                        <p>couleur : <span style="color: <?= $newProduct['color_hexa'] ?>;" class="bckColorBlack"><?= $newProduct['color_name']?><span></p>
-                    <?php } ?> 
-                    <p>Taille : <span class="textUpper"><?= $newProduct['size_name'] ?></span></p>
+                    <p class="indexNewsGalleryInfoTitre"><strong>{{newsproduct.title}}</strong></p>
+                    
+                    <p>couleur : <span style="color: {{newsproduct.color.hexa}}">{{newsproduct.color.name}}<span></p>
+                
+                    <p>Taille : <span class="textUpper">{{newsproduct.size.name}}</span></p>
                     <div class="indexNewsGalleryPriceCart">
-                        <p><?= $newProduct['price'] ?> €</p>
-                        <a href="" title="Ajouter au panier" class="indexNewsLinkGalleryCart" data-product="<?= $newProduct['id'] ?>">
-                            <img class="indexNewsGalleryCart" src="/<?= $dirSite ?>/public/img/cart48.svg" alt="Ajouter au panier">
+                        <p>{{newsproduct.price}} €</p>
+                        <a href="" title="Ajouter au panier" class="indexNewsLinkGalleryCart" data-product="{{newsproduct.id}}">
+                            <img class="indexNewsGalleryCart" src="{{asset('img/cart48.svg')}}" alt="Ajouter au panier">
                         </a>
                     </div>
                 </div>
@@ -68,5 +64,10 @@
         </ul>
     </div>
 
-    
+    {% include "partial/footer.html.twig" %}
 {% endblock %}
+
+
+{# {% block footer %}
+    {% include  %}
+{% endblock %} #}
