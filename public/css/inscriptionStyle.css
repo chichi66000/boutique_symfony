@@ -81,16 +81,17 @@
 .form-inscription label {
     padding: 0.5em 0;
 }
-#inscription {
+#registration_form_submit {
     border-radius: 7px;
     color: white;
     background: black;
     width: 100%; 
     padding: 0.7em 0.5em; 
+    margin: 0.5em auto;
     border: solid 1px;
     
 }
-#inscription:hover {
+#registration_form_submit:hover {
     background: #4b4468;
 }
 .erreur {

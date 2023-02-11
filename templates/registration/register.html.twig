@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h2>Inscription</h2>
 
     <div class="form-inscription">
     {{ form_start(registrationForm) }}
@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        {# Email && Address #}
+        {# Email && Password #}
         <div class="champs">
             <div class="saisir">
                 {{ form_label(registrationForm.email)}}
@@ -73,12 +73,13 @@
             </div>
 
             <div class="saisir">
-                {{ form_label(registrationForm.address)}}
-                {{ form_widget(registrationForm.address)}}
+                {{ form_label(registrationForm.plainPassword)}}
+                {{ form_widget(registrationForm.plainPassword)}}
                 <div class="erreur">
-                    {{ form_errors(registrationForm.address) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
                 </div>
             </div>
+           
         </div>
 
         {# City && PC #}
@@ -100,19 +101,25 @@
             </div>
         </div>
 
-        {# password && confirm password #}
+        {# Address #}
         <div class="champs">
             <div class="saisir">
-                {{ form_label(registrationForm.plainPassword)}}
-                {{ form_widget(registrationForm.plainPassword)}}
+                {{ form_label(registrationForm.address)}}
+                {{ form_widget(registrationForm.address)}}
                 <div class="erreur">
-                    {{ form_errors(registrationForm.plainPassword) }}
+                    {{ form_errors(registrationForm.address) }}
                 </div>
             </div>
+        </div>
 
-            <div class="saisir">
-                
-            </div>
+        {# Submit #}
+        <div>
+            {{ form_label(registrationForm.agreeTerms)}}
+            {{ form_widget(registrationForm.agreeTerms)}}
+        
+        </div>
+        <div >
+            {{ form_row(registrationForm.submit)}}
         </div>
     {{ form_end(registrationForm) }}
     </div>
