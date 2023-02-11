@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
-    #[Route('/home', name: 'app.index')]
+    #[Route('/home', name: 'app.home', methods: 'GET')]
     public function index(CategoryRepository $categoryRepository, 
     ProductRepository $productRepository,
     SessionInterface $session
