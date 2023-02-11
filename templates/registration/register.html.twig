@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    <div class="form-inscription">
+    {{ form_start(registrationForm) }}
+        {# {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button> #}
+
+        {# Civile #}
+        <div class="divCivile">
+            {{ form_label(registrationForm.civilite)}}
+            {{ form_widget(registrationForm.civilite)}}
+            <div class="erreur">
+                {{ form_errors(registrationForm.civilite) }}
+            </div>
+        </div>
+
+        {# Pseudo & Tel #}
+        <div class="champs">
+            <div class="saisir">
+                {{ form_label(registrationForm.pseudo)}}
+                {{ form_widget(registrationForm.pseudo)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.pseudo) }}
+                </div>
+            </div>
+
+            <div class="saisir">
+                {{ form_label(registrationForm.tel)}}
+                {{ form_widget(registrationForm.tel)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.tel) }}
+                </div>
+            </div>
+        </div>
+
+        {# First_name & last_name #}
+        <div class="champs">
+            <div class="saisir">
+                {{ form_label(registrationForm.first_name)}}
+                {{ form_widget(registrationForm.first_name)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.first_name) }}
+                </div>
+            </div>
+
+            <div class="saisir">
+                {{ form_label(registrationForm.last_name)}}
+                {{ form_widget(registrationForm.last_name)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.last_name) }}
+                </div>
+            </div>
+        </div>
+
+        {# Email && Address #}
+        <div class="champs">
+            <div class="saisir">
+                {{ form_label(registrationForm.email)}}
+                {{ form_widget(registrationForm.email)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+
+            <div class="saisir">
+                {{ form_label(registrationForm.address)}}
+                {{ form_widget(registrationForm.address)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.address) }}
+                </div>
+            </div>
+        </div>
+
+        {# City && PC #}
+        <div class="champs">
+            <div class="saisir">
+                {{ form_label(registrationForm.city)}}
+                {{ form_widget(registrationForm.city)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.city) }}
+                </div>
+            </div>
+
+            <div class="saisir">
+                {{ form_label(registrationForm.pc)}}
+                {{ form_widget(registrationForm.pc)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.pc) }}
+                </div>
+            </div>
+        </div>
+
+        {# password && confirm password #}
+        <div class="champs">
+            <div class="saisir">
+                {{ form_label(registrationForm.plainPassword)}}
+                {{ form_widget(registrationForm.plainPassword)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+            </div>
+
+            <div class="saisir">
+                
+            </div>
+        </div>
+    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}
