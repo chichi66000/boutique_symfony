@@ -18,7 +18,12 @@ use App\Form\RegistrationFormType;
 class SecurityController extends AbstractController
 {
     #[Route('/register', name: 'app.register', methods: ['GET', 'POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        UserAuthenticatorInterface $userAuthenticator, 
+        AppAuthenticator $authenticator, 
+        EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         // give the role for user

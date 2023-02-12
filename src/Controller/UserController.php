@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\SearchUserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ class UserController extends AbstractController
     #[Route('/admin.user', name: 'app.admin.user', methods: ['GET', 'POST'])]
     public function index(
         // User $choosenUser,
-        // Request $request,
+        Request $request,
         TokenStorageInterface $tokenStorage
         ): Response
     {
@@ -25,9 +26,15 @@ class UserController extends AbstractController
             throw new AccessDeniedException();
         }
         $choosenUser = $tokenStorage->getToken()->getUser();
-        dd($choosenUser);
+        $form = $this->createForm(SearchUserType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            // dd($form->getData());
+        }
         return $this->render('user/admin.html.twig', [
-            'controller_name' => 'UserController',
+            'form' => $form->createView(),
         ]);
     }
 }
