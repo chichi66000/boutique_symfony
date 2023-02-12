@@ -10,15 +10,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-// use Symfony\Component\Validator\Constraints\IsTrue;
-// use Symfony\Component\Validator\Constraints\Length;
-// use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
@@ -38,26 +33,32 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new Assert\Length(max: 50)
                 ],
+                'required' => false,
             ])
             ->add('tel',TextType::class, [
                 'label' => 'Téléphone',
                 'constraints' => [
                     new Assert\Length(max: 15),
-                    new Assert\NotBlank()
+                    new Assert\NotBlank(),
+                    new Assert\Regex("/^[0-9]+$/", "Ne contient que les chiffres")
                 ],
             ] )   
             ->add('first_name', TextType::class, [
                 'label' => 'Nom',
                 'constraints' => [
                     new Assert\Length(max: 50),
-                    new Assert\NotBlank()
+                    new Assert\NotBlank(),
+                    new Assert\Type("string"),
+                    new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
                 ],
             ])
             ->add('last_name', TextType::class, [
                 'label' => 'Prénom',
                 'constraints' => [
                     new Assert\Length(max: 50),
-                    new Assert\NotBlank()
+                    new Assert\NotBlank(),
+                    new Assert\Type("string"),
+                    new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -82,7 +83,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 20,
                         'maxMessage' => 'Your password should be no more than 20 characters',
                     ]),
-                    new Assert\Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/")
+                    new Assert\Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/", "Password doit comprend 1 majuscule, 1 minuscule, 1 chiffre")
                 ],
                 'label' => "Password"
             ])
@@ -107,10 +108,6 @@ class RegistrationFormType extends AbstractType
                     new Assert\NotBlank()
                 ],
             ])
-            // ->add('creation_date',  HiddenType::class, [
-            //     'label' => 'Creation at',
-            //     'data' => (new \DateTime())->format('Y-m-d H:i:s'),
-            // ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

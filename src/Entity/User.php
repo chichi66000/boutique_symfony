@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -19,42 +20,69 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email()]
+    #[Assert\NotNull()]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotNull()]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotNull()]
+    #[Assert\Length(min: 8, max:20)]
+    #[Assert\Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/")]
     private ?string $password = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 50)]
+    #[Assert\Type("string")]
+    #[Assert\Regex("/^[a-zA-Z]+$/")]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 50)]
+    #[Assert\Type("string")]
+    #[Assert\Regex("/^[a-zA-Z]+$/")]
     private ?string $last_name = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 10)]
     private ?string $civilite = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 50)]
     private ?string $city = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 20)]
     private ?string $pc = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 150)]
     private ?string $address = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(max: 15)]
+    #[Assert\Regex("/^[0-9]+$/", "Ne contient que les chiffres")]
     private ?string $tel = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank()]
     private ?\DateTime $creation_date = null;
 
     public function __construct() 
