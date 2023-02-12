@@ -16,14 +16,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app.register')]
+    #[Route('/register', name: 'app.register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+        // dd($form->getData());
         if ($form->isSubmitted() && $form->isValid()) {
+            // $creationDate = \DateTime::createFromFormat('Y-m-d H:i:s', $form->get('creation_date')->getData());
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

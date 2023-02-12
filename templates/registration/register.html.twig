@@ -7,15 +7,7 @@
 
     <div class="form-inscription">
     {{ form_start(registrationForm) }}
-        {# {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button> #}
-
-        {# Civile #}
         <div class="divCivile">
             {{ form_label(registrationForm.civilite)}}
             {{ form_widget(registrationForm.civilite)}}
@@ -110,6 +102,14 @@
                     {{ form_errors(registrationForm.address) }}
                 </div>
             </div>
+
+            {# <div class="saisir">
+                {{ form_label(registrationForm.creation_date)}}
+                {{ form_widget(registrationForm.creation_date)}}
+                <div class="erreur">
+                    {{ form_errors(registrationForm.creation_date) }}
+                </div>
+            </div> #}
         </div>
 
         {# Submit #}

@@ -55,7 +55,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $tel = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creation_date = null;
+    private ?\DateTime $creation_date = null;
+
+    public function __construct() 
+    {
+        $this->creation_date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -223,14 +228,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?\DateTime
     {
         return $this->creation_date;
     }
 
-    public function setCreationDate(): self
+    public function setCreationDate( \DateTime $creation_date): self
     {
-        $this->creation_date = new \DateTime();
+        $this->creation_date = $creation_date;
 
         return $this;
     }
