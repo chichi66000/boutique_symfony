@@ -11,6 +11,8 @@
 /.env.test
 .env
 .env.test
+/brouillon
+brouillon
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

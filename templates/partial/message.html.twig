@@ -1,0 +1,22 @@
+
+{# les messages  #}
+<div >
+    {# read and display just one flash message type #}
+        {% for message in app.flashes('success') %}
+            <div class="" style="color: red; font-size:0.7em; margin: 0.5em auto; padding: 0.5em; width:fit-content; background: #f5f5f5; text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('warning') %}
+            <div style="color: red; font-size:0.7em; margin: 0.5em auto; padding: 0.5em; width:fit-content; background: #f5f5f5; text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+         {% for message in app.flashes('error') %}
+            <div style="color: red; font-size:0.7em; margin: 0.5em auto; padding: 0.5em; width:fit-content; background: #f5f5f5; text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+</div>
