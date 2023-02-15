@@ -15,17 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
+
     #[Route('/', name: 'app.home', methods: 'GET')]
     public function index(CategoryRepository $categoryRepository, 
     ProductRepository $productRepository,
     SessionInterface $session
     ): Response
     {
-        // $categoryRepo = new Category();
-        // $productRepo = new Product();
-        // $colorRepo = new Color();
-        // $sizeRepo = new Size();
-
+        // get data of cart (if exist)
         $nbProductInCart = 0;
         $cart = $session->get('cart');
 
@@ -34,12 +31,15 @@ class ProductController extends AbstractController
                 $nbProductInCart += $item['qty_prod'];
             }
         }
+        // get all categories
         $categories = $categoryRepository->findAll();
-        // dd($categories[0]->getName());
+        // save in data then save into session. We can share this information for navbar & header in others Controllers
+        $data = ['categories' => $categories, 'nbProductInCart' => $nbProductInCart];
+        $session->set('shared_data', $data);
 
         // the recent products in trend
         $newsProducts = $productRepository->findNews();
-        // dd($newsProducts[0]->getCategory()->getId());
+        
         $pathToPhoto = 'photo/';
         $newProductsPathToPhoto = [];
         $newProductsColors = [];

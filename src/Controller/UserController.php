@@ -8,8 +8,8 @@ use App\Controller\HeaderController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -21,16 +21,18 @@ class UserController extends AbstractController
     public function index(
         // User $choosenUser,
         Request $request,
-        TokenStorageInterface $tokenStorage, 
-        ContainerInterface $container
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session
         ): Response
     {
-        $data = $container->get('shared_data');
-        dd($data);
+        $data = $session->get('shared_data');
+        $nbProductInCart = $data['nbProductInCart'];
+        $categories = $data['categories'];
+
         if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
-        $choosenUser = $tokenStorage->getToken()->getUser();
+        // $choosenUser = $tokenStorage->getToken()->getUser();
         $form = $this->createForm(SearchUserType::class);
         $form->handleRequest($request);
         
@@ -40,6 +42,8 @@ class UserController extends AbstractController
         }
         return $this->render('user/admin.html.twig', [
             'form' => $form->createView(),
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories
         ]);
     }
 }
