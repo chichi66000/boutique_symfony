@@ -15,14 +15,139 @@
         </button>
 
             <div class="input-search-user">
-        {{ form_start(form) }}
+                {{ form_start(form) }}
                 {# {{ form_widget(form.search)}} #}
-                {{ form_widget(form) }}
+                    {{ form_widget(form) }}
                 {# <input type="submit" value="Rechercher"> #}
-            {# {{ form_widget(form.submit)}} #}
-        {{ form_end(form) }}
+                {# {{ form_widget(form.submit)}} #}
+                {{ form_end(form) }}
             </div>
 
+        {# tables des users #}
+        {% if users %}
+        
+            <table class="table-user"  cellspacing="0" border='1' cellspacing="0" cellpadding="0">
+                <tbody>
+                    <!--ID -->
+                    <tr class="row-t-user">
+                        <th>
+                            ID
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.id }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--Civile -->
+                    <tr class="row-t-user">
+                        <th>
+                            Civile
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.civilite }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--prenom -->
+                    <tr class="row-t-user">
+                        <th>
+                            Prénom
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.first_name }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--nom -->
+                    <tr class="row-t-user">
+                        <th>
+                            Nom
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.last_name }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--Email -->
+                    <tr class="row-t-user">
+                        <th>
+                            Email
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.email }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--Tel -->
+                    <tr class="row-t-user">
+                        <th>
+                            Tel
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.tel }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--Adresse -->
+                    <tr class="row-t-user">
+                        <th>
+                            Adresse
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.address }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--Ville -->
+                    <tr class="row-t-user">
+                        <th>
+                            Ville
+                        </th>
+                        {% for user in users %}
+                            <td>{{ user.city }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <!--CP -->
+                    <tr class="row-t-user">
+                        <th>
+                            CP 
+                        </th>
+                        {% for user in users %}
+                            <td> {{ user.pc }}</td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr class="row-action">
+                        <th>
+                            Actions
+                        </th>
+                        {% for user in users %}
+                            <td class="btn-table">
+                                {% if user.roles['0'] is not same as "ROLE_DELETED" %}
+                                    <a class="btn-user-modify" href="">Modifier</a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                        
+                    </tr>
+
+                    <tr class="row-action">
+                        <th>
+                            Actions
+                        </th>
+                        {% for user in users %}
+                            <td class="btn-table">
+                                {% if user.roles['0'] is not same as "ROLE_DELETED" %}
+                                    <a class="btn-user-delete" href="">Supprimer</a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+        {% endif %}
     </div>
 
 

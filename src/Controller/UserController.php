@@ -32,21 +32,26 @@ class UserController extends AbstractController
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
 
+        // if user connected is not admin, redirect to home
         if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
+
         // $choosenUser = $tokenStorage->getToken()->getUser();
         $form = $this->createForm(SearchUserType::class);
         $form->handleRequest($request);
         
+        $users = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $users = $userRepository->findusersWithSearch($form['search']->getData());
-            dd($users);
+            
         }
+
         return $this->render('user/admin.html.twig', [
             'form' => $form->createView(),
             'nbProductInCart' => $nbProductInCart,
-            'categories' => $categories
+            'categories' => $categories,
+            "users" => $users
         ]);
     }
 }
