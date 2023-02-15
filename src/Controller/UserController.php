@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\SearchUserType;
+use App\Controller\HeaderController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -19,9 +21,12 @@ class UserController extends AbstractController
     public function index(
         // User $choosenUser,
         Request $request,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage, 
+        ContainerInterface $container
         ): Response
     {
+        $data = $container->get('shared_data');
+        dd($data);
         if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
