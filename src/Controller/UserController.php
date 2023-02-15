@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\SearchUserType;
+use App\Repository\UserRepository;
 use App\Controller\HeaderController;
+use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +24,8 @@ class UserController extends AbstractController
         // User $choosenUser,
         Request $request,
         TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        SessionInterface $session,
+        UserRepository $userRepository,
         ): Response
     {
         $data = $session->get('shared_data');
@@ -37,8 +40,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // dd($form->getData());
+            $users = $userRepository->findusersWithSearch($form['search']->getData());
+            dd($users);
         }
         return $this->render('user/admin.html.twig', [
             'form' => $form->createView(),

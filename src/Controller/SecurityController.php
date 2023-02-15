@@ -3,16 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Form\RegistrationFormType;
 
 
 class SecurityController extends AbstractController
@@ -23,11 +24,19 @@ class SecurityController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
         AppAuthenticator $authenticator, 
-        EntityManagerInterface $entityManager): Response
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
+        ) : Response
     {
+        // get data from session into navbar
+
+        $data = $session->get('shared_data');
+        $nbProductInCart = $data['nbProductInCart'];
+        $categories = $data['categories'];
         $user = new User();
         // give the role for user
         $user->setRoles(['ROLE_USER']);
+
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -60,6 +69,8 @@ class SecurityController extends AbstractController
 
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories
         ]);
     }
     

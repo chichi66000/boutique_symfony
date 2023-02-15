@@ -40,15 +40,12 @@ class ProductController extends AbstractController
         // the recent products in trend
         $newsProducts = $productRepository->findNews();
         
+        // add some empty array
         $pathToPhoto = 'photo/';
         $newProductsPathToPhoto = [];
         $newProductsColors = [];
         $newProductsSizes = [];
         $srcPhoto = [];
-        // dd($newsProducts[1]->getCategory()->getName());
-        // $reference = $newsProducts[1]->getReference();
-        
-        // $colors = $productRepository->findDistinctColorsByReference($reference);
        
         // for each newsProduct, we will take the array of the colors, the sizes available
         foreach($newsProducts as $key => $newProduct) {
@@ -60,6 +57,7 @@ class ProductController extends AbstractController
             // get distinct sizes of a product
             $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
             $newProductsSizes [$newProduct->getId()] = $sizeTab;
+
             // path to product photo1
             $category = $newProduct->getCategory()->getName();
             $photo1 = $newProduct->getPhoto1();
