@@ -3,8 +3,10 @@
 }
 .pagination {
   display: flex;
+  flex-wrap: wrap;
   text-decoration: none;
   justify-content: center;
+  padding-left:0;
 }
 .pagination li:hover {
 background: yellow;

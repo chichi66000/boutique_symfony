@@ -42,14 +42,15 @@ class UserController extends AbstractController
         // $choosenUser = $tokenStorage->getToken()->getUser();
         $form = $this->createForm(SearchUserType::class);
         $form->handleRequest($request);
-
+        $userSearch = $form['search']->getData();
+        // dd($userSearch);
         // get list of users with UserRepository
         $users = $userRepository->findusersWithSearch($form['search']->getData());
         // the insert the system paginator with users
         $users = $paginator->paginate(
             $users,
             $request->query->getInt('page', 1),
-            3 /*limit per page*/
+            2 /*limit per page*/
         );
 
         return $this->render('user/admin.html.twig', [
@@ -57,7 +58,7 @@ class UserController extends AbstractController
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
             "users" => $users,
-            
+            "userSearch" => $userSearch
         ]);
     }
 }

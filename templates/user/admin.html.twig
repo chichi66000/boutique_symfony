@@ -20,6 +20,7 @@
             {{ form_start(form,  {'attr': {'class': 'input-search-user'}} ) }}
                 {{ form_widget(form.search, {'attr': {'class': 'searchUser'}}) }}
                 {{ form_widget(form.submit, {'attr': {'class': 'btn-search-user' }} )}}
+                
             {{ form_end(form) }}
         </div>
 
@@ -28,7 +29,7 @@
 
     {# tables des users #}
     {% if not users is empty %}
-        <div class="erreur">Users de recherche: {{ users.getTotalItemCount }}</div>
+        <div class="erreur">Users de recherche: {{userSearch}} avec {{ users.getTotalItemCount }} résultat</div>
 
         <table class="table-user"  cellspacing="0" border='1' cellspacing="0" cellpadding="0">
             <tbody>
@@ -152,7 +153,7 @@
         </table>
 
         {# display navigation #}
-        <div class="pagination">
+        <div >
             {{ knp_pagination_render(users) }}
         </div>
         
