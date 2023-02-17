@@ -34,10 +34,8 @@
   color: white;
 }
 .searchUser {
-  padding: 0.5em;
-  height: 3em;
-  
-  
+  padding: 0.7em;
+  /* height: 3em; */
   width: 15em;
 }
 .input-search-user {

@@ -56,14 +56,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    public function findUsersWithSearch($search): array
+    public function findUsersWithSearch($search)
    {
     $query = $this->createQueryBuilder('u')
                 ->select("u.id, u.civilite, u.pseudo, u.first_name, u.last_name, u.email, u.tel, u.city, u.address, u.pc, u.roles")
                 ->andWhere("u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%' OR u.email LIKE '%$search%'")
                 ->getQuery()
                 ->getResult();
-           
+    //  dd($query);      
     return $query;
    }
 
