@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -77,32 +78,66 @@ class ProductController extends AbstractController
         
 
         return $this->render('product/index.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories,
             'newsProducts' => $newsProducts,
             'newProductsSizes' => $newProductsSizes,
             'newProductsColors' => $newProductsColors,
-            'nbProductInCart' => $nbProductInCart,
-            'categories' => $categories,
             'srcPhoto' => $srcPhoto
         ]);
     }
 
-    public function getDataForProduct (
-        CategoryRepository $categoryRepository, 
-        ProductRepository $productRepository,
-    ) 
-    {
+    // public function getDataForProduct (
+    //     CategoryRepository $categoryRepository, 
+    //     ProductRepository $productRepository, $products
+    // ) 
+    // {
+    //     $pathToPhoto = 'photo/';
 
-    }
+    //     // for each newsProduct, we will take the array of the colors, the sizes available
+    //     foreach($products as $key => $newProduct) {
+    //         // get all color of one newProduct with his reference
+    //         $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+    //         // then add $colorTab into $newProductsColors with id of this product
+    //         $newProductsColors [$newProduct->getId()] = $colorsTab;
+
+    //         // get distinct sizes of a product
+    //         $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+    //         $newProductsSizes [$newProduct->getId()] = $sizeTab;
+
+    //         // path to product photo1
+    //         $category = $newProduct->getCategory()->getName();
+    //         $photo1 = $newProduct->getPhoto1();
+    //         $path =  $pathToPhoto . $category . '/' . $photo1;
+    //         $srcPhoto[$newProduct->getId()] = $path;
+    //     }
+
+    //     return [$srcPhoto, $newProduct, $newProductsSizes, $newProductsColors ];
+    // }
 
     #[Route('/shop/{category}', name: 'app.shop', methods: ['GET', 'POST'])]
     public function shop (
-        SessionInterface $session
+        SessionInterface $session,
+        Request $request, 
+        $category,
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
     ) :Response 
     {
+        // get data from session for header & navbar
         $data = $session->get('shared_data');
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
         
+        // get id of the category
+        $category = $categoryRepository->findBy(['name' => $category]);
+        $categoryId = (int)$category[0]->getId();
+        // var_dump($categoryId);
+
+        // get all products of the category choosen:
+
+        $products = $productRepository->findByCategoryId($categoryId);
+
 
         return $this->render('product/shop.html.twig', [
             'nbProductInCart' => $nbProductInCart,

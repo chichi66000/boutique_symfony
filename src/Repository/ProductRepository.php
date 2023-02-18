@@ -81,6 +81,36 @@ class ProductRepository extends ServiceEntityRepository
                 ->getResult();
    }
 
+   public function findByCategoryId(int $categoryId): array
+    {
+        $q = $this->findBy(['category' => $categoryId]);
+        dd($q);
+        return $q;
+    }
+
+   public function findByCategory ($categoryId) : array 
+   {
+    $query = $this->createQueryBuilder('p')
+                    // ->join('p.category', 'c')
+                    // ->select('p')
+                    // ->andWhere('p.category = :val')
+                    // ->setParameter('val', $categoryId)
+                    // ->orderBy('p.id', 'ASC')
+                    // ->getQuery()
+                    // ->getResult()
+
+        //         ->join('p.category_id', 'cat')
+        //         ->select('DISTINCT p.categrory_id')
+        //     ->andWhere('cat.name = :val')
+        //    ->setParameter('val', $category)
+        //    ->orderBy('p.id', 'ASC')
+        //    ->setMaxResults(10)
+        //    ->getQuery()
+        //    ->getResult()
+       ;
+       dd($query);
+       return $query;
+   }
    
 //    /**
 //     * @return Product[] Returns an array of Product objects
