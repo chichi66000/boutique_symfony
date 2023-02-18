@@ -7,7 +7,84 @@
     {{ include('partial/header.html.twig')}}
     {{ include("partial/message.html.twig")}}
 
-    
+    {# All products of the category #}
+    <div class="globalContainer">
+        <div class="globalWrapper">
+            <h2>{{ category }}</h2>
+
+            {# <h5>Nombre produits trouvé</h5> #}
+
+            {# A voir Affichage par prix croissance / DESC #}
+            <form action="/<?= $dirSite ?>/src/controllers/shop.php" method="POST" class="shopProductsSortAndFilter">
+                <h5>Afficher par :</h5>
+                <p>Prix</p>
+                <button type="submit" id="shopProductsSortAsc" name="shopProductsSortAsc" title="Croissant">
+                    <img src="/<?= $dirSite ?>/public/img/arrowup48.svg" alt="Affichage croissant">
+                </button>
+                <button type="submit" id="shopProductsSortDesc" name="shopProductsSortDesc" title="Décroissant">
+                    <img src="/<?= $dirSite ?>/public/img/arrowdown48.svg" alt="Affichage décroissant">
+                </button>
+            </form>
+
+
+            <div class="shopProductsWrapper">
+                <ul class="shopProductsGallery">
+                {% for product in products %}
+                    <li>
+                        {# Image #}
+                        <a href="#" title="Fiche produit">
+                            <img src="{{ asset(srcPhoto[product.id]) }}" alt="Photo produit">
+                        </a>
+
+                        {# Size & color available #}
+                        <div class="shopProductsGalleryOverlay">
+                            <p><span class="textUpper">Couleurs possibles</span></p>
+                            <p>
+                                {% for color in productsColors[product.id] %}
+                                    <span class="textUpper" style="color: {{product.color.hexa}}">
+                                        {{color.name}}
+                                    </span>
+                                {% endfor %}    
+                            </p>
+                            <p><span class="textUpper">Tailles possibles</span></p>
+                            <p>
+                                {% for size in productsSizes[product.id] %}
+                                    <span class="textUpper" style="">
+                                        <span class="textUpper">{{size.name}}</span>
+                                    </span>
+                                {% endfor %} 
+                            </p>
+                        </div>
+
+                        <div class="shopProductsGalleryInfo">
+                            <p class="shopProductsGalleryInfoTitre"><strong>{{product.title}}</strong></p>
+
+                            <p>couleur : <span style="color: {{product.color.hexa}}">{{product.color.name}}<span></p>
+
+                            <p>Taille : <span class="textUpper">{{product.size.name}}</span></p>
+
+                            <div class="shopProductsGalleryPriceCart">
+                                <p>{{product.price}} €</p>
+                                {% if product.stock > 0 %}
+                                    <a href="" title="Ajouter au panier" class="shopProductsLinkGalleryCart" data-product="<?= $product['id'] ?>">
+                                        <img class="shopProductsGalleryCart" src=" {{ asset('img/cart48.svg') }}" alt="Ajouter au panier">
+                                    </a>
+                                    {% else %}
+                                        <a href="" title="Rupture de stock">
+                                            <img class="shopProductsGalleryCart" src="{{ asset('img/nocart48.svg') }} " alt="Rupture de stock" disabled>
+                                        </a>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        
+    </div>
+</div>
+
 
         {# Footer #}
     {% include "partial/footer.html.twig" %}

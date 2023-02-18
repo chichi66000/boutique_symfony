@@ -132,17 +132,38 @@ class ProductController extends AbstractController
         // get id of the category
         $category = $categoryRepository->findBy(['name' => $category]);
         $categoryId = (int)$category[0]->getId();
-        // var_dump($categoryId);
 
         // get all products of the category choosen:
-
         $products = $productRepository->findByCategoryId($categoryId);
+        // dd($products);
 
+        // for each product, we will take the array of the colors, the sizes available
+        $pathToPhoto = 'photo/';
+        foreach($products as $key => $newProduct) {
+            // get all color of one newProduct with his reference
+            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+            // then add $colorTab into $newProductsColors with id of this product
+            $newProductsColors [$newProduct->getId()] = $colorsTab;
+
+            // get distinct sizes of a product
+            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+            $newProductsSizes [$newProduct->getId()] = $sizeTab;
+
+            // path to product photo1
+            $category = $newProduct->getCategory()->getName();
+            $photo1 = $newProduct->getPhoto1();
+            $path =  $pathToPhoto . $category . '/' . $photo1;
+            $srcPhoto[$newProduct->getId()] = $path;
+        }
 
         return $this->render('product/shop.html.twig', [
             'nbProductInCart' => $nbProductInCart,
-            'categories' => $categories
-
+            'categories' => $categories,
+            'category' => $category,
+            'products' => $products,
+            'srcPhoto' => $srcPhoto,
+            'productsSizes' => $newProductsSizes,
+            'productsColors' => $newProductsColors
         ]);
     }
 }
