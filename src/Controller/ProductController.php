@@ -15,11 +15,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
-
+    /**
+     * Route to index, save the info of header & navbar into session
+     * Get 6 lastest products
+     * for each product, we will take the array of the colors, the sizes available
+     *
+     * @param CategoryRepository $categoryRepository
+     * @param ProductRepository $productRepository
+     * @param SessionInterface $session
+     * @return Response
+     */
     #[Route('/', name: 'app.home', methods: 'GET')]
-    public function index(CategoryRepository $categoryRepository, 
-    ProductRepository $productRepository,
-    SessionInterface $session
+    public function index(
+        CategoryRepository $categoryRepository, 
+        ProductRepository $productRepository,
+        SessionInterface $session
     ): Response
     {
         // get data of cart (if exist)
@@ -73,6 +83,31 @@ class ProductController extends AbstractController
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
             'srcPhoto' => $srcPhoto
+        ]);
+    }
+
+    public function getDataForProduct (
+        CategoryRepository $categoryRepository, 
+        ProductRepository $productRepository,
+    ) 
+    {
+
+    }
+
+    #[Route('/shop/{category}', name: 'app.shop', methods: ['GET', 'POST'])]
+    public function shop (
+        SessionInterface $session
+    ) :Response 
+    {
+        $data = $session->get('shared_data');
+        $nbProductInCart = $data['nbProductInCart'];
+        $categories = $data['categories'];
+        
+
+        return $this->render('product/shop.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories
+
         ]);
     }
 }
