@@ -292,34 +292,24 @@ class ProductController extends AbstractController
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
 
-
-        
-        // add some empty array
-        $pathToPhoto = 'photo/';
-        $productsPathToPhoto = [];
-        $productColors = [];
-        $productSizes = [];
-        $srcPhoto1 = [];
-        $srcPhoto2 = [];
-        $srcPhoto3 = [];
-        $srcPhoto4 = [];
-        // get path to photo
         // get all color of one newProduct with his reference
         $colorsTab = $productRepository->findDistinctColorsByReference($product->getReference());
         
         // get distinct sizes of a product
         $sizeTab = $productRepository->findDistinctSizesByReference($product -> getReference());
 
+        // get the current color & size of this product
         $colorId = $product->getColor();
         $color = $colorRepository->findBy(['id' => $colorId]);
         
         $sizeId = $product->getSize();
         $size = $sizeRepository->findBy(['id' => $sizeId]);
         
-
-        // path to product photo
         $category = $product->getCategory()->getName();
-
+        
+        // path to product photo
+        $pathToPhoto = 'photo/';
+        // get the src of all photos
         $photo1 = $product->getPhoto1();
         $path1 =  $pathToPhoto . $category . '/' . $photo1;
         $srcPhoto[]=$path1;
