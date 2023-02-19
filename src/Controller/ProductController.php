@@ -115,7 +115,9 @@ class ProductController extends AbstractController
     //     return [$srcPhoto, $newProduct, $newProductsSizes, $newProductsColors ];
     // }
 
-    
+    /**
+     * function to get all the products of 1 category
+     */
     #[Route('/shop/{category}', name: 'app.shop', methods: ['GET', 'POST'])]
     public function shop (
         SessionInterface $session,
@@ -137,11 +139,83 @@ class ProductController extends AbstractController
             $this->addFlash('error', 'Catégory pas trouvé');
             return $this->redirectToRoute('app.home');
         }
-        
+
         $categoryId = (int)$category[0]->getId();
 
-        // get all products of the category choosen:
+        
+
         $products = $productRepository->findByCategoryId($categoryId);
+        // dd($products);
+
+        // if there is sort by price
+        $orderPrice = $request->query->get('orderPrice');
+        if ($orderPrice) {
+            $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
+            // dd($products);
+        } 
+
+        // for each product, we will take the array of the colors, the sizes available
+        $pathToPhoto = 'photo/';
+        foreach($products as $key => $newProduct) {
+            // get all color of one newProduct with his reference
+            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+            // then add $colorTab into $newProductsColors with id of this product
+            $newProductsColors [$newProduct->getId()] = $colorsTab;
+
+            // get distinct sizes of a product
+            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+            $newProductsSizes [$newProduct->getId()] = $sizeTab;
+
+            // path to product photo1
+            $category = $newProduct->getCategory()->getName();
+            $photo1 = $newProduct->getPhoto1();
+            $path =  $pathToPhoto . $category . '/' . $photo1;
+            $srcPhoto[$newProduct->getId()] = $path;
+        }
+
+        return $this->render('product/shop.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories,
+            'category' => $category,
+            'products' => $products,
+            'srcPhoto' => $srcPhoto,
+            'productsSizes' => $newProductsSizes,
+            'productsColors' => $newProductsColors,
+            'orderPrice' => $orderPrice
+        ]);
+    }
+
+
+    #[Route('/shop/{category}/{orderPrice}', name: "app.shop.sort", methods: ['GET', 'POST'])]
+    public function shopSort (
+        SessionInterface $session,
+        CategoryRepository $categoryRepository,
+        ProductRepository $productRepository,
+        $category,
+        $orderPrice
+    ) : Response 
+    {
+        // get data from session for header & navbar
+        $data = $session->get('shared_data');
+        $nbProductInCart = $data['nbProductInCart'];
+        $categories = $data['categories'];
+        
+        // get id of the category
+        $category = $categoryRepository->findBy(['name' => $category]);
+        // if there is no category => give message erreur then redirect
+        if (empty($category)) {
+            $this->addFlash('error', 'Catégory pas trouvé');
+            return $this->redirectToRoute('app.home');
+        }
+
+        $categoryId = (int)$category[0]->getId();
+
+        dd($orderPrice);
+        // get all products of the category choosen, sort by price:
+        $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
+
+        
+
         // dd($products);
 
         // for each product, we will take the array of the colors, the sizes available
@@ -170,7 +244,8 @@ class ProductController extends AbstractController
             'products' => $products,
             'srcPhoto' => $srcPhoto,
             'productsSizes' => $newProductsSizes,
-            'productsColors' => $newProductsColors
+            'productsColors' => $newProductsColors,
+            'orderPrice' => $orderPrice
         ]);
     }
 }

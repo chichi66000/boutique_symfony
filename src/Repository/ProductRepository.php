@@ -81,9 +81,9 @@ class ProductRepository extends ServiceEntityRepository
                 ->getResult();
    }
 
-   public function findByCategoryId(int $categoryId): array
+   public function findByCategoryId(int $categoryId, $order=null): array
     {
-        $q = $this->findBy(['category' => $categoryId]);
+        $q = $this->findBy(['category' => $categoryId], $order);
         return $q;
     }
 

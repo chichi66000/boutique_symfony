@@ -15,14 +15,14 @@
             {# <h5>Nombre produits trouvé</h5> #}
 
             {# A voir Affichage par prix croissance / DESC #}
-            <form action="/<?= $dirSite ?>/src/controllers/shop.php" method="POST" class="shopProductsSortAndFilter">
+            <form action="{{ path('app.shop', {'category' : category, 'orderPrice': orderPrice})}}" method="GET" class="shopProductsSortAndFilter">
                 <h5>Afficher par :</h5>
                 <p>Prix</p>
-                <button type="submit" id="shopProductsSortAsc" name="shopProductsSortAsc" title="Croissant">
-                    <img src="/<?= $dirSite ?>/public/img/arrowup48.svg" alt="Affichage croissant">
+                <button  id="shopProductsSortAsc" type="submit" name="orderPrice" value="asc" title="Croissant">
+                    <img src="{{ asset('img/arrowup48.svg')}} " alt="Affichage croissant">
                 </button>
-                <button type="submit" id="shopProductsSortDesc" name="shopProductsSortDesc" title="Décroissant">
-                    <img src="/<?= $dirSite ?>/public/img/arrowdown48.svg" alt="Affichage décroissant">
+                <button id="shopProductsSortDesc" type="submit" name="orderPrice" value="desc" title="Décroissant">
+                    <img src="{{ asset('img/arrowdown48.svg')}} " alt="Affichage décroissant">
                 </button>
             </form>
 
