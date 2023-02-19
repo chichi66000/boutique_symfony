@@ -325,12 +325,13 @@ class ProductController extends AbstractController
         $path4 =  $category . '/' . $photo4;
         $srcPhoto[]=$path4;
 
-        dd($sizeTab, $colorsTab, $srcPhoto);
-
         return $this->render('product/detail.html.twig', [
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
-            'product' => $product
+            'product' => $product,
+            'sizeTab' => $sizeTab,
+            'colorTab' => $colorsTab,
+            'srcPhoto' => $srcPhoto,
         ]);
     }
    
