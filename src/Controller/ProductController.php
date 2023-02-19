@@ -60,33 +60,39 @@ class ProductController extends AbstractController
 
         // the recent products in trend
         // $newsProducts = $productRepository->findNews();
-        $newsProducts = $this->getProducts('new');
+        // $newsProducts = $this->getProducts('new');
+        
+        $results = $this->getProducts('new');
+        $newsProducts = $results['products'];
+        $newProductsColors = $results['newProductsColors'];
+        $newProductsSizes = $results['newProductsSizes'];
+        $srcPhoto = $results['srcPhoto1'];
         // dd($newProducts);
 
-        // add some empty array
-        $pathToPhoto = 'photo/';
-        $newProductsPathToPhoto = [];
-        $newProductsColors = [];
-        $newProductsSizes = [];
-        $srcPhoto = [];
+        // // add some empty array
+        // $pathToPhoto = 'photo/';
+        // $newProductsPathToPhoto = [];
+        // $newProductsColors = [];
+        // $newProductsSizes = [];
+        // $srcPhoto = [];
        
-        // for each newsProduct, we will take the array of the colors, the sizes available
-        foreach($newsProducts as $key => $newProduct) {
-            // get all color of one newProduct with his reference
-            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
-            // then add $colorTab into $newProductsColors with id of this product
-            $newProductsColors [$newProduct->getId()] = $colorsTab;
+        // // for each newsProduct, we will take the array of the colors, the sizes available
+        // foreach($newsProducts as $key => $newProduct) {
+        //     // get all color of one newProduct with his reference
+        //     $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+        //     // then add $colorTab into $newProductsColors with id of this product
+        //     $newProductsColors [$newProduct->getId()] = $colorsTab;
 
-            // get distinct sizes of a product
-            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
-            $newProductsSizes [$newProduct->getId()] = $sizeTab;
+        //     // get distinct sizes of a product
+        //     $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+        //     $newProductsSizes [$newProduct->getId()] = $sizeTab;
 
-            // path to product photo1
-            $category = $newProduct->getCategory()->getName();
-            $photo1 = $newProduct->getPhoto1();
-            $path =  $pathToPhoto . $category . '/' . $photo1;
-            $srcPhoto[$newProduct->getId()] = $path;
-        }
+        //     // path to product photo1
+        //     $category = $newProduct->getCategory()->getName();
+        //     $photo1 = $newProduct->getPhoto1();
+        //     $path =  $pathToPhoto . $category . '/' . $photo1;
+        //     $srcPhoto[$newProduct->getId()] = $path;
+        // }
         
 
         return $this->render('product/index.html.twig', [
@@ -125,7 +131,37 @@ class ProductController extends AbstractController
             });
         }
 
-        return $products;
+        // add some empty array
+        $pathToPhoto = 'photo/';
+        $newProductsPathToPhoto = [];
+        $newProductsColors = [];
+        $newProductsSizes = [];
+        $srcPhoto1 = [];
+       
+        // for each newsProduct, we will take the array of the colors, the sizes available
+        foreach($products as $key => $newProduct) {
+            // get all color of one newProduct with his reference
+            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+            // then add $colorTab into $newProductsColors with id of this product
+            $newProductsColors [$newProduct->getId()] = $colorsTab;
+
+            // get distinct sizes of a product
+            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+            $newProductsSizes [$newProduct->getId()] = $sizeTab;
+
+            // path to product photo1
+            $category = $newProduct->getCategory()->getName();
+            $photo1 = $newProduct->getPhoto1();
+            $path1 =  $pathToPhoto . $category . '/' . $photo1;
+            $srcPhoto1[$newProduct->getId()] = $path1;
+        }
+
+        return [
+            'products' => $products,
+            'newProductsColors' => $newProductsColors,
+            'newProductsSizes' => $newProductsSizes,
+            'srcPhoto1' => $srcPhoto1
+        ];
     }
 
 
