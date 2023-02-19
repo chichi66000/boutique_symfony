@@ -211,25 +211,25 @@ class ProductController extends AbstractController
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
         
-        // dd($category);  // chemises
-
         // get id of the category
         $categoryEntity = $categoryRepository->findBy(['name' => $category]);
-        // dd($category);
-        // if there is no category => give message erreur then redirect
         if (empty($categoryEntity)) {
-            $this->addFlash('error', 'Catégory pas trouvé');
+            $this->addFlash('error', 'Pas de catégory demandé');
             return $this->redirectToRoute('app.home');
         }
+       
         // get Id of the category choosen
         $categoryId = (int)$categoryEntity[0]->getId();
 
-        // by default, there is no sort, we get all products by id
-        // $products = $productRepository->findByCategoryId($categoryId);
-        // $products = $this->getProducts($categoryId);
-
+        // get all the product of this category with the function getProducts
         $results = $this->getProducts($categoryId);
         $products = $results['products'];
+        // if there is no products of this category => give message erreur then redirect
+        if (empty($products)) {
+            $this->addFlash('error', "Pas de produits disponible pour ce catégory $category. Revenez plus tard");
+            return $this->redirectToRoute('app.home');
+        }
+
         $productsColors = $results['newProductsColors'];
         $productsSizes = $results['newProductsSizes'];
         $srcPhoto = $results['srcPhoto1'];
@@ -238,30 +238,9 @@ class ProductController extends AbstractController
         $orderPrice = $request->query->get('orderPrice');
         if ($orderPrice) {
             // get the product but sort by Price
-            // $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
             $products = $this->getProducts($categoryId, $orderPrice )['products'];
             
         } 
-        // dd($products);
-        
-        // for each product, we will take the array of the colors, the sizes available
-        // $pathToPhoto = 'photo/';
-        // foreach($products as $key => $newProduct) {
-        //     // get all color of one newProduct with his reference
-        //     $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
-        //     // then add $colorTab into $newProductsColors with id of this product
-        //     $newProductsColors [$newProduct->getId()] = $colorsTab;
-
-        //     // get distinct sizes of a product
-        //     $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
-        //     $newProductsSizes [$newProduct->getId()] = $sizeTab;
-
-        //     // path to product photo1
-        //     $category = $newProduct->getCategory()->getName();
-        //     $photo1 = $newProduct->getPhoto1();
-        //     $path =  $pathToPhoto . $category . '/' . $photo1;
-        //     $srcPhoto[$newProduct->getId()] = $path;
-        // }
 
         return $this->render('product/shop.html.twig', [
             'nbProductInCart' => $nbProductInCart,
@@ -277,10 +256,22 @@ class ProductController extends AbstractController
 
 
 
+    
+    /**
+     * function to show detail information of 1 product with his ID
+     *
+     * @param SessionInterface $session
+     * @param CategoryRepository $categoryRepository
+     * @param ProductRepository $productRepository
+     * @param ColorRepository $colorRepository
+     * @param SizeRepository $sizeRepository
+     * @param Product $product
+     * @return Response
+     */
     #[Route("/product/{id}", name: "app.product", methods: ["GET", "POST"])]
     public function showProduct (
         SessionInterface $session,
-        CategoryRepository $categoryRepository,
+        // CategoryRepository $categoryRepository,
         ProductRepository $productRepository,
         ColorRepository $colorRepository,
         SizeRepository $sizeRepository,
