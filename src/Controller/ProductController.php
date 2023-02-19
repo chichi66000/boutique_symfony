@@ -116,7 +116,17 @@ class ProductController extends AbstractController
     // }
 
     /**
+     * 
+     */
+    /**
      * function to get all the products of 1 category
+     *  order by price if necessary
+     * @param SessionInterface $session
+     * @param Request $request
+     * @param [type] $category
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
+     * @return Response
      */
     #[Route('/shop/{category}', name: 'app.shop', methods: ['GET', 'POST'])]
     public function shop (
@@ -184,67 +194,25 @@ class ProductController extends AbstractController
         ]);
     }
 
-
-    #[Route('/shop/{category}/{orderPrice}', name: "app.shop.sort", methods: ['GET', 'POST'])]
-    public function shopSort (
+    #[Route("/product/{id}", name: "app.product", methods: ["GET", "POST"])]
+    public function showProduct (
         SessionInterface $session,
         CategoryRepository $categoryRepository,
         ProductRepository $productRepository,
-        $category,
-        $orderPrice
+        Product $product 
     ) : Response 
     {
         // get data from session for header & navbar
         $data = $session->get('shared_data');
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
+
+        dd($product);
         
-        // get id of the category
-        $category = $categoryRepository->findBy(['name' => $category]);
-        // if there is no category => give message erreur then redirect
-        if (empty($category)) {
-            $this->addFlash('error', 'Catégory pas trouvé');
-            return $this->redirectToRoute('app.home');
-        }
-
-        $categoryId = (int)$category[0]->getId();
-
-        dd($orderPrice);
-        // get all products of the category choosen, sort by price:
-        $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
-
-        
-
-        // dd($products);
-
-        // for each product, we will take the array of the colors, the sizes available
-        $pathToPhoto = 'photo/';
-        foreach($products as $key => $newProduct) {
-            // get all color of one newProduct with his reference
-            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
-            // then add $colorTab into $newProductsColors with id of this product
-            $newProductsColors [$newProduct->getId()] = $colorsTab;
-
-            // get distinct sizes of a product
-            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
-            $newProductsSizes [$newProduct->getId()] = $sizeTab;
-
-            // path to product photo1
-            $category = $newProduct->getCategory()->getName();
-            $photo1 = $newProduct->getPhoto1();
-            $path =  $pathToPhoto . $category . '/' . $photo1;
-            $srcPhoto[$newProduct->getId()] = $path;
-        }
-
-        return $this->render('product/shop.html.twig', [
+        return $this->render('product/detail.html.twig', [
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
-            'category' => $category,
-            'products' => $products,
-            'srcPhoto' => $srcPhoto,
-            'productsSizes' => $newProductsSizes,
-            'productsColors' => $newProductsColors,
-            'orderPrice' => $orderPrice
         ]);
     }
+   
 }
