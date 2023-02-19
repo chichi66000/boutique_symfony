@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,16 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
+
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    
     /**
      * Route to index, save the info of header & navbar into session
      * Get 6 lastest products
@@ -49,8 +59,10 @@ class ProductController extends AbstractController
         $session->set('shared_data', $data);
 
         // the recent products in trend
-        $newsProducts = $productRepository->findNews();
-        
+        // $newsProducts = $productRepository->findNews();
+        $newsProducts = $this->getProducts('new');
+        // dd($newProducts);
+
         // add some empty array
         $pathToPhoto = 'photo/';
         $newProductsPathToPhoto = [];
@@ -87,13 +99,43 @@ class ProductController extends AbstractController
         ]);
     }
 
-    // public function getDataForProduct (
-    //     CategoryRepository $categoryRepository, 
-    //     ProductRepository $productRepository, $products
+    public function getProducts ($criteria, $orderBy=null) {
+        $productRepository = $this->entityManager->getRepository(Product::class);
+        // get list of products with some criteria
+        if ($criteria == 'all') {
+            $products = $productRepository->findAll();
+        } 
+        else if ($criteria == 'new') {
+            $products = $productRepository->findNews();
+        } 
+        // else if ($criteria == 'category') {
+        //     $products = $productRepository->findByCategoryId($categoryId);
+        // } 
+        else {
+            $products = $productRepository->findBy(['category' => $criteria]);
+        }
+
+        if ($orderBy == 'asc') {
+            usort($products, function($a, $b) {
+                return $a->getPrice() - $b->getPrice();
+            });
+        } else if ($orderBy == 'desc') {
+            usort($products, function($a, $b) {
+                return $b->getPrice() - $a->getPrice();
+            });
+        }
+
+        return $products;
+    }
+
+
+    
+    // public function getDataForProduct (array $products, 
+    // ProductRepository $productRepository
     // ) 
     // {
+        
     //     $pathToPhoto = 'photo/';
-
     //     // for each newsProduct, we will take the array of the colors, the sizes available
     //     foreach($products as $key => $newProduct) {
     //         // get all color of one newProduct with his reference
@@ -154,13 +196,16 @@ class ProductController extends AbstractController
         $categoryId = (int)$category[0]->getId();
 
         // by default, there is no sort, we get all products by id
-        $products = $productRepository->findByCategoryId($categoryId);
+        // $products = $productRepository->findByCategoryId($categoryId);
+        $products = $this->getProducts($categoryId);
 
         // if there is sort by price
         $orderPrice = $request->query->get('orderPrice');
         if ($orderPrice) {
             // get the product but sort by Price
-            $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
+            // $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
+        $products = $this->getProducts($categoryId, $orderPrice );
+
         } 
 
         // for each product, we will take the array of the colors, the sizes available
@@ -194,6 +239,8 @@ class ProductController extends AbstractController
         ]);
     }
 
+
+
     #[Route("/product/{id}", name: "app.product", methods: ["GET", "POST"])]
     public function showProduct (
         SessionInterface $session,
@@ -207,11 +254,12 @@ class ProductController extends AbstractController
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
 
-        dd($product);
-        
+        // dd($product);
+
         return $this->render('product/detail.html.twig', [
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
+            'product' => $product
         ]);
     }
    

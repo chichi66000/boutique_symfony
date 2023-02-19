@@ -7,6 +7,66 @@
     {{ include('partial/header.html.twig')}}
     {{ include("partial/message.html.twig")}}
 
+    {# Fiche product #}
+    <div class="globalContainer">
+        <div class="globalWrapper">
+            <h2>{{product.title}} </h2>
+            
+            <div class="productBigImage">
+                <img id="bigImage" src="/<?= $dirSite ?>/<?= $productPathToPhoto1 ?>" alt="Photo produit">
+            </div>
+
+            {# <div class="productMiniImages">
+                <ul>
+                    <li>
+                        <img id="miniImage1" src="/<?= $dirSite ?>/<?= $productPathToPhoto2 ?>" alt="Photo produit">
+                    </li>
+                    <li>
+                        <img id="miniImage2" src="/<?= $dirSite ?>/<?= $productPathToPhoto3 ?>" alt="Photo produit">
+                    </li>
+                    <li>
+                        <img id="miniImage3" src="/<?= $dirSite ?>/<?= $productPathToPhoto4 ?>" alt="Photo produit">
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="productInfo">
+                <h5><?= $product->getTitle() ?></h5>
+                <p>Couleur : <span class="textUpper" style="color: <?= $productColor['hexa'] ?>"><?= $productColor['name'] ?></span></p>
+                <p>Taille : <span class="textUpper"><?= $productSize ?></span></p>
+                <h6>Description</h6>
+                <?php for ($i=0; $i < count($descriptions); $i++) { ?>
+                    <p><?= $descriptions[$i] ?></p>
+                <?php } ?>
+                <h6>Couleurs possibles</h6>
+                <p>
+                <?php for ($i=0; $i < count($productDistincColors); $i++) { ?>
+                    <span class="textUpper" style="color: <?= $productDistincColors[$i]->getHexa() ?>"><?= $productDistincColors[$i]->getName() ?></span>
+                <?php } ?>
+                </p>
+                <h6>Tailles possibles</h6>
+                <p>
+                <?php for ($i=0; $i < count($productDistincSizes); $i++) { ?>
+                    <span class="textUpper"><?= $productDistincSizes[$i]->getName() ?></span>
+                <?php } ?>
+                </p>
+                <div class="productInfoPriceCart">
+                    <p><?= $product->getPrice() ?> €</p>
+                    <?php if ($product->getStock() > 0) { ?>
+                    <a href="" title="Ajouter au panier">
+                        <img class="productInfoCart" src="/<?= $dirSite ?>/public/img/cart48.svg" alt="Ajouter au panier">
+                    </a>
+                    <?php } elseif ($product->getStock() == 0) { ?>
+                    <a href="" title="Rupture de stock">
+                        <img class="productInfoCart" src="/<?= $dirSite ?>/public/img/nocart48.svg" alt="Rupture de stock">
+                    </a>
+                    <?php } ?>
+                </div>
+            </div> #}
+            
+            
+        </div>
+    </div>
 
     {# Footer #}
     {% include "partial/footer.html.twig" %}
