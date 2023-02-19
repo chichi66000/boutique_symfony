@@ -63,7 +63,7 @@ class ProductRepository extends ServiceEntityRepository
    {
     return $this->createQueryBuilder('p')
                 ->join('p.color', 'c')
-                ->select('DISTINCT c.name')
+                ->select('DISTINCT c.name, c.hexa')
                 ->andWhere('p.reference = :reference')
                 ->setParameter('reference', $reference)
                 ->getQuery()

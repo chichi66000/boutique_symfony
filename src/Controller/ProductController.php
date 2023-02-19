@@ -8,6 +8,8 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ColorRepository;
+use App\Repository\SizeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -280,6 +282,8 @@ class ProductController extends AbstractController
         SessionInterface $session,
         CategoryRepository $categoryRepository,
         ProductRepository $productRepository,
+        ColorRepository $colorRepository,
+        SizeRepository $sizeRepository,
         Product $product 
     ) : Response 
     {
@@ -306,23 +310,30 @@ class ProductController extends AbstractController
         // get distinct sizes of a product
         $sizeTab = $productRepository->findDistinctSizesByReference($product -> getReference());
 
+        $colorId = $product->getColor();
+        $color = $colorRepository->findBy(['id' => $colorId]);
+        
+        $sizeId = $product->getSize();
+        $size = $sizeRepository->findBy(['id' => $sizeId]);
+        
+
         // path to product photo
         $category = $product->getCategory()->getName();
 
         $photo1 = $product->getPhoto1();
-        $path1 =  $category . '/' . $photo1;
+        $path1 =  $pathToPhoto . $category . '/' . $photo1;
         $srcPhoto[]=$path1;
         
         $photo2 = $product->getPhoto2();
-        $path2 =  $category . '/' . $photo2;
+        $path2 =  $pathToPhoto . $category . '/' . $photo2;
         $srcPhoto[]=$path2;
 
         $photo3 = $product->getPhoto3();
-        $path3 =  $category . '/' . $photo3;
+        $path3 =   $pathToPhoto . $category . '/' . $photo3;
         $srcPhoto[]=$path3;
 
         $photo4 = $product->getPhoto4();
-        $path4 =  $category . '/' . $photo4;
+        $path4 =   $pathToPhoto . $category . '/' . $photo4;
         $srcPhoto[]=$path4;
 
         return $this->render('product/detail.html.twig', [
@@ -332,6 +343,8 @@ class ProductController extends AbstractController
             'sizeTab' => $sizeTab,
             'colorTab' => $colorsTab,
             'srcPhoto' => $srcPhoto,
+            'color' => $color,
+            'size' => $size
         ]);
     }
    
