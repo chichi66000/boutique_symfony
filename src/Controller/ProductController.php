@@ -134,24 +134,23 @@ class ProductController extends AbstractController
         
         // get id of the category
         $category = $categoryRepository->findBy(['name' => $category]);
+
         // if there is no category => give message erreur then redirect
         if (empty($category)) {
             $this->addFlash('error', 'Catégory pas trouvé');
             return $this->redirectToRoute('app.home');
         }
-
+        // get Id of the category choosen
         $categoryId = (int)$category[0]->getId();
 
-        
-
+        // by default, there is no sort, we get all products by id
         $products = $productRepository->findByCategoryId($categoryId);
-        // dd($products);
 
         // if there is sort by price
         $orderPrice = $request->query->get('orderPrice');
         if ($orderPrice) {
+            // get the product but sort by Price
             $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
-            // dd($products);
         } 
 
         // for each product, we will take the array of the colors, the sizes available

@@ -14,7 +14,7 @@
 
             {# <h5>Nombre produits trouvé</h5> #}
 
-            {# A voir Affichage par prix croissance / DESC #}
+            {#  Sort by price #}
             <form action="{{ path('app.shop', {'category' : category, 'orderPrice': orderPrice})}}" method="GET" class="shopProductsSortAndFilter">
                 <h5>Afficher par :</h5>
                 <p>Prix</p>
@@ -26,7 +26,7 @@
                 </button>
             </form>
 
-
+            {# all products #}
             <div class="shopProductsWrapper">
                 <ul class="shopProductsGallery">
                 {% for product in products %}
