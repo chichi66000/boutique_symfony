@@ -115,6 +115,7 @@ class ProductController extends AbstractController
     //     return [$srcPhoto, $newProduct, $newProductsSizes, $newProductsColors ];
     // }
 
+    
     #[Route('/shop/{category}', name: 'app.shop', methods: ['GET', 'POST'])]
     public function shop (
         SessionInterface $session,
@@ -131,6 +132,12 @@ class ProductController extends AbstractController
         
         // get id of the category
         $category = $categoryRepository->findBy(['name' => $category]);
+        // if there is no category => give message erreur then redirect
+        if (empty($category)) {
+            $this->addFlash('error', 'Catégory pas trouvé');
+            return $this->redirectToRoute('app.home');
+        }
+        
         $categoryId = (int)$category[0]->getId();
 
         // get all products of the category choosen:
