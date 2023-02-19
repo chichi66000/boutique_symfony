@@ -61,7 +61,7 @@ class ProductController extends AbstractController
         // the recent products in trend
         // $newsProducts = $productRepository->findNews();
         // $newsProducts = $this->getProducts('new');
-        
+
         $results = $this->getProducts('new');
         $newsProducts = $results['products'];
         $newProductsColors = $results['newProductsColors'];
@@ -220,48 +220,57 @@ class ProductController extends AbstractController
         $nbProductInCart = $data['nbProductInCart'];
         $categories = $data['categories'];
         
-        // get id of the category
-        $category = $categoryRepository->findBy(['name' => $category]);
+        // dd($category);  // chemises
 
+        // get id of the category
+        $categoryEntity = $categoryRepository->findBy(['name' => $category]);
+        // dd($category);
         // if there is no category => give message erreur then redirect
-        if (empty($category)) {
+        if (empty($categoryEntity)) {
             $this->addFlash('error', 'Catégory pas trouvé');
             return $this->redirectToRoute('app.home');
         }
         // get Id of the category choosen
-        $categoryId = (int)$category[0]->getId();
+        $categoryId = (int)$categoryEntity[0]->getId();
 
         // by default, there is no sort, we get all products by id
         // $products = $productRepository->findByCategoryId($categoryId);
-        $products = $this->getProducts($categoryId);
+        // $products = $this->getProducts($categoryId);
+
+        $results = $this->getProducts($categoryId);
+        $products = $results['products'];
+        $productsColors = $results['newProductsColors'];
+        $productsSizes = $results['newProductsSizes'];
+        $srcPhoto = $results['srcPhoto1'];
 
         // if there is sort by price
         $orderPrice = $request->query->get('orderPrice');
         if ($orderPrice) {
             // get the product but sort by Price
             // $products = $productRepository->findByCategoryId($categoryId, ['price' => $orderPrice]);
-        $products = $this->getProducts($categoryId, $orderPrice );
-
+            $products = $this->getProducts($categoryId, $orderPrice )['products'];
+            
         } 
-
+        // dd($products);
+        
         // for each product, we will take the array of the colors, the sizes available
-        $pathToPhoto = 'photo/';
-        foreach($products as $key => $newProduct) {
-            // get all color of one newProduct with his reference
-            $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
-            // then add $colorTab into $newProductsColors with id of this product
-            $newProductsColors [$newProduct->getId()] = $colorsTab;
+        // $pathToPhoto = 'photo/';
+        // foreach($products as $key => $newProduct) {
+        //     // get all color of one newProduct with his reference
+        //     $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
+        //     // then add $colorTab into $newProductsColors with id of this product
+        //     $newProductsColors [$newProduct->getId()] = $colorsTab;
 
-            // get distinct sizes of a product
-            $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
-            $newProductsSizes [$newProduct->getId()] = $sizeTab;
+        //     // get distinct sizes of a product
+        //     $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
+        //     $newProductsSizes [$newProduct->getId()] = $sizeTab;
 
-            // path to product photo1
-            $category = $newProduct->getCategory()->getName();
-            $photo1 = $newProduct->getPhoto1();
-            $path =  $pathToPhoto . $category . '/' . $photo1;
-            $srcPhoto[$newProduct->getId()] = $path;
-        }
+        //     // path to product photo1
+        //     $category = $newProduct->getCategory()->getName();
+        //     $photo1 = $newProduct->getPhoto1();
+        //     $path =  $pathToPhoto . $category . '/' . $photo1;
+        //     $srcPhoto[$newProduct->getId()] = $path;
+        // }
 
         return $this->render('product/shop.html.twig', [
             'nbProductInCart' => $nbProductInCart,
@@ -269,9 +278,9 @@ class ProductController extends AbstractController
             'category' => $category,
             'products' => $products,
             'srcPhoto' => $srcPhoto,
-            'productsSizes' => $newProductsSizes,
-            'productsColors' => $newProductsColors,
-            'orderPrice' => $orderPrice
+            'productsSizes' => $productsSizes,
+            'productsColors' => $productsColors,
+            'orderPrice' => $orderPrice,
         ]);
     }
 
