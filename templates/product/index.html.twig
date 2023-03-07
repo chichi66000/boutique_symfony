@@ -24,7 +24,7 @@
             {# List of Product #}
             <li>
                 {# Image #}
-                <a href="#" title="Fiche produit">
+                <a href="{{path('app.product', {'id': newsproduct.id})}}" title="Fiche produit">
                     <img src="{{ asset(srcPhoto[newsproduct.id]) }}" alt="Photo produit">
                 </a>
 
