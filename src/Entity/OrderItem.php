@@ -64,4 +64,26 @@ class OrderItem
 
         return $this;
     }
+
+    /**
+     * Tests if the given item given corresponds to the same order item.
+     *
+     * @param OrderItem $item
+     *
+     * @return bool
+     */
+    public function equals (OrderItem $item) :bool
+    {
+        return $this->getProduct()->getId() === $item->getProduct()->getId();
+    }
+
+    /**
+     * Calculates the item total.
+     *
+     * @return float|int
+     */
+    public function getTotal () : float|int 
+    {
+        return $this->getProduct()->getPrice() * $this->getQuantity();
+    }
 }

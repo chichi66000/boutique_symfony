@@ -16,11 +16,11 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'orderRef', targetEntity: OrderItem::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'orderRef', targetEntity: OrderItem::class,  orphanRemoval: true )]
     private Collection $items;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?string $status = self::STATUS_CART;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -31,6 +31,13 @@ class Order
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    /**
+     * An order that is in progress, not placed yet.
+     *
+     * @var string
+     */
+    const STATUS_CART = 'cart';
 
     public function __construct()
     {
@@ -52,11 +59,21 @@ class Order
 
     public function addItem(OrderItem $item): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-            $item->setOrderRef($this);
+        foreach($this->getItems() as $existingItem) {
+            // The item already exists, update the quantity 
+            if ($existingItem->equals($item)) {
+                $existingItem->setQuantity($existingItem->getQuantity() + $item->getQuantity());
+                return $this;
+            }
         }
+        // if (!$this->items->contains($item)) {
+        //     $this->items->add($item);
+        //     $item->setOrderRef($this);
+        // }
 
+        // then add the item into collection of items
+        $this->items[]= $item;
+        $item->setOrderRef($this);
         return $this;
     }
 
@@ -70,6 +87,33 @@ class Order
         }
 
         return $this;
+    }
+
+    /**
+     * function to remove all items of order
+     *
+     * @return self
+     */
+    public function removeAllItems ():self
+    {
+        foreach($this->getItems() as $item) {
+            $this->removeItem($item);
+        }
+        return $this;
+    }
+
+    /**
+     * Calculates the order total.
+     *
+     * @return float
+     */
+    public function getTotalOrder () :float
+    {
+        $total = 0;
+        foreach($this->getItems() as $item) {
+            $total += $item->getTotal();
+        }
+        return $total;
     }
 
     public function getStatus(): ?string
