@@ -67,7 +67,7 @@
                             <div class="shopProductsGalleryPriceCart">
                                 <p>{{product.price}} €</p>
                                 {% if product.stock > 0 %}
-                                    <a href="" title="Ajouter au panier" class="shopProductsLinkGalleryCart" data-product="<?= $product['id'] ?>">
+                                    <a href="{{path('app.cart', 'productId': product.id)}}" title="Ajouter au panier" class="shopProductsLinkGalleryCart" data-product="<?= $product['id'] ?>">
                                         <img class="shopProductsGalleryCart" src=" {{ asset('img/cart48.svg') }}" alt="Ajouter au panier">
                                     </a>
                                     {% else %}
