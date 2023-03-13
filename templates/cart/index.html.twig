@@ -1,20 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="globalContainer">
+    <div class="globalWrapper">
+        <!--Cart with products -->
+        <h2>panier</h2>
+        <!-- Show total of command -->
+        <div class="cartInfos">
+            <h5>Quantité articles : {{nbProductInCart}} </h5>
+            <h5>Total articles : {{total}} € TTC</h5>
+            <a href="" title="Commander">Commander</a>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/boutiquesymfony/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/boutiquesymfony/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
+{{dump(dataCart)}}
+        <!-- Show detail of command -->
+        {% for item in dataCart %}
+            <div class="cartProductsWrapper">
+                <ul class="cartProductsGallery">
+                    <li>
+                        <a href="" title="Fiche produit">
+                            <img src="{{asset(item.srcPhoto)}}" alt="Photo produit">
+                        </a>
+                        <div class="cartProductsGalleryInfo">
+                            <p class="cartProductsGalleryInfoTitre"><strong>{{item.product.title}}</strong></p>
+
+                            {% if item.product.color.name == "blanc" %}
+                                <p>couleur : <span>{{item.product.color.name}} <span></p>
+                            {% else %}
+                                <p>couleur : <span style="color: {{item.product.color.hexa}}">{{item.product.color.name}} <span></p>
+                            {% endif %}
+                            
+                            
+                            <p>Taille : <span class="textUpper">{{item.product.size.name}}</span></p> 
+                            <form>
+                            <p>Quantité : 
+                                <input type="number" value="<?= $allProductsQuantity[$allProduct->getId()] ?>">
+                            </p>
+                                
+                            </form>
+                            <!-- 
+                            <p>Quantité : <span class="textUpper"><?= $allProductsQuantity[$allProduct->getId()] ?></span></p>
+                            -->
+                            <p>Prix unitaire : <span class="textUpper"><?= $allProductsPrice[$allProduct->getId()] ?> € TTC</span></p>
+                        </div>
+                        <div class="cartProductsGalleryPriceTotal">
+                            <h5>Total article : <?= $allProductsTotalPrice[$allProduct->getId()] ?> € TTC </h5>
+                            <!--
+                            <a href="?id=<?= $allProduct->getId()?>&delete=ok" title="Supprimer" class="cartProductsLinkDelete">
+                                <img class="cartProductsSvgDelete" src="/<?= $dirSite ?>/public/img/cancel48.svg" alt="Supprimer">
+                            </a>
+                            -->
+
+                            <!-- CHI BEGIN delete product from cart-->
+                            <form action="" method="post">
+                                
+                                <input type="hidden" name="deleteProd" value="<?= $allProduct->getId()?>">
+                                <button type="submit" name="delete">
+                                    <img class="cartProductsSvgDelete" src="/<?= $dirSite ?>/public/img/cancel48.svg" alt="Supprimer">
+                                </button>
+                                
+                            </form>
+                            
+                            <!-- CHI END -->
+
+                        </div>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
+
+        {% else %}
+
+        {% endfor %}
+        {# <?php if ($nbProductsInCart != 0) { ?>
+            
+            
+            
+            <h2>détails</h2>
+
+            <!-- Show details of command -->
+            
+        <?php }  #}
+        
+        {# else { ?>
+            <!-- Cart empty -->
+            <h2>Panier vide</h2>
+        <?php } ?> #}
+
+
+    </div>
 </div>
 {% endblock %}

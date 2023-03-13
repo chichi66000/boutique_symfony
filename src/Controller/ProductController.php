@@ -46,14 +46,14 @@ class ProductController extends AbstractController
     ): Response
     {
         // get data of cart (if exist)
-        $nbProductInCart = 0;
+        $nbProductInCart = $session->get('nbProductInCart');
         $cart = $session->get('cart');
 
-        if ($cart) {
-            foreach ($cart as $item) {
-                $nbProductInCart += $item['qty_prod'];
-            }
-        }
+        // if ($cart) {
+        //     foreach ($cart as $item) {
+        //         $nbProductInCart += $item['qty_prod'];
+        //     }
+        // }
         // get all categories
         $categories = $categoryRepository->findAll();
         // save in data then save into session. We can share this information for navbar & header in others Controllers

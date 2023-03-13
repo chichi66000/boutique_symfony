@@ -24,18 +24,26 @@ class CartController extends AbstractController
         // we add the information
         $dataCart = [];
         $total = 0;
-
-        // 
+        $nbProductInCart = $session->get('nbProductInCart');
+        $srcPhoto = "";
+        // find all the products in cart with id; then add into $dataCart
+        
         foreach ($cart as $id => $quantity) {
-            $product = $productRepository->find('id');
+            $product = $productRepository->find($id);
+            // dd($product);
+            $category = $product->getCategory()->getName();
             $dataCart[] = [
                 "product" => $product,
-                "quantity" => $quantity
+                "quantity" => $quantity,
+                "srcPhoto" => 'photo/' . $category . "/" . $product->getPhoto1()
             ];
-            $total = $product->getPrice() * $quantity;
+            $total += $product->getPrice() * $quantity;
+            
         }
         return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
+            "dataCart" => $dataCart,
+            "total" => $total,
+            "nbProductInCart" => $nbProductInCart,
         ]);
     }
 
@@ -52,9 +60,7 @@ class CartController extends AbstractController
             
         }
         else {
-            // dd($product);
             $id = $product->getId();
-            // dd($id);
             // We will take the cart in the session
             $cart = $session->get('cart',[]);
             $nbProductInCart = $session->get('nbProductInCart');
@@ -73,7 +79,7 @@ class CartController extends AbstractController
             // then add +1 into nbProductInCart
             $nbProductInCart++;
             $session->set("nbProductInCart", $nbProductInCart);
-            
+
             // stay in the same page;
             $referer = $request->headers->get('referer');
             return $this->redirect($referer);

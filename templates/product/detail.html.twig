@@ -57,7 +57,7 @@
                     <p>{{product.price}} €</p>
                     {# change image cart if product out of stock #}
                     {% if product.stock > 0 %}
-                        <a href="" title="Ajouter au panier">
+                        <a href="{{path('app.cart.add', {'id': product.id})}}" title="Ajouter au panier">
                             <img class="productInfoCart" src="{{asset('img/cart48.svg')}} " alt="Ajouter au panier">
                         </a>
                     {% else %}
