@@ -107,7 +107,7 @@ class Order
      *
      * @return float
      */
-    public function getTotalOrder () :float
+    public function getTotal () :float
     {
         $total = 0;
         foreach($this->getItems() as $item) {
