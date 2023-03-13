@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -41,7 +42,8 @@ class CartController extends AbstractController
     #[Route('/add/{id}', name: 'app.cart.add', methods: ['GET', 'POST'])]
     public function addCart(
         Product $product=null, 
-        SessionInterface $session
+        SessionInterface $session,
+        Request $request
         ): Response
     {
         // if there is no product => redirect to home
@@ -71,11 +73,10 @@ class CartController extends AbstractController
             // then add +1 into nbProductInCart
             $nbProductInCart++;
             $session->set("nbProductInCart", $nbProductInCart);
-            dd($session);
             
-        //     return $this->render('cart/index.html.twig', [
-        //         'controller_name' => 'CartController',
-        // ]);
+            // stay in the same page;
+            $referer = $request->headers->get('referer');
+            return $this->redirect($referer);
         }
         
     }
