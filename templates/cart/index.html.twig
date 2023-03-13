@@ -3,7 +3,10 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
-
+{# Header & navbar #}
+    {{ include('partial/header.html.twig')}}
+    {{ include("partial/message.html.twig")}}
+    
 <div class="globalContainer">
     <div class="globalWrapper">
         <!--Cart with products -->
@@ -15,7 +18,6 @@
             <a href="" title="Commander">Commander</a>
         </div>
 
-{{dump(dataCart)}}
         <!-- Show detail of command -->
         {% for item in dataCart %}
             <div class="cartProductsWrapper">
@@ -27,48 +29,36 @@
                         <div class="cartProductsGalleryInfo">
                             <p class="cartProductsGalleryInfoTitre"><strong>{{item.product.title}}</strong></p>
 
+                            <!-- show the color of product -->
                             {% if item.product.color.name == "blanc" %}
-                                <p>couleur : <span>{{item.product.color.name}} <span></p>
+                                <p>Couleur : <span>{{item.product.color.name}} <span></p>
                             {% else %}
-                                <p>couleur : <span style="color: {{item.product.color.hexa}}">{{item.product.color.name}} <span></p>
+                                <p>Couleur : <span style="color: {{item.product.color.hexa}}">{{item.product.color.name}} <span></p>
                             {% endif %}
                             
-                            
+                            <!-- show the size of product -->
                             <p>Taille : <span class="textUpper">{{item.product.size.name}}</span></p> 
-                            <form>
+                            
                             <p>Quantité : 
-                                <input type="number" value="<?= $allProductsQuantity[$allProduct->getId()] ?>">
-                            </p>
                                 
-                            </form>
-                            <!-- 
-                            <p>Quantité : <span class="textUpper"><?= $allProductsQuantity[$allProduct->getId()] ?></span></p>
-                            -->
-                            <p>Prix unitaire : <span class="textUpper"><?= $allProductsPrice[$allProduct->getId()] ?> € TTC</span></p>
+                                <span class="textUpper">{{item.quantity}} </span>
+                                <a href="{{path('app.cart.add', {'id': item.product.id})}}" class="btn_add_cart">+</a>
+                                <a href="" class="btn_remove_cart">-</a>
+                                <a href="path('app.cart.remove')" type="submit" name="delete" >
+                                <img class="cartProductsSvgDelete" src="{{asset('/img/trash.svg')}}" alt="Supprimer">
+                            </a>
+                            </p>
+
+                            <p>Prix unitaire : <span class="textUpper">{{item.product.price}} € TTC</span></p>
                         </div>
                         <div class="cartProductsGalleryPriceTotal">
-                            <h5>Total article : <?= $allProductsTotalPrice[$allProduct->getId()] ?> € TTC </h5>
-                            <!--
-                            <a href="?id=<?= $allProduct->getId()?>&delete=ok" title="Supprimer" class="cartProductsLinkDelete">
-                                <img class="cartProductsSvgDelete" src="/<?= $dirSite ?>/public/img/cancel48.svg" alt="Supprimer">
-                            </a>
-                            -->
-
-                            <!-- CHI BEGIN delete product from cart-->
-                            <form action="" method="post">
-                                
-                                <input type="hidden" name="deleteProd" value="<?= $allProduct->getId()?>">
-                                <button type="submit" name="delete">
-                                    <img class="cartProductsSvgDelete" src="/<?= $dirSite ?>/public/img/cancel48.svg" alt="Supprimer">
-                                </button>
-                                
-                            </form>
+                            <h5>Total article : {{item.product.price * item.quantity}} € TTC </h5>
+                           
                             
-                            <!-- CHI END -->
+                                
 
                         </div>
                     </li>
-                    <?php } ?>
                 </ul>
             </div>
 

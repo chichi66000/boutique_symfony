@@ -21,6 +21,7 @@ class CartController extends AbstractController
         ): Response
     {
         $cart = $session->get('cart', []);
+        $categories = $session->get('categories');
         // we add the information
         $dataCart = [];
         $total = 0;
@@ -44,6 +45,7 @@ class CartController extends AbstractController
             "dataCart" => $dataCart,
             "total" => $total,
             "nbProductInCart" => $nbProductInCart,
+            "categories" => $categories
         ]);
     }
 
