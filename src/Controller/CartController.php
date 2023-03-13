@@ -55,33 +55,41 @@ class CartController extends AbstractController
             // dd($id);
             // We will take the cart in the session
             $cart = $session->get('cart',[]);
+            $nbProductInCart = $session->get('nbProductInCart');
             
             // if there is he product in cart we will +1 into cart 
             if (!empty($cart[$id])) {
                 $cart[$id]++;
-                
             }
             else {
                 // the product isn't in cart, we will add this product
                 $cart[$id] = 1;
-                
             }
-            // dd($cart);
+            
             // then we will save he cart into session
             $session->set('cart', $cart);
+            // then add +1 into nbProductInCart
+            $nbProductInCart++;
+            $session->set("nbProductInCart", $nbProductInCart);
             dd($session);
-            return $this->render('cart/index.html.twig', [
-                'controller_name' => 'CartController',
-        ]);
+            
+        //     return $this->render('cart/index.html.twig', [
+        //         'controller_name' => 'CartController',
+        // ]);
         }
         
     }
 
+    /**
+     * Function to delete all items in cart
+     *
+     * @param SessionInterface $session
+     * @return void
+     */
     #[Route('/delete', name:"cart.delete")]
     public function deleteAll(SessionInterface $session)
     {
         $session->remove("cart");
-
         return $this->redirectToRoute("app.cart");
     }
 

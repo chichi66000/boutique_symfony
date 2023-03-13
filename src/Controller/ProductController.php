@@ -58,7 +58,9 @@ class ProductController extends AbstractController
         $categories = $categoryRepository->findAll();
         // save in data then save into session. We can share this information for navbar & header in others Controllers
         $data = ['categories' => $categories, 'nbProductInCart' => $nbProductInCart];
-        $session->set('shared_data', $data);
+        $session->set('categories', $categories);
+        $session->set('nbProductInCart', $nbProductInCart);
+        // $session->set('shared_data', $data);
 
         // the recent products in trend
         // $newsProducts = $productRepository->findNews();
@@ -207,9 +209,9 @@ class ProductController extends AbstractController
     ) :Response 
     {
         // get data from session for header & navbar
-        $data = $session->get('shared_data');
-        $nbProductInCart = $data['nbProductInCart'];
-        $categories = $data['categories'];
+        // $data = $session->get('shared_data');
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
         
         // get id of the category
         $categoryEntity = $categoryRepository->findBy(['name' => $category]);
@@ -279,10 +281,11 @@ class ProductController extends AbstractController
     ) : Response 
     {
         // get data from session for header & navbar
-        $data = $session->get('shared_data');
-        $nbProductInCart = $data['nbProductInCart'];
-        $categories = $data['categories'];
-
+        // $data = $session->get('shared_data');
+        // $nbProductInCart = $data['nbProductInCart'];
+        // $categories = $data['categories'];
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
         // get all color of one newProduct with his reference
         $colorsTab = $productRepository->findDistinctColorsByReference($product->getReference());
         

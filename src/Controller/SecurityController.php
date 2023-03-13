@@ -30,9 +30,12 @@ class SecurityController extends AbstractController
     {
         // get data from session into navbar
 
-        $data = $session->get('shared_data');
-        $nbProductInCart = $data['nbProductInCart'];
-        $categories = $data['categories'];
+        // $data = $session->get('shared_data');
+        // $nbProductInCart = $data['nbProductInCart'];
+        // $categories = $data['categories'];
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+        
         $user = new User();
         // give the role for user
         $user->setRoles(['ROLE_USER']);

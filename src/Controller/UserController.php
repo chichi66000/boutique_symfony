@@ -30,10 +30,12 @@ class UserController extends AbstractController
         PaginatorInterface $paginator
         ): Response
     {
-        $data = $session->get('shared_data');
-        $nbProductInCart = $data['nbProductInCart'];
-        $categories = $data['categories'];
-
+        // $data = $session->get('shared_data');
+        // $nbProductInCart = $data['nbProductInCart'];
+        // $categories = $data['categories'];
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+        
         // if user connected is not admin, redirect to home
         if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
