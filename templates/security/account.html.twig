@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+{# Header & navbar #}
+    {{ include('partial/header.html.twig')}}
+    {{ include("partial/message.html.twig")}}
+
+    <div class="globalContainer">
+    <div class="globalWrapper">
+        <div class="accountContainer">
+            <div class="accountMenu">
+            <a href="" title="Gérer mon profil">Gérer mon profil</a>
+            <a href="{{path('app.logout')}}" title="Déconnexion">Se déconnecter</a>
+
+            {% if userRole is same as "ROLE_ADMIN" %}
+                <a href="" title="Gérer les clients">Gérer les clients</a>
+                <a href="" title="Gérer les produits">Gérer les produits</a>
+                <a href="" title="Gérer les commandes">Gérer les commandes</a>
+            {% endif %}
+            </div>
+        </div>
+    
+    </div>
+</div>
+{% endblock %}

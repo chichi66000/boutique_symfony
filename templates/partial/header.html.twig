@@ -1,18 +1,21 @@
 
 <header>
     <h1>
-        <a href="index.php" title="Accueil M.BOND">
+        <a href="{{path('app.home')}}" title="Accueil M.BOND">
             <img class="headerImgLogo" src="{{asset('img/logo.png')}}" alt="logo">
         </a>
     </h1>
-    <form action="/<?= $dirSite ?>/src/controllers/shop.php" method="POST">
+
+    <!-- search product -->
+    {# <form action="" method="POST">
         <input type="search" name="searchShop" id="searchShop" placeholder="Rechercher">
         <button type="submit" id="submitSearchShop" name="submitSearchShop">
             <img class="headerSvgSearch" src="{{ asset('img/search48.svg')}}" alt="Rechercher">
         </button>
-    </form>
+    </form> #}
+
     <div class="headerIconsWrapper">
-        <a href="/<?= $dirSite ?>/src/controllers/connexion.php?cart=yes" title="Mon panier" id="headerLinkCart">
+        <a href="{{path('app.cart')}}" title="Mon panier" id="headerLinkCart">
             <img class="headerSvgCart" src="{{ asset('img/cart48.svg') }}" alt="Mon panier">
             <p id="headerNbProductOfCart">{{nbProductInCart}}</p>
         </a>

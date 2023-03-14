@@ -79,14 +79,20 @@ class SecurityController extends AbstractController
     
     // Login
     #[Route(path: '/login', name: 'app.login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, SessionInterface $session): Response
     {
+        // if user is already login, show the actions he can do 
         if ($this->getUser()) {
-            $this->addFlash(
-                'success',
-                'Succès, vous êtes connecté!'
-            );
-            return $this->redirectToRoute('app.home');
+            $userRole = $this->getUser()->getRoles()[0];
+            // dd($userRole);
+            $categories = $session->get('categories');
+            $nbProductInCart = $session->get('nbProductInCart');
+            return $this->render('security/account.html.twig', compact("categories", "nbProductInCart", "userRole"));
+            // $this->addFlash(
+            //     'success',
+            //     'Succès, vous êtes connecté!'
+            // );
+            // return $this->redirectToRoute('app.');
         }
 
         // get the login error if there is one
