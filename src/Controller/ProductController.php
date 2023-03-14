@@ -45,59 +45,25 @@ class ProductController extends AbstractController
         SessionInterface $session
     ): Response
     {
-        // get data of cart (if exist)
-        $nbProductInCart = $session->get('nbProductInCart');
-        $cart = $session->get('cart');
-
-        // if ($cart) {
-        //     foreach ($cart as $item) {
-        //         $nbProductInCart += $item['qty_prod'];
-        //     }
-        // }
+        // get nombre product in cart if exist
+        $nbProductInCart = $session->get('nbProductInCart', );
+        if($nbProductInCart == null) {
+            $nbProductInCart = 0;
+        }
+        
         // get all categories
         $categories = $categoryRepository->findAll();
+
         // save in data then save into session. We can share this information for navbar & header in others Controllers
-        $data = ['categories' => $categories, 'nbProductInCart' => $nbProductInCart];
         $session->set('categories', $categories);
         $session->set('nbProductInCart', $nbProductInCart);
-        // $session->set('shared_data', $data);
 
         // the recent products in trend
-        // $newsProducts = $productRepository->findNews();
-        // $newsProducts = $this->getProducts('new');
-
         $results = $this->getProducts('new');
         $newsProducts = $results['products'];
         $newProductsColors = $results['newProductsColors'];
         $newProductsSizes = $results['newProductsSizes'];
         $srcPhoto = $results['srcPhoto1'];
-        // dd($newProducts);
-
-        // // add some empty array
-        // $pathToPhoto = 'photo/';
-        // $newProductsPathToPhoto = [];
-        // $newProductsColors = [];
-        // $newProductsSizes = [];
-        // $srcPhoto = [];
-       
-        // // for each newsProduct, we will take the array of the colors, the sizes available
-        // foreach($newsProducts as $key => $newProduct) {
-        //     // get all color of one newProduct with his reference
-        //     $colorsTab = $productRepository->findDistinctColorsByReference($newProduct->getReference());
-        //     // then add $colorTab into $newProductsColors with id of this product
-        //     $newProductsColors [$newProduct->getId()] = $colorsTab;
-
-        //     // get distinct sizes of a product
-        //     $sizeTab = $productRepository->findDistinctSizesByReference($newProduct -> getReference());
-        //     $newProductsSizes [$newProduct->getId()] = $sizeTab;
-
-        //     // path to product photo1
-        //     $category = $newProduct->getCategory()->getName();
-        //     $photo1 = $newProduct->getPhoto1();
-        //     $path =  $pathToPhoto . $category . '/' . $photo1;
-        //     $srcPhoto[$newProduct->getId()] = $path;
-        // }
-        
 
         return $this->render('product/index.html.twig', [
             'nbProductInCart' => $nbProductInCart,
@@ -109,6 +75,13 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * function to get the products with some criteria : all, news, categories
+     *
+     * @param [type] $criteria
+     * @param [type] $orderBy
+     * @return void
+     */
     public function getProducts ($criteria, $orderBy=null) {
         $productRepository = $this->entityManager->getRepository(Product::class);
         // get list of products with some criteria
@@ -118,9 +91,6 @@ class ProductController extends AbstractController
         else if ($criteria == 'new') {
             $products = $productRepository->findNews();
         } 
-        // else if ($criteria == 'id' && $id) {
-        //     $products = $productRepository->find($id);
-        // } 
         else {
             $products = $productRepository->findBy(['category' => $criteria]);
         }
@@ -144,6 +114,7 @@ class ProductController extends AbstractController
         $srcPhoto2 = [];
         $srcPhoto3 = [];
         $srcPhoto4 = [];
+
         // for each newsProduct, we will take the array of the colors, the sizes available
         foreach($products as $key => $newProduct) {
             // get all color of one newProduct with his reference
@@ -187,9 +158,6 @@ class ProductController extends AbstractController
 
 
     /**
-     * 
-     */
-    /**
      * function to get all the products of 1 category
      *  order by price if necessary
      * @param SessionInterface $session
@@ -209,7 +177,6 @@ class ProductController extends AbstractController
     ) :Response 
     {
         // get data from session for header & navbar
-        // $data = $session->get('shared_data');
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
         
@@ -256,8 +223,6 @@ class ProductController extends AbstractController
         ]);
     }
 
-
-
     
     /**
      * function to show detail information of 1 product with his ID
@@ -281,9 +246,6 @@ class ProductController extends AbstractController
     ) : Response 
     {
         // get data from session for header & navbar
-        // $data = $session->get('shared_data');
-        // $nbProductInCart = $data['nbProductInCart'];
-        // $categories = $data['categories'];
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
         // get all color of one newProduct with his reference
