@@ -89,13 +89,56 @@ class CartController extends AbstractController
         
     }
 
+    #[Route('/remove/{id}', name: 'app.cart.remove', methods: ['GET', 'POST'])]
+    public function removeCart(
+        Product $product=null, 
+        SessionInterface $session,
+        Request $request
+        ): Response
+    {
+        // if there is no product => redirect to home
+        if ($product === null) {
+            return $this->redirectToRoute('app.home');
+            
+        }
+        else {
+            $id = $product->getId();
+            // We will take the cart in the session
+            $cart = $session->get('cart',[]);
+            $nbProductInCart = $session->get('nbProductInCart');
+            
+            // if there is the product in cart we will -1 into cart 
+            if (!empty($cart[$id])) {
+                // if product is more than 1
+                if ($cart[$id] > 1) {
+                    $cart[$id]--;
+                }
+                else {
+                    // we will delete this product
+                    unset($cart[$id]);
+                }
+            }
+            
+            // then we will save he cart into session
+            $session->set('cart', $cart);
+            // then add +1 into nbProductInCart
+            $nbProductInCart--;
+            $session->set("nbProductInCart", $nbProductInCart);
+
+            // stay in the same page;
+            $referer = $request->headers->get('referer');
+            return $this->redirect($referer);
+        }
+        
+    }
+
     /**
      * Function to delete all items in cart
      *
      * @param SessionInterface $session
      * @return void
      */
-    #[Route('/delete', name:"cart.delete")]
+    #[Route('/delete', name:"app.cart.delete")]
     public function deleteAll(SessionInterface $session)
     {
         $session->remove("cart");

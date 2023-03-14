@@ -99,3 +99,10 @@
 .cartProductsWrapper {
     width: 20em;
 }
+.btn_remove_cart, .btn_add_cart {
+    padding: 0 0.5em;
+    background: #e8ebfa;
+    font-size: 1.5em;
+    margin: 0 0.5em;
+    border-radius: 5px;
+}

@@ -46,10 +46,10 @@
                                 
                                 <span class="textUpper">{{item.quantity}} </span>
                                 <a href="{{path('app.cart.add', {'id': item.product.id})}}" class="btn_add_cart">+</a>
-                                <a href="" class="btn_remove_cart">-</a>
-                                <a href="path('app.cart.remove')" type="submit" name="delete" >
-                                <img class="cartProductsSvgDelete" src="{{asset('/img/trash.svg')}}" alt="Supprimer">
-                            </a>
+                                <a href="{{path('app.cart.remove', {'id': item.product.id})}}" class="btn_remove_cart">-</a>
+                                {# <a href="path('app.cart.delete')" class="btn_delete_cart" >
+                                    <img class="cartProductsSvgDelete" src="{{asset('/img/trash.svg')}}" alt="Supprimer">
+                                </a> #}
                             </p>
 
                             <p>Prix unitaire : <span class="textUpper">{{item.product.price}} € TTC</span></p>
