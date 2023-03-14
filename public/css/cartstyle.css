@@ -91,3 +91,11 @@
     height: 24px;
     filter: invert(83%) sepia(5%) saturate(1590%) hue-rotate(184deg) brightness(85%) contrast(88%);
 }
+.wrapper_cart {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.cartProductsWrapper {
+    width: 20em;
+}

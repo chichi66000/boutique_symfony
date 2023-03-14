@@ -10,7 +10,7 @@
 <div class="globalContainer">
     <div class="globalWrapper">
         <!--Cart with products -->
-        <h2>panier</h2>
+        <h2>Panier</h2>
         <!-- Show total of command -->
         <div class="cartInfos">
             <h5>Quantité articles : {{nbProductInCart}} </h5>
@@ -18,6 +18,9 @@
             <a href="" title="Commander">Commander</a>
         </div>
 
+        <div class="wrapper_cart">
+        
+        
         <!-- Show detail of command -->
         {% for item in dataCart %}
             <div class="cartProductsWrapper">
@@ -54,33 +57,15 @@
                         <div class="cartProductsGalleryPriceTotal">
                             <h5>Total article : {{item.product.price * item.quantity}} € TTC </h5>
                            
-                            
-                                
-
                         </div>
                     </li>
                 </ul>
             </div>
 
         {% else %}
-
+            <h2>Votre panier est vide</h2>
         {% endfor %}
-        {# <?php if ($nbProductsInCart != 0) { ?>
-            
-            
-            
-            <h2>détails</h2>
-
-            <!-- Show details of command -->
-            
-        <?php }  #}
-        
-        {# else { ?>
-            <!-- Cart empty -->
-            <h2>Panier vide</h2>
-        <?php } ?> #}
-
-
+        </div>
     </div>
 </div>
 {% endblock %}
