@@ -14,6 +14,13 @@ use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 
 class CartController extends AbstractController
 {
+    /**
+     * function to show the cart
+     *
+     * @param SessionInterface $session
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/cart', name: 'app.cart', methods: ['GET', 'POST'])]
     public function index(
         SessionInterface $session, 
@@ -49,6 +56,15 @@ class CartController extends AbstractController
         ]);
     }
 
+    
+    /**
+     * function add product to cart with id
+     *
+     * @param Product|null $product
+     * @param SessionInterface $session
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/add/{id}', name: 'app.cart.add', methods: ['GET', 'POST'])]
     public function addCart(
         Product $product=null, 
@@ -89,6 +105,16 @@ class CartController extends AbstractController
         
     }
 
+    
+    
+    /**
+     * function to remove product from cart with id
+     *
+     * @param Product|null $product
+     * @param SessionInterface $session
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/remove/{id}', name: 'app.cart.remove', methods: ['GET', 'POST'])]
     public function removeCart(
         Product $product=null, 
@@ -118,7 +144,6 @@ class CartController extends AbstractController
                     unset($cart[$id]);
                 }
             }
-            
             // then we will save he cart into session
             $session->set('cart', $cart);
             // then add +1 into nbProductInCart
