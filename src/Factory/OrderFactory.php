@@ -38,6 +38,7 @@ class OrderFactory {
         $item = new OrderItem();
         $item->setProduct($product);
         $item->setQuantity(1);
+        $item->setOrderRef(1);
         return $item;
     }
 }

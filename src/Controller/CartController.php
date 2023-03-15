@@ -2,8 +2,15 @@
 
 namespace App\Controller;
 
+// use App\Entity\User;
+// use App\Entity\Order;
+
+use App\Entity\Order;
 use App\Entity\Product;
+// use Doctrine\ORM\EntityManager;
+use App\Factory\OrderFactory;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -157,17 +164,72 @@ class CartController extends AbstractController
         
     }
 
+    #[Route('/order', name: 'app.cart.order', methods:['GET', 'POST'])]
+    public function command (
+        SessionInterface $session, 
+        Request $request,
+        EntityManagerInterface $manager,
+        ProductRepository $productRepository,
+        Product $products = null) :Response
+    {
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+
+        // $products = [];
+        $cart = $session->get('cart');
+
+        foreach ($cart as $id => $quantity) {
+            $product = $productRepository->find($id);
+            $products[] = $product;
+        }
+
+        // if there is no products => no order => return to cart
+        if (empty($products)) {
+            return $this->redirectToRoute('app.cart');
+        }
+        else {
+            // if user is connected
+            if ($this->getUser()) {
+                // dd($products);
+                $user = $this->getUser();
+                // $userId = $user->getId();
+                // then save products & user into database order & order_item
+                $order = new OrderFactory();
+                $carts = $order->create($user);
+                $manager->persist($carts);
+
+                foreach ($products as $product) {
+                    $orderItem = $order->createItem($product);
+                    $manager->persist($orderItem);
+                }
+                
+                // $cart = new Order();
+                // $cart
+                // dd($manager->persist($cart));
+
+                $manager->flush();
+            }
+            // user not conneced => ask for login
+            else {
+                return $this->redirectToRoute("app.login");
+            }
+
+            return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories'));
+        }
+
+    }
+
     /**
      * Function to delete all items in cart
      *
      * @param SessionInterface $session
      * @return void
      */
-    #[Route('/delete', name:"app.cart.delete")]
-    public function deleteAll(SessionInterface $session)
-    {
-        $session->remove("cart");
-        return $this->redirectToRoute("app.cart");
-    }
+    // #[Route('/delete', name:"app.cart.delete")]
+    // public function deleteAll(SessionInterface $session)
+    // {
+    //     $session->remove("cart");
+    //     return $this->redirectToRoute("app.cart");
+    // }
 
 }
