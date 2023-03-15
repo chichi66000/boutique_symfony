@@ -24,6 +24,12 @@ class OrderItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $orderRef = null;
 
+    #[ORM\Column]
+    private ?float $price = null;
+
+    #[ORM\Column]
+    private ?\DateTime $createdAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,5 +91,29 @@ class OrderItem
     public function getTotal () : float|int 
     {
         return $this->getProduct()->getPrice() * $this->getQuantity();
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }

@@ -177,7 +177,6 @@ class CartController extends AbstractController
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
 
-        // $products = [];
         $cart = $session->get('cart');
         // if there is no products => no order => return to cart
         if (empty($cart)) {
@@ -195,8 +194,8 @@ class CartController extends AbstractController
                 $manager->flush();
                 $order_ref_id = $order->getId();
 
-                // then save the products into database orderitem
-                
+                // then save the products into database orderItem
+            
                 foreach ($cart as $id => $quantity) {
                     $orderItem = new OrderItem();
                     
