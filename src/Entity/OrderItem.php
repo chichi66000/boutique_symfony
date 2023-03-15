@@ -30,6 +30,12 @@ class OrderItem
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
 
+    public function __construct() 
+    {
+        $date = new \DateTime();
+        $this->setCreatedAt($date);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

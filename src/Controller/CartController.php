@@ -174,6 +174,7 @@ class CartController extends AbstractController
         // Product $products = null
         ) :Response
     {
+        // for navbar
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
 
@@ -185,14 +186,13 @@ class CartController extends AbstractController
         else {
             // if user is connected
             if ($this->getUser()) {
-                // dd($products);
                 $user = $this->getUser();
                 
                 // then save products & user into database order
                 $order = new Order($user);
                 $manager->persist($order);
                 $manager->flush();
-                $order_ref_id = $order->getId();
+                // $order_ref_id = $order->getId();
 
                 // then save the products into database orderItem
             
@@ -202,8 +202,9 @@ class CartController extends AbstractController
                     $product = $productRepository->find($id);
                     $orderItem->setProduct($product);
                     $orderItem->setQuantity($quantity);
+                    $orderItem->setPrice($product->getPrice());
                     $orderItem->setOrderRef($order);
-                    // $order->addItem($orderItem);
+                    
                     $manager->persist($orderItem);
                     $manager->flush();
                 }
