@@ -39,9 +39,13 @@ class Order
      */
     const STATUS_CART = 'cart';
 
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->items = new ArrayCollection();
+        $this->setUser($user);
+        $date = new \DateTimeImmutable();
+        $this->setCreatedAt($date);
+        $this->setUpdatedAt($date);
     }
 
     public function getId(): ?int

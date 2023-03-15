@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\Product;
 // use Doctrine\ORM\EntityManager;
+use App\Entity\OrderItem;
 use App\Factory\OrderFactory;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -170,21 +171,16 @@ class CartController extends AbstractController
         Request $request,
         EntityManagerInterface $manager,
         ProductRepository $productRepository,
-        Product $products = null) :Response
+        // Product $products = null
+        ) :Response
     {
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
 
         // $products = [];
         $cart = $session->get('cart');
-
-        foreach ($cart as $id => $quantity) {
-            $product = $productRepository->find($id);
-            $products[] = $product;
-        }
-
         // if there is no products => no order => return to cart
-        if (empty($products)) {
+        if (empty($cart)) {
             return $this->redirectToRoute('app.cart');
         }
         else {
@@ -192,30 +188,52 @@ class CartController extends AbstractController
             if ($this->getUser()) {
                 // dd($products);
                 $user = $this->getUser();
-                // $userId = $user->getId();
-                // then save products & user into database order & order_item
-                $order = new OrderFactory();
-                $carts = $order->create($user);
-                $manager->persist($carts);
+                
+                // then save products & user into database order
+                $order = new Order($user);
+                $manager->persist($order);
+                $manager->flush();
+                $order_ref_id = $order->getId();
 
-                foreach ($products as $product) {
-                    $orderItem = $order->createItem($product);
+                // then save the products into database orderitem
+                
+                foreach ($cart as $id => $quantity) {
+                    $orderItem = new OrderItem();
+                    
+                    $product = $productRepository->find($id);
+                    $orderItem->setProduct($product);
+                    $orderItem->setQuantity($quantity);
+                    $orderItem->setOrderRef($order);
+                    // $order->addItem($orderItem);
                     $manager->persist($orderItem);
+                    $manager->flush();
                 }
+                
+                // reset cart & nbProductInCart
+                $session->remove('cart');
+                $session->set('nbProductInCart', 0);
+
+                return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories'));
+                // $userId = $user->getId();
+                // $order = new OrderFactory();
+                // $carts = $order->create($user);
+                // $manager->persist($carts);
+
+                
                 
                 // $cart = new Order();
                 // $cart
                 // dd($manager->persist($cart));
 
-                $manager->flush();
+                // $manager->flush();
             }
             // user not conneced => ask for login
             else {
                 return $this->redirectToRoute("app.login");
             }
 
-            return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories'));
         }
+        
 
     }
 
@@ -225,11 +243,12 @@ class CartController extends AbstractController
      * @param SessionInterface $session
      * @return void
      */
-    // #[Route('/delete', name:"app.cart.delete")]
-    // public function deleteAll(SessionInterface $session)
-    // {
-    //     $session->remove("cart");
-    //     return $this->redirectToRoute("app.cart");
-    // }
+    #[Route('/delete', name:"app.cart.delete")]
+    public function deleteAll(SessionInterface $session)
+    {
+        $session->remove("cart");
+        $session->set('nbProductInCart', 0);
+        return $this->redirectToRoute("app.cart");
+    }
 
 }
