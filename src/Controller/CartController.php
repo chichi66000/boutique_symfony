@@ -41,7 +41,7 @@ class CartController extends AbstractController
         $dataCart = [];
         $total = 0;
         $nbProductInCart = $session->get('nbProductInCart');
-        $srcPhoto = "";
+        // $srcPhoto = "";
         // find all the products in cart with id; then add into $dataCart
         
         foreach ($cart as $id => $quantity) {
@@ -195,25 +195,31 @@ class CartController extends AbstractController
                 // $order_ref_id = $order->getId();
 
                 // then save the products into database orderItem
-            
+                $dataCart = [];
+                $total = 0;
                 foreach ($cart as $id => $quantity) {
-                    $orderItem = new OrderItem();
-                    
                     $product = $productRepository->find($id);
+                    
+                    $orderItem = new OrderItem();
                     $orderItem->setProduct($product);
                     $orderItem->setQuantity($quantity);
                     $orderItem->setPrice($product->getPrice());
                     $orderItem->setOrderRef($order);
-                    
+                    // save to database
                     $manager->persist($orderItem);
                     $manager->flush();
+                    $dataCart[] = [
+                        "product" => $product,
+                        "quantity" => $quantity
+                    ];
+                    $total += $product->getPrice() * $quantity;
                 }
                 
                 // reset cart & nbProductInCart
-                $session->remove('cart');
-                $session->set('nbProductInCart', 0);
+                // $session->remove('cart');
+                // $session->set('nbProductInCart', 0);
 
-                return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories'));
+                return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories', 'dataCart', 'total'));
                 // $userId = $user->getId();
                 // $order = new OrderFactory();
                 // $carts = $order->create($user);

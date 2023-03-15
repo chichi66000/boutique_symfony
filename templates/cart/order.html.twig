@@ -6,6 +6,29 @@
 {# Header & navbar #}
     {{ include('partial/header.html.twig')}}
     {{ include("partial/message.html.twig")}}
-    <h1>Récapitulatif de votre commande</h1>
+    <p class="text-danger px-2 mx-auto">Merci pour votre achat</p>
+    <h1 class="text-white bg-black text-center">Récapitulatif de votre commande</h1>
     
+    <table class="table-striped table-responsive table-bordered mx-auto my-2">
+        <thead>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Total article</th>
+        </thead>
+        <tbody>
+            {% for item in dataCart %}
+                <tr>
+                    <td>{{item.product.title}} </td>
+                    <td>{{item.quantity}} </td>
+                    <td>{{item.product.price}}</td>
+                    <td> {{item.quantity * item.product.price}} €</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class=" fs-3 fw-bold">Total commande</td>
+                <td>{{total}} €</td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}
