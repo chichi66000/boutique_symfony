@@ -9,6 +9,8 @@ use App\Repository\UserRepository;
 use App\Controller\HeaderController;
 use App\Form\ModifyPasswordType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,7 +76,8 @@ class UserController extends AbstractController
     #[Route('/profil',  name:'app.profil', methods: ['GET', 'POST'])]
     public function profilUser (
         SessionInterface $session,
-        Request $request
+        Request $request,
+        EntityManagerInterface $manager
     ) :Response 
     {
         $nbProductInCart = $session->get('nbProductInCart');
@@ -87,8 +90,25 @@ class UserController extends AbstractController
         else {
             $user = $this->getUser();
             $form = $this->createForm(ProfilUserType::class, $user);
-            $formPaswword = $this->createForm(ModifyPasswordType::class);
+            $form->handleRequest($request);
+            // form valid
+            if ($form->isSubmitted() && $form->isValid() ) {
+                dd($form->getData());
+            }
+            
         }
-        return $this->render('user/profil.html.twig', compact('nbProductInCart', 'categories', 'form', 'formPaswword'));
+        return $this->render('user/profil.html.twig', compact('nbProductInCart', 'categories', 'form'));
+    }
+
+    #[Route('/modify_pass', name:'app.password', methods: ['GET', 'POST'])]
+    public function modifyPassword (
+        SessionInterface $session
+    ) : Response 
+    {
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+        $formPaswword = $this->createForm(ModifyPasswordType::class);
+
+        return $this->render('user/password.html.twig', compact('nbProductInCart', 'categories', 'formPaswword'));
     }
 }

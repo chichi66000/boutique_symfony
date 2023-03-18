@@ -30,65 +30,65 @@ class ProfilUserType extends AbstractType
         ])
         ->add('pseudo',TextType::class, [
             'label' => 'Pseudo',
-            'constraints' => [
-                new Assert\Length(max: 50)
-            ],
+            // 'constraints' => [
+            //     new Assert\Length(max: 50)
+            // ],
             'required' => false]
         )
         ->add('tel', TextType::class, [
             'label' => 'Téléphone',
-            'constraints' => [
-                new Assert\Length(max: 15),
-                new Assert\NotBlank(),
-                new Assert\Regex("/^[0-9]+$/", "Ne contient que les chiffres")
-            ],
+            // 'constraints' => [
+            //     new Assert\Length(max: 15),
+            //     new Assert\NotBlank(),
+            //     new Assert\Regex("/^[0-9]+$/", "Ne contient que les chiffres")
+            // ],
         ])
         ->add('first_name', TextType::class, [
             'label' => 'Nom',
-            'constraints' => [
-                new Assert\Length(max: 50),
-                new Assert\NotBlank(),
-                new Assert\Type("string"),
-                new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
-            ],
+            // 'constraints' => [
+            //     new Assert\Length(max: 50),
+            //     new Assert\NotBlank(),
+            //     new Assert\Type("string"),
+            //     new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
+            // ],
             ])
             ->add('last_name', TextType::class, [
                 'label' => 'Prénom',
-                'constraints' => [
-                    new Assert\Length(max: 50),
-                    new Assert\NotBlank(),
-                    new Assert\Type("string"),
-                    new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
-                ],
+                // 'constraints' => [
+                //     new Assert\Length(max: 50),
+                //     new Assert\NotBlank(),
+                //     new Assert\Type("string"),
+                //     new Assert\Regex("/^[a-zA-Z]+$/", "Ne contient que les lettres")
+                // ],
             ])
             ->add('email',  EmailType::class, [
-                'constraints' => [
-                    new Assert\Email(),
-                    new Assert\NotNull()
-                    ]
+                // 'constraints' => [
+                //     new Assert\Email(),
+                //     new Assert\NotNull()
+                //     ]
             ])
             
             ->add('pc', TextType::class, [
                 'label' => 'Code postale',
-                'constraints' => [
-                    new Assert\Length(max: 20),
-                    new Assert\NotBlank()
-                ],
+                // 'constraints' => [
+                //     new Assert\Length(max: 20),
+                //     new Assert\NotBlank()
+                // ],
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse',
-                'constraints' => [
-                    new Assert\Length(max: 150),
-                    new Assert\NotBlank()
-                ],
+                // 'constraints' => [
+                //     new Assert\Length(max: 150),
+                //     new Assert\NotBlank()
+                // ],
             ])
             
             ->add('city', TextType::class, [
                 'label' => 'Ville',
-                'constraints' => [
-                    new Assert\Length(max: 50),
-                    new Assert\NotBlank()
-                ],
+                // 'constraints' => [
+                //     new Assert\Length(max: 50),
+                //     new Assert\NotBlank()
+                // ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier Profil',

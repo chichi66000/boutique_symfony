@@ -17,181 +17,79 @@
         <div class="form-inscription" >
             {{ form_start(form) }}
                 <div class="saisir">
-                    {{ form_row(form.civilite) }}
+                    {{ form_label(form.civilite)}}
+                    {{ form_widget(form.civilite) }}
                 </div>
                 <div class="champs">
                     <div class="saisir">
-                        {{ form_row(form.pseudo) }}
+                        {{form_label(form.pseudo)}}
+                        {{ form_widget(form.pseudo) }}
+                        <div class="erreur">
+                            {{ form_errors(form.pseudo) }}
+                        </div>
                    </div>
                    <div class="saisir">
-                        {{ form_row(form.tel) }}
+                        {{form_label(form.tel)}}
+                        {{ form_widget(form.tel) }}
+                        <div class="erreur">
+                            {{ form_errors(form.tel) }}
+                        </div>
                     </div>
                 </div>
                 
                 <div class="champs">
                     <div class="saisir">
-                        {{ form_row(form.first_name) }}
+                        {{form_label(form.first_name)}}
+                        {{ form_widget(form.first_name) }}
+                        <div class="erreur">
+                            {{ form_errors(form.first_name) }}
+                        </div>
                     </div>
                     <div class="saisir">
-                        {{ form_row(form.last_name) }}
+                        {{form_label(form.last_name)}}
+                        {{ form_widget(form.last_name) }}
+                        <div class="erreur">
+                            {{ form_errors(form.last_name) }}
+                        </div>
                     </div>
                 </div>
                 <div class="champs">
                     <div class="saisir">
-                        {{ form_row(form.email) }}
+                        {{form_label(form.email)}}
+                        {{ form_widget(form.email) }}
+                        <div class="erreur">
+                            {{ form_errors(form.email) }}
+                        </div>
                     </div>
                     <div class="saisir">
-                        {{ form_row(form.address) }}
+                        {{form_label(form.address)}}
+                        {{ form_widget(form.address) }}
+                        <div class="erreur">
+                            {{ form_errors(form.address) }}
+                        </div>
                     </div>
                 </div>
                 <div class="champs">
                     <div class="saisir">
-                        {{ form_row(form.pc) }}
+                        {{form_label(form.pc)}}
+                        {{ form_widget(form.pc) }}
+                        <div class="erreur">
+                            {{ form_errors(form.pc) }}
+                        </div>
                     </div>
                     <div class="saisir">
-                        {{ form_row(form.city) }}
+                        {{form_label(form.city)}}
+                        {{ form_widget(form.city) }}
+                        <div class="erreur">
+                            {{ form_errors(form.city) }}
+                        </div>
                     </div>
                 </div>
                 <div >
-                    {{ form_end(form, {'attr': {'id': 'inscription'}} )}}
+                    {{ form_end(form)}}
                 </div>
         </div>
 
-        <!--Message error ou success -->
-        {# <div class="message">
-            <?php if($msgPass != "") : ?>
-                <p><?= $msgPass?></p>
-            <?php endif; ?>
-
-            <?php if($msg != "") : ?>
-                <p>
-                    <?= $msg?>
-                    <button><a href="/<?= $dirSite ?>/index.php" >Revenir à l'accueil</a></button>
-                </p>
-            <?php endif; ?>
-        </div>
         
-        <form method="post" action="#" class="form-inscription" name="modifProfil">
-            
-            <!-- Civile -->
-            <div class="saisir">
-                <label for="civile">Civile</label>
-                <div>
-                    <input type="radio" id="sexe" name="civilite" value="Madame" <?php if($user['civilite'] == 'Madame') echo 'checked' ?> >
-                    <label for="sexe">Madame</label>
-
-                    <input type="radio" id="sexe" name="civilite" value="Monsieur" <?php if($user['civilite'] == 'Monsieur') echo 'checked' ?> >
-                    <label for="sexe">Monsieur</label>
-
-                    <input type="radio" id="sexe" name="civilite" value="Autre" <?php if($user['civilite'] == 'Autre') echo 'checked' ?> >
-                    <label for="sexe">Autre</label>
-                </div>
-            </div>
-
-            <div class="champs">
-                <!-- Pseudo -->
-                <div class="saisir">
-                    <label for="pseudo">Pseudo</label>
-                    <input type="text" name="pseudo" id="pseudo" value="<?= $user['pseudo']?>" placeholder="Pseudo">
-                    <small class="erreur">
-                        &nbsp; <?= $errPseudo?? "" ?>
-                    </small>
-                </div>
-
-                <!-- Tel -->
-                <div class="saisir">
-                    <label for="tel">Téléphone *</label>
-                    <input type="text" name="tel" id="tel" value="<?= $user['tel']?>" placeholder="Téléphone" required>
-                    <small class="erreur">&nbsp; <?= $errTel?? ''?></small>
-                </div>
-            </div>
-
-            <div class="champs">
-                <!-- Nom -->
-                <div class="saisir">
-                    <label for="nom">Nom</label>
-                    <input type="text" name="last_name" id="nom" value="<?= $user['last_name']?>" placeholder="Nom">
-                    <small class="erreur">&nbsp; <?= $errLast_name?? "" ?></small>
-                </div>
-
-                <!-- Prenom -->
-                <div class="saisir">
-                    <label for="prenom">Prenom</label>
-                    <input type="text" name="first_name" id="prenom" value="<?= $user['first_name']?>" placeholder="Prenom">
-                    <small class="erreur">&nbsp; <?= $errFirst_name?? "" ?></small>
-                </div>
-            </div>
-
-            <div class="champs">
-                <!-- email -->
-                <div class="saisir">
-                    <label for="email">Email</label>
-                    <p><?= $user['email']?></p>
-                </div>
-                <!-- adresse -->
-                <div class="saisir">
-                    <label for="adresse">Adresse</label>
-                    <input type="text" name="address" id="adresse" value="<?= $user['address']?>" placeholder="Adresse">
-                    <small class="erreur">&nbsp; <?= $errAddress?? "" ?></small>
-                </div>
-                
-            </div>
-
-            <div class="champs">
-                <!-- code postal -->
-                <div class="saisir">
-                    <label for="codePostal">Code postal</label>
-                    <input type="text" name="pc" id="codePostal" value="<?= $user['pc']?>" placeholder="Code postal">
-                    <small class="erreur">&nbsp; <?= $errPC?? "" ?></small>
-                </div>
-                 <!-- ville -->
-                <div class="saisir">
-                    <label for="ville">Ville</label>
-                    <input type="text" name="city" id="ville" value="<?= $user['city']?>" placeholder="Ville">
-                    <small class="erreur">&nbsp; <?= $errCity?? "" ?></small>
-                 </div>
-            </div>
-
-            <input type="hidden" name="modifInfo">
-
-            <div>
-                <button type="submit" name="submitProfil" id="inscription">Modifier votre profil</button>
-            </div>
-            
-        </form>
-
-        <!--Champs modifier password ---->
-        <form class="form-pass" method="post" name="modifyPass" action="">
-            <h2>Modifier mot de pass</h2>
-
-            <div class="champs">
-                <!-- password -->
-                
-                    <div class="saisir <?= $admin== true? 'hidden' : ''?>">
-                        <label for="password">Password</label>
-                        <div class="pass">
-                            <input type="password" name="password" id="password" value="" placeholder="Password">
-                            <img class="eye" id="eye" src="/<?= $dirSite ?>/public/img/eye-1.svg"  alt="icon eye">
-                        </div>
-                        <small class="erreur">&nbsp; <?= $errPass?? "" ?></small>
-                    </div>
-                
-
-                <!--confirm password -->
-                <div class="saisir">
-                    <label for="newPassword">Nouveau password</label>
-                    <div class="pass">
-                        <input type="password" name="passwordConfirm" id="passwordConfirm" value="" placeholder="Nouveau password">
-                        <img class="eye" id="eyeConfirm" src="/<?= $dirSite ?>/public/img/eye-1.svg"  alt="icon eye">
-                    </div>
-                    <small class="erreur">&nbsp; <?= $errNewPass?? "" ?></small>
-                </div>
-            </div>
-            
-            <!--Button -->
-            <div class="btn-pass">
-                <button type="submit" name="modifPass" id="modiPass">Modifier password</button>
-            </div>
-        </form> #}
     </div>
 {% endblock %}
