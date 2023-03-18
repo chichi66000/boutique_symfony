@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ProfilUserType;
 use App\Form\SearchUserType;
+use Doctrine\ORM\EntityManager;
+use App\Form\ModifyPasswordType;
 use App\Repository\UserRepository;
 use App\Controller\HeaderController;
-use App\Form\ModifyPasswordType;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserController extends AbstractController
@@ -77,7 +78,9 @@ class UserController extends AbstractController
     public function profilUser (
         SessionInterface $session,
         Request $request,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserPasswordHasherInterface $userPasswordHasher,
+        
     ) :Response 
     {
         $nbProductInCart = $session->get('nbProductInCart');
@@ -98,7 +101,23 @@ class UserController extends AbstractController
                 $form->handleRequest($request);
                 // form valid
                 if ($form->isSubmitted() && $form->isValid() ) {
-                    dd($form->getData());
+                    $newpassword = $form->get('newpassword')->getData();
+                    // if there is modification de password
+                    if ($newpassword) {
+                        // encode the plain password in user
+                        $user->setPassword(
+                            $userPasswordHasher->hashPassword(
+                                $user, $newpassword
+                            )
+                        );
+                    }
+                    $manager->persist($user);
+                    $manager->flush();
+                    // give message 
+                    $this->addFlash(
+                        'success',
+                        'Succès, votre profil a été modifié.'
+                    );
                 }
             }
             
