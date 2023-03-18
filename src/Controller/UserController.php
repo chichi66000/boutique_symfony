@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ProfilUserType;
 use App\Form\SearchUserType;
 use App\Repository\UserRepository;
 use App\Controller\HeaderController;
+use App\Form\ModifyPasswordType;
 use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +21,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserController extends AbstractController
 {
+    
     #[Security("is_granted('ROLE_ADMIN')")]
     #[Route('/admin.user', name: 'app.admin.user', methods: ['GET', 'POST'])]
+    /**
+     * function to searc/get list of user, reserve for admin only
+     */
     public function index(
         // User $choosenUser,
         Request $request,
@@ -62,5 +68,27 @@ class UserController extends AbstractController
             "users" => $users,
             "userSearch" => $userSearch
         ]);
+    }
+
+    // #[Security("is_granted('ROLE_USER')")]
+    #[Route('/profil',  name:'app.profil', methods: ['GET', 'POST'])]
+    public function profilUser (
+        SessionInterface $session,
+        Request $request
+    ) :Response 
+    {
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+
+        // if user isn't has role_user or admin, refuse access
+        if (!$this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Accès refusé.');
+        }
+        else {
+            $user = $this->getUser();
+            $form = $this->createForm(ProfilUserType::class, $user);
+            $formPaswword = $this->createForm(ModifyPasswordType::class);
+        }
+        return $this->render('user/profil.html.twig', compact('nbProductInCart', 'categories', 'form', 'formPaswword'));
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -85,14 +86,11 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             $userRole = $this->getUser()->getRoles()[0];
             // dd($userRole);
+            
             $categories = $session->get('categories');
             $nbProductInCart = $session->get('nbProductInCart');
             return $this->render('security/account.html.twig', compact("categories", "nbProductInCart", "userRole"));
-            // $this->addFlash(
-            //     'success',
-            //     'Succès, vous êtes connecté!'
-            // );
-            // return $this->redirectToRoute('app.');
+            
         }
 
         // get the login error if there is one

@@ -4,6 +4,9 @@
     height: 100vh;
    
 } */
+#profil_user_submit {
+    background: black;
+}
 .pass {
     display: flex;
     flex-direction: row;
@@ -81,7 +84,7 @@
 .form-inscription label {
     padding: 0.5em 0;
 }
-#registration_form_submit {
+#registration_form_submit, #profil_user_submit {
     border-radius: 7px;
     color: white;
     background: black;
@@ -91,7 +94,7 @@
     border: solid 1px;
     
 }
-#registration_form_submit:hover {
+#registration_form_submit:hover, #profil_user_submit:hover {
     background: #4b4468;
 }
 .erreur {
