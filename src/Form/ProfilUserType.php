@@ -90,6 +90,28 @@ class ProfilUserType extends AbstractType
                 //     new Assert\NotBlank()
                 // ],
             ])
+            ->add('password', PasswordType::class, [
+                // 'mapped' => false,
+                'label' => 'Mot de passe actuel'
+            ])
+            ->add('newpassword', PasswordType::class, [
+                'mapped' => false,
+                'label' => 'Nouveau mot de pass',
+                'required' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
+            ])
+            // ->add('oldPassword', PasswordType::class, [
+            //     'label'=> 'Password'
+            // ])
+            // ->add('plainPassword', PasswordType::class, [
+            //     // instead of being set onto the object directly,
+            //     // this is read and encoded in the controller
+            //     'mapped' => false,
+            //     'attr' => ['autocomplete' => 'new-password'],
+            //     'label' => "Nouveau Password"
+            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier Profil',
                 
@@ -102,7 +124,7 @@ class ProfilUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            // 'data_class' => User::class,
         ]);
     }
 }

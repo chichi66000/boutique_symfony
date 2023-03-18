@@ -89,12 +89,19 @@ class UserController extends AbstractController
         }
         else {
             $user = $this->getUser();
-            $form = $this->createForm(ProfilUserType::class, $user);
-            $form->handleRequest($request);
-            // form valid
-            if ($form->isSubmitted() && $form->isValid() ) {
-                dd($form->getData());
+            // Vérifier si l'utilisateur existe
+            if (!$user) {
+                throw $this->createNotFoundException('Aucun utilisateur trouvé avec cet identifiant : ');
             }
+            else {
+                $form = $this->createForm(ProfilUserType::class, $user);
+                $form->handleRequest($request);
+                // form valid
+                if ($form->isSubmitted() && $form->isValid() ) {
+                    dd($form->getData());
+                }
+            }
+            
             
         }
         return $this->render('user/profil.html.twig', compact('nbProductInCart', 'categories', 'form'));
