@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     // #[Assert\NotNull()]
-    #[Assert\Length(min: 8, max:20)]
+    #[Assert\Length(min: 8)]
     #[Assert\Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/")]
     private ?string $password = null;
 

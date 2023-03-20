@@ -11,7 +11,7 @@
     <div class="globalWrapper">
         <div class="accountContainer">
             <div class="accountMenu">
-            <a href="{{path('app.profil')}}" title="Gérer mon profil">Gérer mon profil</a>
+            <a href="{{path('app.profil', {'id': userId})}}" title="Gérer mon profil">Gérer mon profil</a>
             <a href="{{path('app.password')}}" title="Modifier mot de passe">Modifier mot de passe</a>
             <a href="{{path('app.logout')}}" title="Déconnexion">Se déconnecter</a>
 

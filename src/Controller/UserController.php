@@ -15,10 +15,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -74,12 +76,12 @@ class UserController extends AbstractController
     }
 
     // #[Security("is_granted('ROLE_USER')")]
-    #[Route('/profil',  name:'app.profil', methods: ['GET', 'POST'])]
+    #[Route('/profil/{id}',  name:'app.profil', methods: ['GET', 'POST'])]
     public function profilUser (
         SessionInterface $session,
         Request $request,
         EntityManagerInterface $manager,
-        UserPasswordHasherInterface $userPasswordHasher,
+        User $user
         
     ) :Response 
     {
@@ -91,39 +93,37 @@ class UserController extends AbstractController
             throw new AccessDeniedException('Accès refusé.');
         }
         else {
-            $user = $this->getUser();
-            // Vérifier si l'utilisateur existe
-            if (!$user) {
-                throw $this->createNotFoundException('Aucun utilisateur trouvé avec cet identifiant : ');
+            // si user n'est pas login =>redirect tto login
+            // if (!$this->getUser()) {
+            //     return $this->redirectToRoute('app.login');
+            // }
+            
+            // if userId ne correspond with user connected => error
+            if ($this->getUser() != $user) {
+                return $this->redirectToRoute('app.home');
             }
             else {
+                
                 $form = $this->createForm(ProfilUserType::class, $user);
                 $form->handleRequest($request);
-                // form valid
+                
                 if ($form->isSubmitted() && $form->isValid() ) {
-                    $newpassword = $form->get('newpassword')->getData();
-                    // if there is modification de password
-                    if ($newpassword) {
-                        // encode the plain password in user
-                        $user->setPassword(
-                            $userPasswordHasher->hashPassword(
-                                $user, $newpassword
-                            )
-                        );
-                    }
+                    // dd($form);
+                    $user = $form->getData();
                     $manager->persist($user);
                     $manager->flush();
-                    // give message 
-                    $this->addFlash(
-                        'success',
-                        'Succès, votre profil a été modifié.'
-                    );
+                    return $this->redirectToRoute('app.home');
                 }
             }
+            return $this->render('user/profil.html.twig', [
+                'form' => $form->createView(),
+                'nbProductInCart' => $nbProductInCart,
+                "categories" => $categories
+            ]);
             
             
         }
-        return $this->render('user/profil.html.twig', compact('nbProductInCart', 'categories', 'form'));
+        
     }
 
     #[Route('/modify_pass', name:'app.password', methods: ['GET', 'POST'])]

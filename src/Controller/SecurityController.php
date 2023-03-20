@@ -86,10 +86,10 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             $userRole = $this->getUser()->getRoles()[0];
             // dd($userRole);
-            
+            $userId = $this->getUser()->getId();
             $categories = $session->get('categories');
             $nbProductInCart = $session->get('nbProductInCart');
-            return $this->render('security/account.html.twig', compact("categories", "nbProductInCart", "userRole"));
+            return $this->render('security/account.html.twig', compact("categories", "nbProductInCart", "userRole", "userId"));
             
         }
 
