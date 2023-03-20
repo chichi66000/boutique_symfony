@@ -119,26 +119,48 @@ class UserController extends AbstractController
         
     }
 
+    #[Security("is_granted('ROLE_USER')||is_granted('ROLE_ADMIN') and user === choosenUser")]
     #[Route('/reset_password/{id}', name:'app.password', methods: ['GET', 'POST'])]
     public function modifyPassword (
         SessionInterface $session,
-        User $user,
+        User $choosenUser,
         EntityManagerInterface $manager,
-        Request $request
+        Request $request,
+        UserPasswordHasherInterface $hasher
     ) : Response 
     {
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
-        // dd($user);
+        
         // if user isn't has role_user or admin, refuse access
         if (!$this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException('Accès refusé.');
         }
-        
+        // if user connected is not the choosenUser (with bad id in URL for example)
+        if ($this->getUser() !== $choosenUser) {
+            throw new AccessDeniedException('Accès refusé.');
+            $this->addFlash('error', 'Accès refusé.');
+            return $this->redirectToRoute('app.home');
+        }
             $form = $this->createForm(ModifyPasswordType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                dd($form->getData());
+                $oldPassword = $form->getData()['oldPassword'];
+                // check password with hash password
+                if ($hasher->isPasswordValid($choosenUser, $oldPassword)) {
+                    $choosenUser->setPassword($hasher->hashPassword($choosenUser, $form->getData()['newPassword']));
+                    // save in database
+                    $manager->persist($choosenUser);
+                    $manager->flush();
+                    $this->addFlash('success', 'Le mot de passe a été modifié');
+                    return $this->redirectToRoute('app.home');
+                }
+
+                // password incorrect
+                else {
+                    $this->addFlash('error', 'Le mot de passe incorrect');
+                }
+
             }
             
             return $this->render('user/password.html.twig', compact('nbProductInCart', 'categories', 'form'));

@@ -96,35 +96,6 @@
                     </div>
                 </div>
 
-                {# Password #}
-                {#<div class="champs">
-                    <div class="saisir">
-                        {{ form_label(form.password)}}
-                        {{ form_widget(form.password) }}
-                    </div>
-                     <div class="saisir">
-                        {{form_label(form.newpassword)}}
-                        {{ form_widget(form.newpassword) }}
-                        <div class="erreur">
-                            {{ form_errors(form.newpassword) }}
-                        </div>
-                    </div> 
-                </div>#}
-
-                {# <div class="champs">
-                    <div class="saisir">
-                        {{form_label(form.oldPassword)}}
-                        {{ form_widget(form.oldPassword) }}
-                    </div>
-                    <div class="saisir">
-                        {{form_label(form.plainPassword)}}
-                        {{ form_widget(form.plainPassword) }}
-                        <div class="erreur">
-                            {{ form_errors(form.plainPassword) }}
-                        </div>
-                    </div>
-                </div> #}
-
                 <div >
                     {{ form_row(form.submit)}}
                 </div>

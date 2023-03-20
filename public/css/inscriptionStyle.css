@@ -84,7 +84,7 @@
 .form-inscription label {
     padding: 0.5em 0;
 }
-#registration_form_submit, #profil_user_submit {
+#registration_form_submit, #profil_user_submit, #modify_password_submit {
     border-radius: 7px;
     color: white;
     background: black;
@@ -94,7 +94,7 @@
     border: solid 1px;
     
 }
-#registration_form_submit:hover, #profil_user_submit:hover {
+#registration_form_submit:hover, #profil_user_submit:hover, #modify_password_submit:hover {
     background: #4b4468;
 }
 .erreur {
