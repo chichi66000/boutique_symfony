@@ -41,9 +41,7 @@ class UserController extends AbstractController
         PaginatorInterface $paginator
         ): Response
     {
-        // $data = $session->get('shared_data');
-        // $nbProductInCart = $data['nbProductInCart'];
-        // $categories = $data['categories'];
+        
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
         
@@ -52,18 +50,17 @@ class UserController extends AbstractController
             throw new AccessDeniedException();
         }
 
-        // $choosenUser = $tokenStorage->getToken()->getUser();
         $form = $this->createForm(SearchUserType::class);
         $form->handleRequest($request);
         $userSearch = $form['search']->getData();
-        // dd($userSearch);
+        
         // get list of users with UserRepository
         $users = $userRepository->findusersWithSearch($form['search']->getData());
         // the insert the system paginator with users
         $users = $paginator->paginate(
             $users,
             $request->query->getInt('page', 1),
-            2 /*limit per page*/
+            2 /*limit 2 per page*/
         );
 
         return $this->render('user/admin.html.twig', [
@@ -75,7 +72,17 @@ class UserController extends AbstractController
         ]);
     }
 
-    // #[Security("is_granted('ROLE_USER')")]
+    
+    /**
+     * Function to modify user's profil
+     *
+     * @param SessionInterface $session
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param User $user
+     * @return Response
+     */
+    #[Security("is_granted('ROLE_USER')||is_granted('ROLE_USER')")]
     #[Route('/profil/{id}',  name:'app.profil', methods: ['GET', 'POST'])]
     public function profilUser (
         SessionInterface $session,
@@ -119,6 +126,17 @@ class UserController extends AbstractController
         
     }
 
+    
+    /**
+     * Function to modify user's password
+     *
+     * @param SessionInterface $session
+     * @param User $choosenUser
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Security("is_granted('ROLE_USER')||is_granted('ROLE_ADMIN') and user === choosenUser")]
     #[Route('/reset_password/{id}', name:'app.password', methods: ['GET', 'POST'])]
     public function modifyPassword (
