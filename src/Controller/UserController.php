@@ -93,11 +93,6 @@ class UserController extends AbstractController
             throw new AccessDeniedException('Accès refusé.');
         }
         else {
-            // si user n'est pas login =>redirect tto login
-            // if (!$this->getUser()) {
-            //     return $this->redirectToRoute('app.login');
-            // }
-            
             // if userId ne correspond with user connected => error
             if ($this->getUser() != $user) {
                 return $this->redirectToRoute('app.home');
@@ -108,7 +103,6 @@ class UserController extends AbstractController
                 $form->handleRequest($request);
                 
                 if ($form->isSubmitted() && $form->isValid() ) {
-                    // dd($form);
                     $user = $form->getData();
                     $manager->persist($user);
                     $manager->flush();
@@ -120,7 +114,6 @@ class UserController extends AbstractController
                 'nbProductInCart' => $nbProductInCart,
                 "categories" => $categories
             ]);
-            
             
         }
         
