@@ -119,15 +119,29 @@ class UserController extends AbstractController
         
     }
 
-    #[Route('/modify_pass', name:'app.password', methods: ['GET', 'POST'])]
+    #[Route('/reset_password/{id}', name:'app.password', methods: ['GET', 'POST'])]
     public function modifyPassword (
-        SessionInterface $session
+        SessionInterface $session,
+        User $user,
+        EntityManagerInterface $manager,
+        Request $request
     ) : Response 
     {
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
-        $formPaswword = $this->createForm(ModifyPasswordType::class);
-
-        return $this->render('user/password.html.twig', compact('nbProductInCart', 'categories', 'formPaswword'));
+        // dd($user);
+        // if user isn't has role_user or admin, refuse access
+        if (!$this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Accès refusé.');
+        }
+        
+            $form = $this->createForm(ModifyPasswordType::class);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                dd($form->getData());
+            }
+            
+            return $this->render('user/password.html.twig', compact('nbProductInCart', 'categories', 'form'));
+        
     }
 }

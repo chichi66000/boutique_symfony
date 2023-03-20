@@ -90,6 +90,11 @@ class SecurityController extends AbstractController
             $categories = $session->get('categories');
             $nbProductInCart = $session->get('nbProductInCart');
             return $this->render('security/account.html.twig', compact("categories", "nbProductInCart", "userRole", "userId"));
+            // if ($userRole == "ROLE_USER" || $userRole == "ROLE_ADMIN") {
+            // }
+            // else {
+            //     return $this->redirectToRoute('app.login');
+            // }
             
         }
 
