@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\DeleteUserType;
 use App\Form\ProfilUserType;
 use App\Form\SearchUserType;
 use Doctrine\ORM\EntityManager;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -183,5 +185,48 @@ class UserController extends AbstractController
             
             return $this->render('user/password.html.twig', compact('nbProductInCart', 'categories', 'form'));
         
+    }
+
+    #[Security("is_granted('ROLE_USER')||is_granted('ROLE_USER')")]
+    #[Route('/delete/user/{id}',  name:'app.delete.user', methods: ['GET', 'POST'])]
+    public function deleteUser (
+        SessionInterface $session,
+        User $choosenUser,
+        EntityManagerInterface $manager,
+        Request $request,
+        AuthenticationUtils $authenticationUtils
+    ) :Response
+    {
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+
+        // if user isn't has role_user or admin, refuse access
+        if (!$this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Accès refusé.');
+        }
+        // if user connected is not the choosenUser (with bad id in URL for example)
+        if ($this->getUser() !== $choosenUser) {
+            throw new AccessDeniedException('Accès refusé.');
+            $this->addFlash('error', 'Accès refusé.');
+            return $this->redirectToRoute('app.home');
+        }
+        else {
+            $form = $this->createForm(DeleteUserType::class);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // get the login error if there is one
+                $error = $authenticationUtils->getLastAuthenticationError();
+                // last username entered by the user
+                $lastUsername = $authenticationUtils->getLastUsername();
+                dd($error, $lastUsername);
+            }  
+        }
+
+        return $this->render('user/delete.user.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories,
+            'form' => $form->createView(),
+
+        ]);
     }
 }

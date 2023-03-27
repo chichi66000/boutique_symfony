@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin user{% endblock %}
+
+{% block body %}
+{# Header & navbar #}
+    {{ include('partial/header.html.twig')}}
+    {{ include("partial/message.html.twig")}}
+
+    <div id="container-profil">
+        <div class="titre-profil">
+            <h2>Modifier profil</h2>
+           
+        </div>
+
+        <div class="form-inscription" >
+            {{ form_start(form) }}
+                
+                {# Email & Password #}
+                <div class="champs">
+                    <div class="saisir">
+                        {{form_label(form.email)}}
+                        {{ form_widget(form.email) }}
+                        <div class="erreur">
+                            {{ form_errors(form.email) }}
+                        </div>
+                    </div>
+                    <div class="saisir">
+                        {{form_label(form.password)}}
+                        {{ form_widget(form.password) }}
+                        <div class="erreur">
+                            {{ form_errors(form.password) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div >
+                    {{ form_row(form.submit)}}
+                </div>
+            {{ form_end(form)}}
+        </div>
+
+    </div>
+{% endblock %}

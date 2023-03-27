@@ -97,6 +97,15 @@
 #registration_form_submit:hover, #profil_user_submit:hover, #modify_password_submit:hover {
     background: #4b4468;
 }
+#delete_user_submit {
+    background: #e10712;
+    padding: 0.5em;
+    border-radius: 7px;
+    color: white;
+}
+#delete_user_submit:hover {
+    background: #e0086d;
+}
 .erreur {
     color: red;
 }
