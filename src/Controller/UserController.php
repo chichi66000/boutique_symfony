@@ -194,12 +194,13 @@ class UserController extends AbstractController
         User $choosenUser,
         EntityManagerInterface $manager,
         Request $request,
-        AuthenticationUtils $authenticationUtils
+        AuthenticationUtils $authenticationUtils,
+        UserPasswordHasherInterface $hasher
     ) :Response
     {
         $nbProductInCart = $session->get('nbProductInCart');
         $categories = $session->get('categories');
-
+        $message = "";
         // if user isn't has role_user or admin, refuse access
         if (!$this->isGranted('ROLE_USER') && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException('Accès refusé.');
@@ -218,7 +219,19 @@ class UserController extends AbstractController
                 $error = $authenticationUtils->getLastAuthenticationError();
                 // last username entered by the user
                 $lastUsername = $authenticationUtils->getLastUsername();
-                dd($error, $lastUsername);
+                $email = $form->getData()['email'];
+                $password = $form->getData()['password'];
+                // email rentée n'est pas user connecté
+                if ($email !== $lastUsername) {
+                    $this->addFlash("erro","Ceci n'est pas votre compte");
+                    $message = "Ceci n'est pas votre compte";
+                }
+                else {
+                    // check password with hash password
+                    if ($hasher->isPasswordValid($choosenUser, $password)) {
+                        dd($password);
+                    }
+                }
             }  
         }
 
@@ -226,7 +239,7 @@ class UserController extends AbstractController
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
             'form' => $form->createView(),
-
+            'message' => $message
         ]);
     }
 }

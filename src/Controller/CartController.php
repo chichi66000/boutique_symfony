@@ -192,7 +192,6 @@ class CartController extends AbstractController
                 $order = new Order($user);
                 $manager->persist($order);
                 $manager->flush();
-                // $order_ref_id = $order->getId();
 
                 // then save the products into database orderItem
                 $dataCart = [];
@@ -214,24 +213,9 @@ class CartController extends AbstractController
                     ];
                     $total += $product->getPrice() * $quantity;
                 }
-                
-                // reset cart & nbProductInCart
-                // $session->remove('cart');
-                // $session->set('nbProductInCart', 0);
 
                 return $this->render('cart/order.html.twig', compact('nbProductInCart', 'categories', 'dataCart', 'total'));
-                // $userId = $user->getId();
-                // $order = new OrderFactory();
-                // $carts = $order->create($user);
-                // $manager->persist($carts);
 
-                
-                
-                // $cart = new Order();
-                // $cart
-                // dd($manager->persist($cart));
-
-                // $manager->flush();
             }
             // user not conneced => ask for login
             else {
