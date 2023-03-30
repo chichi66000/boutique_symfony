@@ -57,15 +57,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     public function findUsersWithSearch($search)
-   {
-    $query = $this->createQueryBuilder('u')
-                ->select("u.id, u.civilite, u.pseudo, u.first_name, u.last_name, u.email, u.tel, u.city, u.address, u.pc, u.roles")
-                ->andWhere("u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%' OR u.email LIKE '%$search%'")
-                ->getQuery()
-                ->getResult();
-    //  dd($query);      
-    return $query;
-   }
+    {
+        $query = $this->createQueryBuilder('u')
+                    ->select("u.id, u.civilite, u.pseudo, u.first_name, u.last_name, u.email, u.tel, u.city, u.address, u.pc, u.roles")
+                    ->andWhere("u.first_name LIKE '%$search%' OR u.last_name LIKE '%$search%' OR u.email LIKE '%$search%'")
+                    ->getQuery()
+                    ->getResult();
+        //  dd($query);      
+        return $query;
+    }
+
+    // public function updateUserForDeleteRequest ($id) 
+    // {
+    //     $deleted = "DELETED";
+    //     $query = $this->createQueryBuilder();
+    //         $query->update('App\Entity\User','u')
+    //         ->set('u.first_name', $deleted)
+    //         // ->where('u.id === :id')
+    //         // ->setParameter('id', $id)
+    //         ;
+        
+    //     $q = $query->getQuery();
+    //     $sql = $q->getSQL();
+    //     dd($sql);
+    //     // return $query->getQuery()->execute();
+    // }
 
 //    /**
 //     * @return User[] Returns an array of User objects

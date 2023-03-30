@@ -195,7 +195,9 @@ class UserController extends AbstractController
         EntityManagerInterface $manager,
         Request $request,
         AuthenticationUtils $authenticationUtils,
-        UserPasswordHasherInterface $hasher
+        UserPasswordHasherInterface $hasher,
+        UserRepository $userRepository,
+        
     ) :Response
     {
         $nbProductInCart = $session->get('nbProductInCart');
@@ -223,13 +225,26 @@ class UserController extends AbstractController
                 $password = $form->getData()['password'];
                 // email rentée n'est pas user connecté
                 if ($email !== $lastUsername) {
-                    $this->addFlash("erro","Ceci n'est pas votre compte");
+                    // $this->addFlash("error","Ceci n'est pas votre compte");
                     $message = "Ceci n'est pas votre compte";
                 }
                 else {
                     // check password with hash password
                     if ($hasher->isPasswordValid($choosenUser, $password)) {
-                        dd($password);
+                        $value = "DELETED";
+                        // update inof deleted to user
+                        $choosenUser->setFirstName($value);
+                        $choosenUser->setLastName($value);
+                        $choosenUser->setFirstName($value);
+                        $choosenUser->setPassword($value);
+                        $choosenUser->setEmail($value);
+                        $choosenUser->setPc($value);
+                        $choosenUser->setCity($value);
+                        $choosenUser->setAddress($value);
+                        $choosenUser->setTel($value);
+                        $choosenUser->setRoles([$value]);
+                        $manager->flush();
+                       
                     }
                 }
             }  
