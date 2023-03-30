@@ -237,14 +237,19 @@ class UserController extends AbstractController
                         $choosenUser->setLastName($value);
                         $choosenUser->setFirstName($value);
                         $choosenUser->setPassword($value);
-                        $choosenUser->setEmail($value);
+                        $choosenUser->setEmail($value.rand());
                         $choosenUser->setPc($value);
                         $choosenUser->setCity($value);
                         $choosenUser->setAddress($value);
                         $choosenUser->setTel($value);
                         $choosenUser->setRoles([$value]);
                         $manager->flush();
-                       
+                        
+                        $this->addFlash('success', 'Votre compte a été supprimé');
+                        return $this->redirectToRoute('app.home');
+                    }
+                    else {
+                        $message = "Invalid credential";
                     }
                 }
             }  
