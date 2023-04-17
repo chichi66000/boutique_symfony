@@ -225,10 +225,18 @@ class UserController extends AbstractController
         }
         // if user connected is not the choosenUser (with bad id in URL for example)
         if ($this->getUser() !== $choosenUser) {
-            throw new AccessDeniedException('Accès refusé.');
-            $this->addFlash('error', 'Accès refusé.');
-            return $this->redirectToRoute('app.home');
+            // if it's not admin
+            if ($this->getUser()->getRoles()['0'] != "ROLE_ADMIN") {
+                throw new AccessDeniedException('Accès refusé.');
+                $this->addFlash('error', 'Accès refusé.');
+                return $this->redirectToRoute('app.home');
+            }
+            // it's admin 
+            else {
+
+            }
         }
+        // user is the right one
         else {
             $form = $this->createForm(DeleteUserType::class);
             $form->handleRequest($request);

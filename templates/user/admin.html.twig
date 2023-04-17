@@ -133,12 +133,13 @@
                         {% endfor %}
                     </tr>
 
+                    {# Action modify #}
                     <tr class="row-action">
                         <th>
                             Actions
                         </th>
                         {% for user in users %}
-                            {# {{dump(user.roles)}} #}
+                            
                             <td class="btn-table">
                                 {% if user.roles['0'] is not same as "ROLE_DELETED" %}
                                     <a class="btn-user-modify" href="{{path('app.profil', {'id': user.id})}}">Modifier</a>
@@ -148,6 +149,7 @@
                         
                     </tr>
 
+                    {# Action delete #}
                     <tr class="row-action">
                         <th>
                             Actions
@@ -155,7 +157,7 @@
                         {% for user in users %}
                             <td class="btn-table">
                                 {% if user.roles['0'] is not same as "ROLE_DELETED" %}
-                                    <a class="btn-user-delete" href="">Supprimer</a>
+                                    <a class="btn-user-delete" href="{{path('app.delete.user', {'id': user.id})}}">Supprimer</a>
                                 {% endif %}
                             </td>
                         {% endfor %}
