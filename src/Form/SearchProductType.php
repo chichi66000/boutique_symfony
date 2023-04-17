@@ -2,24 +2,21 @@
 
 namespace App\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class SearchUserType extends AbstractType
+class SearchProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('search', TextType::class, [
+            ->add('searchProduct', TextType::class, [
                 'attr' => [
-                    'placeholer' => 'Chercher utilisateur',
-                    // 'class' => "input-search-user",
-                    // 'id' => "searchUser"
-                    ]
+                    'placeholer' => 'Chercher un produit',
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',

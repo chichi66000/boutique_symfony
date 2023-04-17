@@ -6,16 +6,19 @@ use App\Entity\Size;
 use App\Entity\Color;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Form\SearchProductType;
+use App\Repository\SizeRepository;
+use App\Repository\ColorRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
-use App\Repository\ColorRepository;
-use App\Repository\SizeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProductController extends AbstractController
 
@@ -291,6 +294,37 @@ class ProductController extends AbstractController
             'srcPhoto' => $srcPhoto,
             'color' => $color,
             'size' => $size
+        ]);
+    }
+
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/admin/product', name: 'app.admin.product', methods: ['GET', 'POST'])]
+    public function gestionProduct (
+        SessionInterface $session,
+        Request $request
+    ) 
+    : Response 
+    {
+        // get data from session for header & navbar
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+
+        // if user isn't admin, refuse access
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Accès refusé.');
+        }
+        // admin: he has access to form request
+        else {
+            $form = $this->createForm(SearchProductType::class);
+            $form->handleRequest($request);
+            $productSearch = $form['searchProduct']->getData();
+            // dd($productSearch);
+        }
+
+        return $this->render('product/gestion.product.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories,
+            'form' => $form
         ]);
     }
    

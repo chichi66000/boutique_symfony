@@ -18,7 +18,7 @@
 
             {% if userRole is same as "ROLE_ADMIN" %}
                 <a href="{{path('app.admin.user')}}" title="Gérer les clients">Gérer les clients</a>
-                <a href="" title="Gérer les produits">Gérer les produits</a>
+                <a href="{{path('app.admin.product')}}" title="Gérer les produits">Gérer les produits</a>
                 <a href="" title="Gérer les commandes">Gérer les commandes</a>
             {% endif %}
             </div>

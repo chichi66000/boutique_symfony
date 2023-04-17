@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+{# Header & navbar #}
+    {{ include('partial/header.html.twig')}}
+    {{ include("partial/message.html.twig")}}
+
+    <h2 class="gest">
+          GESTION-BOUTIQUE
+    </h2>
+
+    <div class="container-admin-user">
+        {# add new user #}
+        <button class="btn-add-user">
+            <a href="}">Ajouter nouveau produit</a>
+        </button>
+
+        {# search for user #}
+        <div class="search-form" >
+            {{ form_start(form,  {'attr': {'class': 'input-search-user'}} ) }}
+                {{ form_widget(form.searchProduct, {'attr': {'class': 'searchUser'}}) }}
+                {{ form_widget(form.submit, {'attr': {'class': 'btn-search-user' }} )}}
+                
+            {{ form_end(form) }}
+        </div>
+
+        
+    </div>
+{% endblock %}

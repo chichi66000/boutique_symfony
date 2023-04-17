@@ -305,8 +305,4 @@ class UserController extends AbstractController
         ]);
     }
 
-    // public function adminClient () : Response 
-    // {
-    //     return $this->render('user/admin.html.twig', []);
-    // }
 }
