@@ -304,7 +304,8 @@ class ProductController extends AbstractController
         SessionInterface $session,
         Request $request,
         ProductRepository $productRepository,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        // $product = null
     ) 
     : Response 
     {
@@ -320,18 +321,13 @@ class ProductController extends AbstractController
         else {
             $form = $this->createForm(SearchProductType::class);
             $form->handleRequest($request);
-            
+            $products = [];
+            $productSearch = "";
             if ($form->isSubmitted() && $form->isValid()) {
                 $productSearch = $form['searchProduct']->getData();
                 // get list of product with ProductRepository
                 $products = $productRepository->findProductsWithSearch($productSearch);
                 // dd($products);
-                // path to product photo
-                // $pathToPhoto = 'photo/';
-                // get the src of photo products
-                // $photo1 = $product->getPhoto1();
-                // $path1 =  $pathToPhoto . $category . '/' . $photo1;
-                // $srcPhoto = 'photo/' . $prod;;
                 // the insert the system paginator with users
                 $products = $paginator->paginate(
                     $products,
@@ -339,15 +335,17 @@ class ProductController extends AbstractController
                     2 /*limit 2 per page*/
                 );
             }
+
+            return $this->render('product/gestion.product.html.twig', [
+                'nbProductInCart' => $nbProductInCart,
+                'categories' => $categories,
+                'form' => $form,
+                'products' => $products,
+                'productSearch' => $productSearch
+            ]);
         }
 
-        return $this->render('product/gestion.product.html.twig', [
-            'nbProductInCart' => $nbProductInCart,
-            'categories' => $categories,
-            'form' => $form,
-            'products' => $products,
-            'productSearch' => $productSearch
-        ]);
+        
     }
    
 }

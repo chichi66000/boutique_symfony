@@ -35,7 +35,7 @@
                         <!--Reference -->
                         <tr class="row-t-user">
                             <th>
-                                ID
+                                Réferences
                             </th>
                             {% for product in products %}
                                 <td>{{ product.reference }}</td>
@@ -171,6 +171,11 @@
 
             {# display navigation #}
             <div >
+                {# {% if app.request.headers.get('User-Agent') matches '/(iPhone|iPad|Android)/i' or app.request.width < 350 %}
+                    {% set pagination_limit = 1 %}
+                {% else %}
+                    {% set pagination_limit = 2 %}
+                {% endif %} #}
                 {{ knp_pagination_render(products) }}
             </div>
         {% endif %}

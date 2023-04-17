@@ -95,16 +95,16 @@ class ProductRepository extends ServiceEntityRepository
         foreach ($terms as $index => $term) {
             $parameterName = 'searchTerm' . $index;
             if ($index === 0) {
-                $q->where(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName);
+                $q->where(" p.title LIKE :" .   $parameterName  . " OR p.description LIKE :" .   $parameterName . " OR p.reference LIKE :" .   $parameterName );
                 
             } 
             else {
-                $q->andWhere(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName);
+                $q->andWhere(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName . " OR p.reference LIKE :" .   $parameterName);
             }
             $q->setParameter($parameterName, '%' . $term . '%')
             ;
         }
-        
+        // dd($q->getQuery()->getSql());
         return $q->getQuery()->getResult();
    }
 //    /**
