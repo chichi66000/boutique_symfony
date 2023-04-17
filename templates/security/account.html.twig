@@ -17,7 +17,7 @@
             <a href="{{path('app.logout')}}" title="Déconnexion">Se déconnecter</a>
 
             {% if userRole is same as "ROLE_ADMIN" %}
-                <a href="" title="Gérer les clients">Gérer les clients</a>
+                <a href="{{path('app.admin.user')}}" title="Gérer les clients">Gérer les clients</a>
                 <a href="" title="Gérer les produits">Gérer les produits</a>
                 <a href="" title="Gérer les commandes">Gérer les commandes</a>
             {% endif %}

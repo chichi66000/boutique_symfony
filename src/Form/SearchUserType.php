@@ -17,14 +17,14 @@ class SearchUserType extends AbstractType
             ->add('search', TextType::class, [
                 'attr' => [
                     'placeholer' => 'Chercher uilisateur',
-                    'class' => "input-search-user",
-                    'id' => "searchUser"
+                    // 'class' => "input-search-user",
+                    // 'id' => "searchUser"
                     ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [
-                    'class' => "btn-search-user",
+                    // 'class' => "btn-search-user",
                     // 'id' => "searchUser",
                     // 'value' => "Rechercher"
                 ]

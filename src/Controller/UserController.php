@@ -84,7 +84,7 @@ class UserController extends AbstractController
      * @param User $user
      * @return Response
      */
-    #[Security("is_granted('ROLE_USER')||is_granted('ROLE_USER')")]
+    #[Security("is_granted('ROLE_ADMIN')||is_granted('ROLE_USER')")]
     #[Route('/profil/{id}',  name:'app.profil', methods: ['GET', 'POST'])]
     public function profilUser (
         SessionInterface $session,
@@ -102,9 +102,24 @@ class UserController extends AbstractController
             throw new AccessDeniedException('Accès refusé.');
         }
         else {
+            // dd($this->getUser()->getRoles()['0']);
             // if userId ne correspond with user connected => error
-            if ($this->getUser() != $user) {
-                return $this->redirectToRoute('app.home');
+            if ($this->getUser() != $user ) {
+                if ($this->getUser()->getRoles()['0'] != "ROLE_ADMIN") {
+                    return $this->redirectToRoute('app.home');
+                }
+                else {
+                    $form = $this->createForm(ProfilUserType::class, $user);
+                    $form->handleRequest($request);
+                    
+                    if ($form->isSubmitted() && $form->isValid() ) {
+                        $user = $form->getData();
+                        $manager->persist($user);
+                        $manager->flush();
+                        $this->addFlash('success', 'Profil a été modifié');
+                        return $this->redirectToRoute('app.home');
+                    }
+                }
             }
             else {
                 
@@ -115,6 +130,7 @@ class UserController extends AbstractController
                     $user = $form->getData();
                     $manager->persist($user);
                     $manager->flush();
+                    $this->addFlash('success', 'Profil a été modifié');
                     return $this->redirectToRoute('app.home');
                 }
             }
@@ -242,7 +258,7 @@ class UserController extends AbstractController
                         $choosenUser->setCity($value);
                         $choosenUser->setAddress($value);
                         $choosenUser->setTel($value);
-                        $choosenUser->setRoles([$value]);
+                        $choosenUser->setRoles(["ROLE_DELETED"]);
                         $manager->flush();
                         
                         $this->addFlash('success', 'Votre compte a été supprimé');
@@ -262,4 +278,9 @@ class UserController extends AbstractController
             'message' => $message
         ]);
     }
+
+    // public function adminClient () : Response 
+    // {
+    //     return $this->render('user/admin.html.twig', []);
+    // }
 }
