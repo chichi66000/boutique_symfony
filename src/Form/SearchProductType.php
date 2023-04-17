@@ -15,7 +15,7 @@ class SearchProductType extends AbstractType
         $builder
             ->add('searchProduct', TextType::class, [
                 'attr' => [
-                    'placeholer' => 'Chercher un produit',
+                    'placeholder' => 'Chercher un produit',
                 ]
             ])
             ->add('submit', SubmitType::class, [

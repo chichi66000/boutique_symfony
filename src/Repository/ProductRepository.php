@@ -49,16 +49,6 @@ class ProductRepository extends ServiceEntityRepository
        ;
    }
 
-//    public function pathToPhoto (Product $product) : string 
-//    {
-//         $pathToPhoto = 'photo/';
-//         $category_name = ($product->getCategory()->getName());
-//         // dd($category_name);
-//         $path = $pathToPhoto . $category_name . "/" . $product->getPhoto1();
-//         // dd($path);
-//         return $path;
-//    }
-
    public function findDistinctColorsByReference($reference) :array 
    {
     return $this->createQueryBuilder('p')
@@ -87,7 +77,20 @@ class ProductRepository extends ServiceEntityRepository
         return $q;
     }
 
-   
+   public function findProductsWithSearch (string $search) : array 
+   {
+        $q = $this->createQueryBuilder('p')
+                ->select("p.reference, p.title, p.description, p.photo1, p.price, p.stock, C.hexa as hexa, C.name as color, S.name as size")
+                ->join('p.size', 'S')
+                ->join('p.color', 'C')
+                ->where("p.color = C.id AND p.size = S.id AND (p.title LIKE '%$search%' OR p.description LIKE '%$search%') ")
+                ->getQuery()
+                ->getResult();
+                ;
+        // dd($q->getQuery()->getSql());
+        // dd($q);
+        return $q;
+   }
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

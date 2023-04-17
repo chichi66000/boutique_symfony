@@ -16,9 +16,7 @@ class SearchUserType extends AbstractType
         $builder
             ->add('search', TextType::class, [
                 'attr' => [
-                    'placeholer' => 'Chercher utilisateur',
-                    // 'class' => "input-search-user",
-                    // 'id' => "searchUser"
+                    'placeholder' => 'Chercher utilisateur',
                     ]
             ])
             ->add('submit', SubmitType::class, [

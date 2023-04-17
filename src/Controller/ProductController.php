@@ -301,7 +301,8 @@ class ProductController extends AbstractController
     #[Route('/admin/product', name: 'app.admin.product', methods: ['GET', 'POST'])]
     public function gestionProduct (
         SessionInterface $session,
-        Request $request
+        Request $request,
+        ProductRepository $productRepository
     ) 
     : Response 
     {
@@ -317,8 +318,13 @@ class ProductController extends AbstractController
         else {
             $form = $this->createForm(SearchProductType::class);
             $form->handleRequest($request);
-            $productSearch = $form['searchProduct']->getData();
-            // dd($productSearch);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                $productSearch = $form['searchProduct']->getData();
+                // get list of product with ProductRepository
+                $result = $productRepository->findProductsWithSearch($productSearch);
+                dd($result);
+            }
         }
 
         return $this->render('product/gestion.product.html.twig', [
