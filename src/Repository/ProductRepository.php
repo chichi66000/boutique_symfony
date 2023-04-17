@@ -82,13 +82,16 @@ class ProductRepository extends ServiceEntityRepository
         // Séparez les termes de recherche en utilisant un espace comme délimiteur
         $terms = explode(' ', $searchTerm);
 
+        // CREATE search join with 2 tables size & color
         $q = $this->createQueryBuilder('p')
-                ->select("p.reference, p.title, p.description, p.photo1, p.price, p.stock, C.hexa as hexa, C.name as color, S.name as size")
+                ->select("p.reference, p.title, p.description, p.photo1, p.price, p.stock, C.hexa as hexa, C.name as color, S.name as size, cat.name as category")
                 ->join('p.size', 'S')
                 ->join('p.color', 'C')
+                ->join('p.category', 'cat')
+                // ->join('p.audience', 'au')
                 ->where("p.color = C.id AND p.size = S.id")
                 ;
-
+        // then search with each word
         foreach ($terms as $index => $term) {
             $parameterName = 'searchTerm' . $index;
             if ($index === 0) {
@@ -98,18 +101,10 @@ class ProductRepository extends ServiceEntityRepository
             else {
                 $q->andWhere(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName);
             }
-            
             $q->setParameter($parameterName, '%' . $term . '%')
             ;
         }
-        // dd($q->getQuery()->getSql());
-
-                // ->where("p.color = C.id AND p.size = S.id AND (p.title LIKE '%$search%' OR p.description LIKE '%$search%') ")
-                // ->getQuery()
-                // ->getResult();
-                ;
-        // dd($q->getQuery()->getSql());
-        // dd($q);
+        
         return $q->getQuery()->getResult();
    }
 //    /**

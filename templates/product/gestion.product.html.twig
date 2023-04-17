@@ -26,6 +26,154 @@
             {{ form_end(form) }}
         </div>
 
+        {% if not products is empty %}
+            <div>Products de recherche: <span class="erreur"> "{{productSearch}}" </span> avec {{ products.getTotalItemCount }} résultat</div>
+
+            <div style="overflow-x:auto;">
+                <table class="table-user"  cellspacing="0" border='1' cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <!--Reference -->
+                        <tr class="row-t-user">
+                            <th>
+                                ID
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.reference }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Title -->
+                        <tr class="row-t-user">
+                            <th>
+                                Titre
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.title }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Description -->
+                        <tr class="row-t-user">
+                            <th>
+                                Description
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.description }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Category -->
+                        <tr class="row-t-user">
+                            <th>
+                                Category
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.category }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Photo1 -->
+                        <tr class="row-t-user">
+                            <th>
+                                Photo1
+                            </th>
+                            {% for product in products %}
+                                <td>
+                                    <img class="img-product-amin" src="{{ asset('/photo/' ~ product.category ~ '/' ~ product.photo1) }}" alt="photo product {{ product.title}}" />
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Price -->
+                        <tr class="row-t-user">
+                            <th>
+                                Price
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.price }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Stock -->
+                        <tr class="row-t-user">
+                            <th>
+                                Stock
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.stock }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--color -->
+                        <tr class="row-t-user">
+                            <th>
+                                Color
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.color|capitalize }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Size -->
+                        <tr class="row-t-user">
+                            <th>
+                                Size
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.size|upper }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!--Hexa -->
+                        <tr class="row-t-user">
+                            <th>
+                                Color hexa
+                            </th>
+                            {% for product in products %}
+                                <td>{{ product.hexa }}</td>
+                            {% endfor %}
+                        </tr>
+                        
+                        {# Action modify #}
+                        <tr class="row-action">
+                            <th>
+                                Actions
+                            </th>
+                            {% for product in products %}
+                                
+                                <td class="btn-table">
+                                    {% if product.stock != 0 %}
+                                        <a class="btn-user-modify" href="">Modifier stock</a>
+                                        {% else %}
+                                        <a class="btn-user-modify" href="">Indisponible</a>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                            
+                        </tr>
+
+                        {# Action delete #}
+                        {# <tr class="row-action">
+                            <th>
+                                Actions
+                            </th>
+                            {% for product in products %}
+                                <td class="btn-table">
+                                    {% if product.stock is not same as "ROLE_DELETED" %}
+                                        <a class="btn-user-delete" href="{{path('app.delete.user', {'id': user.id})}}">Supprimer</a>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr> #}
+                    </tbody>
+                </table>
+            </div>
+
+            {# display navigation #}
+            <div >
+                {{ knp_pagination_render(products) }}
+            </div>
+        {% endif %}
         
     </div>
 {% endblock %}

@@ -12,10 +12,11 @@ use App\Repository\ColorRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -302,7 +303,8 @@ class ProductController extends AbstractController
     public function gestionProduct (
         SessionInterface $session,
         Request $request,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        PaginatorInterface $paginator
     ) 
     : Response 
     {
@@ -322,15 +324,29 @@ class ProductController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $productSearch = $form['searchProduct']->getData();
                 // get list of product with ProductRepository
-                $result = $productRepository->findProductsWithSearch($productSearch);
-                dd($result);
+                $products = $productRepository->findProductsWithSearch($productSearch);
+                // dd($products);
+                // path to product photo
+                // $pathToPhoto = 'photo/';
+                // get the src of photo products
+                // $photo1 = $product->getPhoto1();
+                // $path1 =  $pathToPhoto . $category . '/' . $photo1;
+                // $srcPhoto = 'photo/' . $prod;;
+                // the insert the system paginator with users
+                $products = $paginator->paginate(
+                    $products,
+                    $request->query->getInt('page', 1),
+                    2 /*limit 2 per page*/
+                );
             }
         }
 
         return $this->render('product/gestion.product.html.twig', [
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
-            'form' => $form
+            'form' => $form,
+            'products' => $products,
+            'productSearch' => $productSearch
         ]);
     }
    
