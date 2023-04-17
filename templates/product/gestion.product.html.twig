@@ -142,29 +142,25 @@
                             {% for product in products %}
                                 
                                 <td class="btn-table">
-                                    {% if product.stock != 0 %}
-                                        <a class="btn-user-modify" href="">Modifier stock</a>
-                                        {% else %}
-                                        <a class="btn-user-modify" href="">Indisponible</a>
-                                    {% endif %}
+                                    <a class="btn-user-modify" href="">Modifier produit</a>
                                 </td>
                             {% endfor %}
                             
                         </tr>
 
                         {# Action delete #}
-                        {# <tr class="row-action">
+                        <tr class="row-action">
                             <th>
                                 Actions
                             </th>
                             {% for product in products %}
                                 <td class="btn-table">
-                                    {% if product.stock is not same as "ROLE_DELETED" %}
-                                        <a class="btn-user-delete" href="{{path('app.delete.user', {'id': user.id})}}">Supprimer</a>
+                                    {% if product.stock != -1 %}
+                                        <a class="btn-user-delete" href="">Passer en rupture</a>
                                     {% endif %}
                                 </td>
                             {% endfor %}
-                        </tr> #}
+                        </tr>
                     </tbody>
                 </table>
             </div>
