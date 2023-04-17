@@ -233,7 +233,24 @@ class UserController extends AbstractController
             }
             // it's admin 
             else {
-
+                $value = "DELETED";
+                $update = (new \DateTimeImmutable)->format('Y-m-d-H:i:s');
+                // dd($update);
+                // update inof deleted to user
+                $choosenUser->setFirstName($value);
+                $choosenUser->setLastName($value);
+                $choosenUser->setFirstName($value);
+                $choosenUser->setPassword($value);
+                $choosenUser->setEmail($value . $update);
+                $choosenUser->setPc($value);
+                $choosenUser->setCity($value);
+                $choosenUser->setAddress($value);
+                $choosenUser->setTel($value);
+                $choosenUser->setRoles(["ROLE_DELETED"]);
+                $manager->flush();
+                
+                $this->addFlash('success', 'Le compte du client a été supprimé');
+                return $this->redirectToRoute('app.home');
             }
         }
         // user is the right one
@@ -250,18 +267,19 @@ class UserController extends AbstractController
                 // email rentée n'est pas user connecté
                 if ($email !== $lastUsername) {
                     // $this->addFlash("error","Ceci n'est pas votre compte");
-                    $message = "Ceci n'est pas votre compte";
+                    $message = "Invalid email/password";
                 }
                 else {
                     // check password with hash password
                     if ($hasher->isPasswordValid($choosenUser, $password)) {
                         $value = "DELETED";
+                        $update = (new \DateTimeImmutable)->format('Y-m-d-H:i:s');
                         // update inof deleted to user
                         $choosenUser->setFirstName($value);
                         $choosenUser->setLastName($value);
                         $choosenUser->setFirstName($value);
                         $choosenUser->setPassword($value);
-                        $choosenUser->setEmail($value.rand());
+                        $choosenUser->setEmail($value . $update);
                         $choosenUser->setPc($value);
                         $choosenUser->setCity($value);
                         $choosenUser->setAddress($value);
