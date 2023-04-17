@@ -77,19 +77,40 @@ class ProductRepository extends ServiceEntityRepository
         return $q;
     }
 
-   public function findProductsWithSearch (string $search) : array 
+   public function findProductsWithSearch (string $searchTerm) : array 
    {
+        // Séparez les termes de recherche en utilisant un espace comme délimiteur
+        $terms = explode(' ', $searchTerm);
+
         $q = $this->createQueryBuilder('p')
                 ->select("p.reference, p.title, p.description, p.photo1, p.price, p.stock, C.hexa as hexa, C.name as color, S.name as size")
                 ->join('p.size', 'S')
                 ->join('p.color', 'C')
-                ->where("p.color = C.id AND p.size = S.id AND (p.title LIKE '%$search%' OR p.description LIKE '%$search%') ")
-                ->getQuery()
-                ->getResult();
+                ->where("p.color = C.id AND p.size = S.id")
+                ;
+
+        foreach ($terms as $index => $term) {
+            $parameterName = 'searchTerm' . $index;
+            if ($index === 0) {
+                $q->where(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName);
+                
+            } 
+            else {
+                $q->andWhere(" p.title LIKE :" .   $parameterName  ." OR p.description LIKE :" .   $parameterName);
+            }
+            
+            $q->setParameter($parameterName, '%' . $term . '%')
+            ;
+        }
+        // dd($q->getQuery()->getSql());
+
+                // ->where("p.color = C.id AND p.size = S.id AND (p.title LIKE '%$search%' OR p.description LIKE '%$search%') ")
+                // ->getQuery()
+                // ->getResult();
                 ;
         // dd($q->getQuery()->getSql());
         // dd($q);
-        return $q;
+        return $q->getQuery()->getResult();
    }
 //    /**
 //     * @return Product[] Returns an array of Product objects
