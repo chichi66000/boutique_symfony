@@ -7,6 +7,7 @@ use App\Entity\Color;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Form\SearchProductType;
+use App\Form\UpdateProductType;
 use App\Repository\SizeRepository;
 use App\Repository\ColorRepository;
 use App\Repository\ProductRepository;
@@ -299,7 +300,6 @@ class ProductController extends AbstractController
     }
 
     #[Security("is_granted('ROLE_ADMIN')")]
-   
     #[Route('/admin/product', name: 'app.admin.product', methods: ['GET', 'POST'])]
     /**
      * function for gestion product, give result of search product then display in template 
@@ -350,10 +350,35 @@ class ProductController extends AbstractController
         }
     }
    
-
-    public function modifyProduct () 
+    #[Security("is_granted('ROLE_ADMIN')")]
+    #[Route('/modify/product/{id}', name: "app.modify.product", methods: ['GET', 'POST'])]
+    public function modifyProduct (
+        SessionInterface $session,
+        ProductRepository $productRepository,
+        Product $product,
+        Request $request
+    ) 
     :Response 
     {
-        return $this->render('product/modify.product.html.twig', []);
+        // get data from session for header & navbar
+        $nbProductInCart = $session->get('nbProductInCart');
+        $categories = $session->get('categories');
+
+        // if user isn't admin, refuse access
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Accès refusé.');
+        }
+        else {
+            // dd($product);
+            $form = $this->createForm(UpdateProductType::class, $product);
+            $form->handleRequest($request);
+        }
+
+        return $this->render('product/modify.product.html.twig', [
+            'nbProductInCart' => $nbProductInCart,
+            'categories' => $categories,
+            'form' => $form,
+            'product' => $product,
+        ]);
     }
 }

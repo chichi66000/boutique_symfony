@@ -11,6 +11,16 @@
     <h2>MODIFICATIONS PRODUIT</h2>
 
     <div>
-        
+        <h4 class="id_product">ID: {{product.id}}</h4>
+            
+        <h4 class="id_product">Reference: {{product.reference}}</h4>
+
+        <h4 class="id_product">Category: {{product.category.name}}</h4> </h4>
+        {{form_start(form)}}
+            {{ form_widget(form.description) }}
+            {{ form_widget(form.title) }}
+            {{ form_widget(form.color) }}
+            {# {{ form_widget(form.submit )}} #}
+        {{form_end(form)}}
     </div>
 {% endblock %}
