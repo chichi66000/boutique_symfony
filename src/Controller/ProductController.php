@@ -299,7 +299,11 @@ class ProductController extends AbstractController
     }
 
     #[Security("is_granted('ROLE_ADMIN')")]
+   
     #[Route('/admin/product', name: 'app.admin.product', methods: ['GET', 'POST'])]
+    /**
+     * function for gestion product, give result of search product then display in template 
+     */
     public function gestionProduct (
         SessionInterface $session,
         Request $request,
@@ -344,8 +348,12 @@ class ProductController extends AbstractController
                 'productSearch' => $productSearch
             ]);
         }
-
-        
     }
    
+
+    public function modifyProduct () 
+    :Response 
+    {
+        return $this->render('product/modify.product.html.twig', []);
+    }
 }
