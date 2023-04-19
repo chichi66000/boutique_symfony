@@ -17,6 +17,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -355,6 +356,7 @@ class ProductController extends AbstractController
     public function modifyProduct (
         SessionInterface $session,
         ProductRepository $productRepository,
+        ColorRepository $colorRepository,
         Product $product,
         Request $request
     ) 
@@ -370,14 +372,23 @@ class ProductController extends AbstractController
         }
         else {
             // dd($product);
+            $colors = $colorRepository->findAll();
+
+            $colorChoices= [];
+            foreach($colors as $color) {
+                $colorChoices [$color->getId()] = $color->getName(); 
+            }
+
+            // dd($colorChoices);
             $form = $this->createForm(UpdateProductType::class, $product);
+           
             $form->handleRequest($request);
         }
 
         return $this->render('product/modify.product.html.twig', [
             'nbProductInCart' => $nbProductInCart,
             'categories' => $categories,
-            'form' => $form,
+            'form' => $form->createView(),
             'product' => $product,
         ]);
     }

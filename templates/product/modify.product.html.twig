@@ -10,16 +10,86 @@
 
     <h2>MODIFICATIONS PRODUIT</h2>
 
-    <div>
+    <div class="contain_insert" >
         <h4 class="id_product">ID: {{product.id}}</h4>
             
         <h4 class="id_product">Reference: {{product.reference}}</h4>
 
         <h4 class="id_product">Category: {{product.category.name}}</h4> </h4>
-        {{form_start(form)}}
-            {{ form_widget(form.description) }}
-            {{ form_widget(form.title) }}
-            {{ form_widget(form.color) }}
+        {{form_start(form, {'attr': {'enctype': 'multipart/form-data', 'id': 'form_insert'}} )}}
+
+            <div>
+                {{form_label(form.title)}}
+                {{ form_widget(form.title) }}
+            </div>
+
+            <div>
+                {{form_label(form.description)}}
+                {{ form_widget(form.description) }}
+            </div>
+            
+            {# Audience #}
+            <div>
+                {{form_label(form.audience)}}
+                {{ form_widget(form.audience) }}
+            </div>
+
+            {# Color & Size #}
+            <div class="flex">
+
+                <div>
+                    {{form_label(form.color)}}
+                    {{ form_widget(form.color) }}
+                </div>
+                
+                <div>
+                    {{form_label(form.size)}}
+                    {{ form_widget(form.size) }}
+                </div>
+            
+            </div>
+
+            {# Price #}
+            <div>
+                {{form_label(form.price)}}
+                {{ form_widget(form.price) }}
+            </div>
+
+            {# Stock #}
+            <div>
+                {{form_label(form.stock)}} <br>
+                {{ form_widget(form.stock) }}
+            </div>
+
+            <h4>PHOTOS</h4>
+            <div>
+                {{form_label(form.photo1)}}
+                <img class="input_file" src="{{ asset('/photo/' ~ product.category ~ '/' ~ product.photo1) }}" alt="photo product {{ form.title.vars.value }}" />
+                {{ form_widget(form.photo1) }} <br>
+            </div>
+
+            <div>
+                {{form_label(form.photo2)}}
+                <img class="input_file" src="{{ asset('/photo/' ~ product.category ~ '/' ~ product.photo2) }}" alt="photo product {{ form.title.vars.value}}" />
+                {{ form_widget(form.photo2) }} <br>
+            </div>
+
+            <div>
+                {{form_label(form.photo3)}}
+                <img class="input_file" src="{{ asset('/photo/' ~ product.category ~ '/' ~ product.photo3) }}" alt="photo product {{ form.title.vars.value}}" />
+                {{ form_widget(form.photo3) }} <br>
+            </div>
+
+            <div>
+                {{form_label(form.photo4)}}
+                <img class="input_file" src="{{ asset('/photo/' ~ product.category ~ '/' ~ product.photo4) }}" alt="photo product {{ form.title.vars.value}}" />
+                {{ form_widget(form.photo4) }} <br>
+            </div>
+        
+
+            <div>
+                {{form_row(form.submit)}}
+            </div>
             {# {{ form_widget(form.submit )}} #}
         {{form_end(form)}}
     </div>
