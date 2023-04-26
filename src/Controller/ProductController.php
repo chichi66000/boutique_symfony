@@ -383,10 +383,15 @@ class ProductController extends AbstractController
             // }
 
             // dd($colorChoices);
+            $photo1Name = $product->getPhoto1();
+            $photo2Name = $product->getPhoto2();
+            $photo3Name = $product->getPhoto3();
+            $photo4Name = $product->getPhoto4();
             $form = $this->createForm(UpdateProductType::class, $product);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                // $product = $form->getData();
+                // dd($photo1Name);
+                // $prod = $form->getData();
                 $photo1 = $form['photo1']->getData();
                 $photo2 = $form['photo2']->getData();
                 $photo3 = $form['photo3']->getData();
@@ -394,35 +399,74 @@ class ProductController extends AbstractController
                 // dd($photo1name, $extension);
                 if ($photo1) {
                     // photoName & extension
-                    $photo1Name = pathinfo($photo1->getClientOriginalName(), PATHINFO_FILENAME);
                     $extension1 = $photo1->guessExtension();
-                    $product->setPhoto1($photo1Name . '.' . $extension1);
+                    $photo1Name = pathinfo($photo1->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $extension1;
                     // Move the file to the directory where brochures are stored
                     try {
                         $photo1->move(
                             $this->getParameter('photo_product') . $product->getCategory(),
-                            $photo1Name . '.' . $extension1
+                            $photo1Name
                         );
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                         $message = "Cannot upload file. Please try later";
                     }
                 }
-                
+                $product->setPhoto1($photo1Name);
+                if ($photo2) {
+                    // photoName & extension
+                    $extension2 = $photo2->guessExtension();
+                    $photo2Name = pathinfo($photo2->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $extension2;
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $photo2->move(
+                            $this->getParameter('photo_product') . $product->getCategory(),
+                            $photo2Name
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        $message = "Cannot upload file. Please try later";
+                    }
+                }
+                $product->setPhoto2($photo2Name);
+                if ($photo3) {
+                    // photoName & extension
+                    $extension3 = $photo3->guessExtension();
+                    $photo3Name = pathinfo($photo3->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $extension3;
+                    
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $photo3->move(
+                            $this->getParameter('photo_product') . $product->getCategory(),
+                            $photo3Name
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        $message = "Cannot upload file. Please try later";
+                    }
+                }
+                $product->setPhoto3($photo3Name);
+                if ($photo4) {
+                    // photoName & extension
+                    $extension4 = $photo4->guessExtension();
+                    $photo4Name = pathinfo($photo4->getClientOriginalName(), PATHINFO_FILENAME)  . '.' . $extension4;
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $photo4->move(
+                            $this->getParameter('photo_product') . $product->getCategory(),
+                            $photo4Name
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        $message = "Cannot upload file. Please try later";
+                    }
+                }
+                $product->setPhoto4($photo4Name);
+
                 $manager->persist($product);
                 $manager->flush();
-                // if ($photo2) {
-                //     $photo2Name = pathinfo($photo2->getClientOriginalName(), PATHINFO_FILENAME);
-                //     $extension2 = $photo2->guessExtension();
-                // }
-                // if ($photo3) {
-                //     $photo3Name = pathinfo($photo3->getClientOriginalName(), PATHINFO_FILENAME);
-                //     $extension3 = $photo3->guessExtension();
-                // }
-                // if ($photo4) {
-                //     $photo4Name = pathinfo($photo4->getClientOriginalName(), PATHINFO_FILENAME);
-                //     $extension4 = $photo4->guessExtension();
-                // }
+                $this->addFlash('success', "Produit a été modifié avec succès");
+                return $this->redirectToRoute('app.admin.product');
             }
         }
 
