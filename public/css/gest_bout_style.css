@@ -134,11 +134,11 @@ table{
 
  tr:nth-child(odd) {
      background-color :  rgba(159, 176, 206, 0.6);
-     color : #fff;
+
  }
  tr{
      background-color :  rgba(122, 122, 122, 0.6);
-     color : #fff;
+     /*! color : #fff; */
  }
 
  .img_gb {
