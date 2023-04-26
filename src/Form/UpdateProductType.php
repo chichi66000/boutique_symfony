@@ -90,6 +90,7 @@ class UpdateProductType extends AbstractType
                 'label_attr' => [
                     'class' => 'label_insert'
                 ],
+                'required' => false,
                 'attr' => ['class' => 'input_insert'],
                 'data_class' => null,
             ])
@@ -98,6 +99,7 @@ class UpdateProductType extends AbstractType
                 'label_attr' => [
                     'class' => 'label_insert'
                 ],
+                'required' => false,
                 'attr' => ['class' => 'input_insert'],
                 'data_class' => null,
             ])
@@ -106,6 +108,7 @@ class UpdateProductType extends AbstractType
                 'label_attr' => [
                     'class' => 'label_insert'
                 ],
+                'required' => false,
                 'attr' => ['class' => 'input_insert'],
                 'data_class' => null,
             ])
@@ -114,6 +117,7 @@ class UpdateProductType extends AbstractType
                 'label_attr' => [
                     'class' => 'label_insert'
                 ],
+                'required' => false,
                 'attr' => ['class' => 'input_insert'],
                 'data_class' => null,
             ])

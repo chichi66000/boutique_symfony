@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Form\SearchProductType;
 use App\Form\UpdateProductType;
+use Doctrine\ORM\EntityManager;
 use App\Repository\SizeRepository;
 use App\Repository\ColorRepository;
 use App\Repository\ProductRepository;
@@ -21,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProductController extends AbstractController
@@ -358,7 +360,8 @@ class ProductController extends AbstractController
         ProductRepository $productRepository,
         ColorRepository $colorRepository,
         Product $product,
-        Request $request
+        Request $request,
+        EntityManagerInterface $manager
     ) 
     :Response 
     {
@@ -371,18 +374,56 @@ class ProductController extends AbstractController
             throw new AccessDeniedException('Accès refusé.');
         }
         else {
-            // dd($product);
-            $colors = $colorRepository->findAll();
+            $message = "";
+            // $colors = $colorRepository->findAll();
 
-            $colorChoices= [];
-            foreach($colors as $color) {
-                $colorChoices [$color->getId()] = $color->getName(); 
-            }
+            // $colorChoices= [];
+            // foreach($colors as $color) {
+            //     $colorChoices [$color->getId()] = $color->getName(); 
+            // }
 
             // dd($colorChoices);
             $form = $this->createForm(UpdateProductType::class, $product);
-           
             $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // $product = $form->getData();
+                $photo1 = $form['photo1']->getData();
+                $photo2 = $form['photo2']->getData();
+                $photo3 = $form['photo3']->getData();
+                $photo4 = $form['photo4']->getData();
+                // dd($photo1name, $extension);
+                if ($photo1) {
+                    // photoName & extension
+                    $photo1Name = pathinfo($photo1->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension1 = $photo1->guessExtension();
+                    $product->setPhoto1($photo1Name . '.' . $extension1);
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $photo1->move(
+                            $this->getParameter('photo_product') . $product->getCategory(),
+                            $photo1Name . '.' . $extension1
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        $message = "Cannot upload file. Please try later";
+                    }
+                }
+                
+                $manager->persist($product);
+                $manager->flush();
+                // if ($photo2) {
+                //     $photo2Name = pathinfo($photo2->getClientOriginalName(), PATHINFO_FILENAME);
+                //     $extension2 = $photo2->guessExtension();
+                // }
+                // if ($photo3) {
+                //     $photo3Name = pathinfo($photo3->getClientOriginalName(), PATHINFO_FILENAME);
+                //     $extension3 = $photo3->guessExtension();
+                // }
+                // if ($photo4) {
+                //     $photo4Name = pathinfo($photo4->getClientOriginalName(), PATHINFO_FILENAME);
+                //     $extension4 = $photo4->guessExtension();
+                // }
+            }
         }
 
         return $this->render('product/modify.product.html.twig', [
@@ -390,6 +431,7 @@ class ProductController extends AbstractController
             'categories' => $categories,
             'form' => $form->createView(),
             'product' => $product,
+            'message' => $message,
         ]);
     }
 }

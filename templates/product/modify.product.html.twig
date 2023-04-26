@@ -11,6 +11,7 @@
     <h2>MODIFICATIONS PRODUIT</h2>
 
     <div class="contain_insert" >
+        <h4 class="erreur">{{ message }}</h4>
         <h4 class="id_product">ID: {{product.id}}</h4>
             
         <h4 class="id_product">Reference: {{product.reference}}</h4>
@@ -90,7 +91,7 @@
             <div>
                 {{form_row(form.submit)}}
             </div>
-            {# {{ form_widget(form.submit )}} #}
+            
         {{form_end(form)}}
     </div>
 {% endblock %}
